@@ -1,0 +1,17 @@
+<form (ngSubmit)="onSubmit(areaSpecificationForm.value)" #areaSpecificationForm="ngForm">
+    <ul>
+        <li>
+            <label for="longitude">Longitude</label>
+            <input ngcontrol="longitude" type="text" name="longitude" id="longitude" required>
+        </li>
+        <li>
+            <label for="latitude">Latitude</label>
+            <input ngcontrol="latitude" type="text" name="latitude" id="latitude" required>
+        </li>
+        <li>
+            <label for="radius">Radius</label>
+            <input ngcontrol="radius" type="text" name="radius" id="radius" required>
+        </li>
+    </ul>
+    <button type="submit">Save</button>
+</form>
