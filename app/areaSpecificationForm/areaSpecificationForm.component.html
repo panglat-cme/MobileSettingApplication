@@ -1,17 +1,28 @@
-<form (ngSubmit)="onSubmit(areaSpecificationForm.value)" #areaSpecificationForm="ngForm">
-    <ul>
-        <li>
-            <label for="longitude">Longitude</label>
-            <input ngcontrol="longitude" type="text" name="longitude" id="longitude" required>
-        </li>
-        <li>
-            <label for="latitude">Latitude</label>
-            <input ngcontrol="latitude" type="text" name="latitude" id="latitude" required>
-        </li>
-        <li>
-            <label for="radius">Radius</label>
-            <input ngcontrol="radius" type="text" name="radius" id="radius" required>
-        </li>
-    </ul>
-    <button type="submit">Save</button>
-</form>
+<ul>
+    <li>
+        <label for="latitude">Latitude</label>
+        <input [(ngModel)]="_location.latitude" type="text" name="latitude" required>
+    </li>
+    <li>
+        <label for="longitude">Longitude</label>
+        <input [(ngModel)]="_location.longitude" type="text" name="longitude" required>
+    </li>
+    <li>
+        <label for="radius">Radius</label>
+        <input [(ngModel)]="_location.radius" type="text" name="radius" required>
+    </li>
+</ul>
+<button (click)="save()">Save</button>
+<p>&nbsp;</p>
+<div class="Table">
+	<div class="Heading" >
+		<div class="Cell">Latitude</div>
+		<div class="Cell">Longitude</div>
+		<div class="Cell">Radius</div>
+	</div>
+	<div class="Row" *ngFor="#l of _locations">
+		<div class="Cell">{{l.latitude}}</div>
+		<div class="Cell">{{l.longitude}}</div>
+		<div class="Cell">{{l.radius}}</div>
+	</div>
+</div>
