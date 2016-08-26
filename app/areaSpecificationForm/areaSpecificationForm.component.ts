@@ -1,8 +1,5 @@
 import {Component} from 'angular2/core';
-
-export class Location {
-  constructor(public latitude: double, public longitude: double, public radius: double) { }
-}
+import {ControlGroup, Control} from 'angular2/common';
 
 @Component({
     selector: 'areaSpecificationForm',
@@ -10,15 +7,82 @@ export class Location {
     styleUrls: ['app/areaSpecificationForm/areaSpecificationForm.component.css']
 })
 export class AreaSpecificationForm {
-	_location : Location;
-	_locations : Location[];
-	constructor() {
-		this._location = new Location(0.0, 0.0, 0.0);
-		this._locations = [];
-	}
+    formControlGroup;
 
-    save() {
-		this._locations.push(this._location);
-		this._location = new Location(0.0, 0.0, 0.0);
+    categories = [
+        {
+            categoryName: "Coffee Shops"
+        },
+        {
+            categoryName: "Restaurants"
+        },
+        {
+            categoryName: "Coffee Shops"
+        },
+        {
+            categoryName: "Coffee Shops"
+        },
+        {
+            categoryName: "Coffee Shops"
+        },
+        {
+            categoryName: "Coffee Shops"
+        },
+        {
+            categoryName: "Coffee Shops"
+        },
+        {
+            categoryName: "Coffee Shops"
+        },
+        {
+            categoryName: "Coffee Shops"
+        },
+        {
+            categoryName: "Coffee Shops"
+        },
+        {
+            categoryName: "Coffee Shops"
+        },
+        {
+            categoryName: "Coffee Shops"
+        },
+        {
+            categoryName: "Coffee Shops"
+        },
+        {
+            categoryName: "Coffee Shops"
+        },
+        {
+            categoryName: "Coffee Shops"
+        },
+        {
+            categoryName: "Coffee Shops"
+        },
+        {
+            categoryName: "Coffee Shops"
+        },
+        {
+            categoryName: "Coffee Shops"
+        },
+        {
+            categoryName: "Coffee Shops"
+        }
+
+
+
+    ];
+
+    ngOnInit(){
+        this.formControlGroup = new ControlGroup({
+            'radius' : new Control(''),
+            'latitude': new Control(''),
+            'longitude' : new Control(''),
+            'studyId' : new Control ('')
+        });
     }
+    onSubmit(areaSpecification){
+
+        console.log(areaSpecification);
+    }
+
 }

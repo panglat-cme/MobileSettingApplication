@@ -1,28 +1,131 @@
-<ul>
-    <li>
-        <label for="latitude">Latitude</label>
-        <input [(ngModel)]="_location.latitude" type="text" name="latitude" required>
-    </li>
-    <li>
-        <label for="longitude">Longitude</label>
-        <input [(ngModel)]="_location.longitude" type="text" name="longitude" required>
-    </li>
-    <li>
-        <label for="radius">Radius</label>
-        <input [(ngModel)]="_location.radius" type="text" name="radius" required>
-    </li>
-</ul>
-<button (click)="save()">Save</button>
-<p>&nbsp;</p>
-<div class="Table">
-	<div class="Heading" >
-		<div class="Cell">Latitude</div>
-		<div class="Cell">Longitude</div>
-		<div class="Cell">Radius</div>
-	</div>
-	<div class="Row" *ngFor="#l of _locations">
-		<div class="Cell">{{l.latitude}}</div>
-		<div class="Cell">{{l.longitude}}</div>
-		<div class="Cell">{{l.radius}}</div>
-	</div>
-</div>
+<form (ngSubmit)="onSubmit(formControlGroup.value)" [ngFormModel]="formControlGroup">
+    <hr>
+    <table>
+        <tr>
+            <td class="criteriaLabel">Activity</td>
+            <td>Description of activity</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><textarea cols="50" rows="4"></textarea></td>
+        </tr>
+        <tr>
+            <td class="criteriaLabel">Activity Type</td>
+            <td>
+                <input type="checkbox">Geo-Location<br>
+                <input type="checkbox">Survey<br>
+                <input type="checkbox">Photo<br>
+                <input type="checkbox">Video<br>
+                <input type="checkbox">Audio<br>
+
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="3"><hr></td>
+        </tr>
+
+        <tr>
+            <td class="criteriaLabel">Traffic Type *</td>
+            <td>
+                <input name="trafficType" type="radio" checked>Geovalidation<br>
+                (aka driven)
+            </td>
+            <td>Location surveys allow users to see surveys available and at which locations but can only access the survey once the user is at the location indicated
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input name="trafficType" type="radio">Geofencing<br>
+                (aka passive)
+            </td>
+            <td rowspan="2">Captures the user only when they cross the geofence. Survey alerts can be triggered once the user crosses the geofence or can be used as passive location data collection
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3"><hr></td>
+        </tr>
+        <tr>
+            <td class="criteriaLabel">Geofence</td>
+            <td style ="vertical-align: top">
+               Radius *
+            </td>
+            <td rowspan="2">Captures the user only when they cross the geofence. Survey alerts can be triggered once the user crosses the geofence or can be used as passive location data collection
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="text">
+            <select>
+                <option>feet</option>
+                <option>meters</option>
+            </select>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style ="vertical-align: top">
+                Trigger Schedule
+            </td>
+            <td>Trigger Schedule Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac mi</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><select>
+                    <option>Any day/time</option>
+                    <option>Only on these days/times</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3"><hr></td>
+        </tr>
+        <tr>
+            <td class="criteriaLabel">Location *</td>
+            <td>Select one or more location categories</td>
+        </tr>
+        <tr>
+            <td></td>
+            <input type="text" size="100" placeholder="Type to narrow your choices">
+        </tr>
+        <tr>
+            <td>
+               Data Sources<br>
+               <input type="checkbox">Foursquare<br>
+               <input type="checkbox">LSGMI Custom
+            </td>
+            <td>
+                <div class="categoryTable">
+                    <table *ngFor="#category of categories">
+                        <tr><input (select)="onSelect()" type="checkbox">{{category.categoryName}}</tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr class="hiddenTableRow">
+            <td></td>
+            <td><h4>YOU SELECTED</h4></td>
+        </tr>
+
+    </table>
+    <ul>
+        <li>
+            <label for="longitude">Longitude</label>
+            <input ngControl="longitude" type="text" name="longitude" id="longitude" required>
+        </li>
+        <li>
+            <label for="latitude">Latitude</label>
+            <input ngControl="latitude" type="text" name="latitude" id="latitude" required>
+        </li>
+        <li>
+            <label for="radius">Radius</label>
+            <input ngControl="radius" type="text" name="radius" id="radius" required>
+        </li>
+        <li>
+            <label for="studyId">Study Id</label>
+            <input ngControl="studyId" type="text" name="studyId" id="studyId" required>
+        </li>
+    </ul>
+    <button type="submit">Save</button>
+</form>

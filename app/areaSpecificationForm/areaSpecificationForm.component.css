@@ -1,29 +1,23 @@
-.Table
-{
-	display: table;
+textarea {
+    resize: none;
 }
-.Title
+select
 {
-	display: table-caption;
-	text-align: center;
-	font-weight: bold;
-	font-size: larger;
+    border:0px;
+    outline:0px;
 }
-.Heading
-{
-	display: table-row;
-	font-weight: bold;
-	text-align: center;
+ul{
+    list-style-type:none;
 }
-.Row
-{
-	display: table-row;
+.criteriaLabel{
+    vertical-align: top;
 }
-.Cell
-{
-	display: table-cell;
-	border: solid;
-	border-width: thin;
-	padding-left: 5px;
-	padding-right: 5px;
+.categoryTable{
+    height: 300px;
+    border: solid;
+    overflow-y: scroll;
+}
+
+.hiddenTableRow{
+    visibility: hidden;
 }
