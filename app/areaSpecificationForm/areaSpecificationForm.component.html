@@ -107,7 +107,89 @@
             <td></td>
             <td><h4>YOU SELECTED</h4></td>
         </tr>
-
+        <tr>
+            <td colspan="3"><hr></td>
+        </tr>		
+        <tr>
+            <td class="criteriaLabel">Redefine</td>
+            <td style ="vertical-align: top">
+               Country *
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td class="criteriaLabel">Location</td>
+            <td>
+				<select [(ngModel)]="selectedCountryId">
+                    <option *ngFor="#c of countryList" [value]="c.geonameId" [selected]="c.geonameId == selectedCountryId">{{c.name}}</option>
+                </select>
+            </td>
+        </tr>
+		<tr>
+            <td colspan="3">&nbsp;</td>
+        </tr>		
+        <tr>
+            <td></td>
+            <td style ="vertical-align: top">
+                Refine by keywords
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><select>
+                    <option>All Categories</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><textarea cols="50" rows="4"></textarea></td>
+			<td>Exact name of the retailer(s), location(s), or store(s) should be inputted here if only specific ones are required.  If no keywords are defined here, all locations under the category identified will be geofenced and captured</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>(example: skldf, dkl, sdldksd)</td>
+        </tr>
+		<tr>
+            <td colspan="3">&nbsp;</td>
+        </tr>		
+        <tr>
+            <td></td>
+            <td style ="vertical-align: top">
+                Refine by Zip Codes
+            </td>
+            <td></td>
+		</tr>
+        <tr>
+            <td></td>
+            <td>
+				<table>
+					<tr>
+						<td>
+							<input name="includeZipCode" type="radio" checked>Include<br>
+						</td>
+						<td>
+							<input name="includeZipCode" type="radio" checked>Exclude<br>
+						</td>
+					</tr>
+				</table>
+            </td>
+            <td></td>
+		</tr>
+        <tr>
+            <td></td>
+            <td><textarea cols="50" rows="4"></textarea></td>
+			<td>Targets specific areas within categories identified.  Any location outside of the identified zip code will not be captured. </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>(example: 90036, 90048)</td>
+        </tr>
+		<tr>
+            <td colspan="3"><hr></td>
+        </tr>		
     </table>
     <ul>
         <li>

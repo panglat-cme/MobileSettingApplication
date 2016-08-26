@@ -1,13 +1,23 @@
 import {Component} from 'angular2/core';
 import {ControlGroup, Control} from 'angular2/common';
+import {Country} from '../models/country';
+import {CountryService} from '../services/country.service';
 
 @Component({
     selector: 'areaSpecificationForm',
     templateUrl: 'app/areaSpecificationForm/areaSpecificationForm.component.html',
     styleUrls: ['app/areaSpecificationForm/areaSpecificationForm.component.css']
+	providers: [CountryService]
 })
 export class AreaSpecificationForm {
+	countryList : Country[];
     formControlGroup;
+	selectedCountryId;
+	
+	constructor(private _countryService: CountryService) {
+		this.selectedCountryId = 2635167;  // United State
+		this.countryList = this._countryService.getCountryList();
+	}
 
     categories = [
         {
