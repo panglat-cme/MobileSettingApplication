@@ -2,7 +2,9 @@ import {Component} from 'angular2/core';
 import {ControlGroup, Control} from 'angular2/common';
 import {Country} from '../models/country';
 import {Category} from '../models/category';
+
 import {CountryService} from '../services/country.service';
+import {CategoryService} from '../services/category.service';
 import {CommonService} from 'app/common.service';
 import {SelectedCategoryList} from 'app/areaSpecificationForm/selectedCategoryList/selectedCategoryList.component';
 
@@ -10,7 +12,7 @@ import {SelectedCategoryList} from 'app/areaSpecificationForm/selectedCategoryLi
     selector: 'areaSpecificationForm',
     templateUrl: 'app/areaSpecificationForm/areaSpecificationForm.component.html',
     styleUrls: ['app/areaSpecificationForm/areaSpecificationForm.component.css'],
-	providers: [CountryService, CommonService,SelectedCategoryList],
+	providers: [CountryService, CategoryService, CommonService, SelectedCategoryList],
     directives: [SelectedCategoryList]
 })
 export class AreaSpecificationForm {
@@ -20,7 +22,8 @@ export class AreaSpecificationForm {
     categories :  Category [];
 	myCategoryList : Category [];
 
-	constructor(private countryService: CountryService, private commonService: CommonService, private selectedCategoryList: SelectedCategoryList) {
+	constructor(private countryService: CountryService, private categoryService: CategoryService
+		private commonService: CommonService, private selectedCategoryList: SelectedCategoryList) {
 		this.selectedCountryId = 2635167;  // United State
 		this.countryList = [];
 		this.myCategoryList = [];
@@ -33,12 +36,18 @@ export class AreaSpecificationForm {
             'longitude' : new Control(''),
             'studyId' : new Control ('')
         });
-        this.categories = this.commonService.get();
-		
+        //this.categories = this.commonService.get();
+		// TODO: commonService has to be deleted?
 		this.countryService.getCountries()
 			.subscribe(
 				countryList => this.countryList = countryList,
-				error =>  alert(error)
+				error => alert("Country list error: " + error)
+				);
+				
+		this.categoryService.getCategories()
+			.subscribe(
+				categoryList => this.categories = categoryList,
+				error => alert("Category list error: " + error)
 				);
     }
     onSubmit(areaSpecification){

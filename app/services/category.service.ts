@@ -3,12 +3,12 @@ import { Http, Response } from 'angular2/http';
 import { Observable } from 'rxjs/Rx';
 
 @Injectable()
-export class CountryService {
+export class CategoryService {
 	constructor(private _http: Http) { }
 
-	getCountries() {
-		return this._http.get('testdata/countries.json')
-		.map((response: Response) => <Country[]>response.json().data)
+	getCategories() {
+		return this._http.get('testdata/categories.json')
+		.map((response: Response) => <Category[]>response.json().data)
 		//.do(data => console.log(data))
 		.catch(this.handleError);
 	}
