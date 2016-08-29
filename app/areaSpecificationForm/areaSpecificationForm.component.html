@@ -98,12 +98,12 @@
             <td>
                 <div class="categoryTable">
                     <table *ngFor="#category of categories">
-                        <tr><input (change)="onCategorySelect($event)" type="checkbox">{{category.name}}</tr>
+                        <tr><input (change)="onCategorySelect(category, $event)" type="checkbox">{{category.name}}</tr>
                     </table>
                 </div>
             </td>
         </tr>
-        <selectedCategoryList></selectedCategoryList>
+        <selectedCategoryList [categoryList]="myCategoryList"></selectedCategoryList>
         <tr>
             <td colspan="3"><hr></td>
         </tr>

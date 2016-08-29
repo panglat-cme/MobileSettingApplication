@@ -9,5 +9,5 @@ import {Component, Input} from 'angular2/core';
 export class SelectedCategory {
 
     @Input('category') category;
-
+	
 }

@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, Input} from 'angular2/core';
 import {Category} from "../../models/category";
 import {SelectedCategory} from 'app/areaSpecificationForm/selectedCategoryList/selectedCategory/selectedCategory.component';
 
@@ -9,10 +9,5 @@ import {SelectedCategory} from 'app/areaSpecificationForm/selectedCategoryList/s
     directives: [SelectedCategory]
 })
 export class SelectedCategoryList {
-
-    categoryList = [];
-
-    addCategoryToList(category: Category){
-        this.categoryList.push(category);
-    }
+	@Input('categoryList') categoryList;
 }

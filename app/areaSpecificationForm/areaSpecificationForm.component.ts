@@ -18,10 +18,12 @@ export class AreaSpecificationForm {
     formControlGroup;
 	selectedCountryId;
     categories :  Category [];
+	myCategoryList : Category [];
 
 	constructor(private _countryService: CountryService, private commonService: CommonService, private selectedCategoryList: SelectedCategoryList) {
 		this.selectedCountryId = 2635167;  // United State
 		this.countryList = this._countryService.getCountryList();
+		this.myCategoryList = [];
     }
 
     ngOnInit(){
@@ -40,9 +42,9 @@ export class AreaSpecificationForm {
     /**
      * Function used to handle the category checkbox selection event.
      */
-    onCategorySelect(e){
+    onCategorySelect(category, e){
         if (e.target.checked){
-            this.selectedCategoryList.addCategoryToList(this.categories[0]);
+			this.myCategoryList.push(category);
         }
     }
 
