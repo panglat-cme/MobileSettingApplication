@@ -1,3 +1,3 @@
-/**
- * Created by User on 8/29/2016.
- */
+export class Category {
+    constructor(public categoryId: number, public name: string) { }
+}

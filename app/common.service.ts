@@ -1,9 +1,17 @@
+import {Category} from "./models/category";
+
 export class CommonService {
+    locationCategories: Category[];
 
     locationCategories = [
-        {categoryName : "Stores"}
-    ];
+        {name : "Stores"},
 
+        {
+            name: "Coffee Shops"
+        },
+       
+    ];
+    
     get() {
         return this.locationCategories;
     }

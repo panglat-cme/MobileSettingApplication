@@ -98,18 +98,16 @@
             <td>
                 <div class="categoryTable">
                     <table *ngFor="#category of categories">
-                        <tr><input (select)="onSelect()" type="checkbox">{{category.categoryName}}</tr>
+                        <tr><input (change)="onCategorySelect($event)" type="checkbox">{{category.name}}</tr>
                     </table>
                 </div>
             </td>
         </tr>
-        <tr class="hiddenTableRow">
-            <td></td>
-            <td><h4>YOU SELECTED</h4></td>
-        </tr>
+        <selectedCategoryList></selectedCategoryList>
         <tr>
             <td colspan="3"><hr></td>
-        </tr>		
+        </tr>
+
         <tr>
             <td class="criteriaLabel">Redefine</td>
             <td style ="vertical-align: top">

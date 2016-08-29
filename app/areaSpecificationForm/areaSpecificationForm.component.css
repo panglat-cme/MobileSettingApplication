@@ -17,7 +17,3 @@ ul{
     border: solid;
     overflow-y: scroll;
 }
-
-.hiddenTableRow{
-    visibility: hidden;
-}

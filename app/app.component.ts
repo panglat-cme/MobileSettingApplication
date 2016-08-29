@@ -13,7 +13,7 @@ export class AppComponent {
     constructor(private commonService: CommonService){}
 
     ngOnInit(){
-        console.log(this.commonService.get());
+        //console.log(this.commonService.get());
     }
 
     proposalId = 45678;

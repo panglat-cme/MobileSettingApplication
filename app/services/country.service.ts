@@ -1,13 +1,13 @@
 import { Injectable } from 'angular2/core';
-import { Country } from '../models/country';
 
 @Injectable()
 export class CountryService {
 	countryList : Location[];
-	
+
 	getCountryList = () => this.countryList;
-  
-  	constructor() {
+
+	constructor() {
+		//noinspection TypeScriptValidateTypes
 		this.countryList = [
 			{ geonameId: 1149361 , name: 'Aland Islands' },
 			{ geonameId: 661882 , name: 'Albania' },
@@ -263,4 +263,3 @@ export class CountryService {
 		];
 	}
 }
-
