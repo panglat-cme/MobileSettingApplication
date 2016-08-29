@@ -1,4 +1,5 @@
 import {Component} from 'angular2/core';
+import { HTTP_PROVIDERS } from 'angular2/http';
 import {AreaSpecificationForm} from './areaSpecificationForm/areaSpecificationForm.component';
 import {CommonService} from './common.service';
 
@@ -6,8 +7,8 @@ import {CommonService} from './common.service';
     selector : 'app',
     directives: [AreaSpecificationForm],
     templateUrl : 'app/app.component.html',
-    styleUrls : ['app/app.component.css']
-
+    styleUrls : ['app/app.component.css'],
+	providers : [HTTP_PROVIDERS]
 })
 export class AppComponent {
     constructor(private commonService: CommonService){}

@@ -20,9 +20,9 @@ export class AreaSpecificationForm {
     categories :  Category [];
 	myCategoryList : Category [];
 
-	constructor(private _countryService: CountryService, private commonService: CommonService, private selectedCategoryList: SelectedCategoryList) {
+	constructor(private countryService: CountryService, private commonService: CommonService, private selectedCategoryList: SelectedCategoryList) {
 		this.selectedCountryId = 2635167;  // United State
-		this.countryList = this._countryService.getCountryList();
+		this.countryList = [];
 		this.myCategoryList = [];
     }
 
@@ -34,6 +34,12 @@ export class AreaSpecificationForm {
             'studyId' : new Control ('')
         });
         this.categories = this.commonService.get();
+		
+		this.countryService.getCountries()
+			.subscribe(
+				countryList => this.countryList = countryList,
+				error =>  alert(error)
+				);
     }
     onSubmit(areaSpecification){
         console.log(areaSpecification);
