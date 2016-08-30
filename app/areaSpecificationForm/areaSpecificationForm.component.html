@@ -120,7 +120,7 @@
             <td class="criteriaLabel">Location</td>
             <td>
 				<select [(ngModel)]="selectedCountryId">
-                    <option *ngFor="#c of countryList" [value]="c.geonameId" [selected]="c.geonameId == selectedCountryId">{{c.name}}</option>
+                    <option *ngFor="#c of countryList" [value]="c.id" [selected]="c.id == selectedCountryId">{{c.name}}</option>
                 </select>
             </td>
         </tr>

@@ -24,7 +24,7 @@ export class AreaSpecificationForm {
 
 	constructor(private countryService: CountryService, private categoryService: CategoryService
 		private commonService: CommonService, private selectedCategoryList: SelectedCategoryList) {
-		this.selectedCountryId = 2635167;  // United State
+		this.selectedCountryId = 0;  // United State
 		this.countryList = [];
 		this.myCategoryList = [];
     }
