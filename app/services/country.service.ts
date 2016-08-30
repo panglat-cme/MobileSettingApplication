@@ -7,7 +7,7 @@ export class CountryService {
 	constructor(private _http: Http) { }
 
 	getCountries() {
-		return this._http.get('testdata/countries.json')
+		return this._http.get('http://intranet.cmeoffshore.com:8899/Settings/Countries'/*'testdata/countries.json'*/)
 		.map((response: Response) => <Country[]>response.json().data)
 		//.do(data => console.log(data))
 		.catch(this.handleError);
