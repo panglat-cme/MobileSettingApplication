@@ -2,17 +2,19 @@ import {Component} from 'angular2/core';
 import {ControlGroup, Control} from 'angular2/common';
 import {Country} from '../models/country';
 import {Category} from '../models/category';
+import {MobileSettings} from '../models/mobile.settings';
 
 import {CountryService} from '../services/country.service';
 import {CategoryService} from '../services/category.service';
 import {CommonService} from 'app/common.service';
 import {SelectedCategoryList} from 'app/areaSpecificationForm/selectedCategoryList/selectedCategoryList.component';
+import {MobileSettingsService} from '../services/mobile.settings.service';
 
 @Component({
     selector: 'areaSpecificationForm',
     templateUrl: 'app/areaSpecificationForm/areaSpecificationForm.component.html',
     styleUrls: ['app/areaSpecificationForm/areaSpecificationForm.component.css'],
-	providers: [CountryService, CategoryService, CommonService, SelectedCategoryList],
+	providers: [CountryService, CategoryService, CommonService, SelectedCategoryList, MobileSettingsService],
     directives: [SelectedCategoryList]
 })
 export class AreaSpecificationForm {
@@ -23,7 +25,7 @@ export class AreaSpecificationForm {
 	myCategoryList : Category [];
 
 	constructor(private countryService: CountryService, private categoryService: CategoryService
-		private commonService: CommonService, private selectedCategoryList: SelectedCategoryList) {
+		private commonService: CommonService, private selectedCategoryList: SelectedCategoryList, private mobileSettingsService: MobileSettingsService) {
 		this.selectedCountryId = 0;  // United State
 		this.countryList = [];
 		this.myCategoryList = [];
@@ -51,8 +53,19 @@ export class AreaSpecificationForm {
 				);
     }
     onSubmit(areaSpecification){
+		alert("Submit");
         console.log(areaSpecification);
     }
+	
+	save() {
+		let mobileSettings = new MobileSettings();
+		mobileSettings.activityDescription = "Angular2 Test 01";
+		this.mobileSettingsService.createNewMobileSettings(mobileSettings)
+			.subscribe(
+				ms => alert("mobileSettingsService=" + JSON.stringify(ms)),
+				error => alert("mobileSettingsService error: " + error)
+				);
+	}
 
     /**
      * Function used to handle the category checkbox selection event.

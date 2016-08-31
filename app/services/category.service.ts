@@ -7,7 +7,7 @@ export class CategoryService {
 	constructor(private _http: Http) { }
 
 	getCategories() {
-		return this._http.get('http://intranet.cmeoffshore.com:8899/Settings/Categories'/*'testdata/categories.json'*/)
+		return this._http.get('http://intranet.cmeoffshore.com:8899/MobileSettings/Categories'/*'testdata/categories.json'*/)
 		.map((response: Response) => <Category[]>response.json().data)
 		//.do(data => console.log(data))
 		.catch(this.handleError);
