@@ -7,7 +7,7 @@
         </tr>
         <tr>
             <td></td>
-            <td><textarea cols="50" rows="4"></textarea></td>
+            <td><textarea cols="50" rows="4" [(ngModel)]="mobileSettings.activityDescription"></textarea></td>
         </tr>
         <tr>
             <td class="criteriaLabel">Activity Type</td>
@@ -56,10 +56,10 @@
         </tr>
         <tr>
             <td></td>
-            <td><input type="text">
-            <select>
-                <option>feet</option>
-                <option>meters</option>
+            <td><input type="text" [(ngModel)]="radius">
+            <select [(ngModel)]="radiusInM">
+                <option value="false">feet</option>
+                <option value="true">meters</option>
             </select>
             </td>
         </tr>
@@ -187,6 +187,137 @@
         </tr>
 		<tr>
             <td colspan="3"><hr></td>
+        </tr>	
+		<tr>
+            <td style ="vertical-align: top">Preferences</td>
+            <td style ="vertical-align: top">
+				<table>
+					<tr>
+						<td style ="vertical-align: top">
+							<input type="checkbox">No quotas
+						</td>
+					</tr>
+					<tr>
+						<td style ="vertical-align: top">
+							<input type="checkbox">Per Category
+						</td>
+					</tr>
+					<tr>
+						<td style ="vertical-align: top">
+							<input type="checkbox">Per Location
+						</td>
+					</tr>
+				</table>
+            </td>
+			<td>Restricts the number of completes allowed per location.  Once the number of completes are met, the location will no longer be displayed on users survey list</td>
+        </tr>
+		<tr>
+            <td colspan="3"><hr></td>
+        </tr>	
+		<tr>
+            <td style ="vertical-align: top">Preferences</td>
+            <td style ="vertical-align: top">
+				<table>
+					<tr>
+						<td style ="vertical-align: top">
+							<input type="checkbox">Loiter-Time
+						</td>
+					</tr>
+					<tr>
+						<td style ="vertical-align: top">
+							<input type="text">
+							<select>
+								<option value="false">minutes</option>
+								<option value="true">seconds</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+            </td>
+			<td>Loiter time is set for a user to be at a location for certain amount of time prior to a survey triggering or data collected.  This feature prevents false data capture of a person just walking by</td>
+        </tr>
+		<tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td><hr></td>
+        </tr>		
+		<tr>
+            <td></td>
+            <td style ="vertical-align: top">
+				<table>
+					<tr>
+						<td>
+							<input type="checkbox">Min Speed<br>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<input type="text">
+							<select>
+								<option value="false">mph</option>
+								<option value="true">kmh</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td style ="vertical-align: top">
+							<input type="checkbox">Max Speed<br>
+						</td>
+					</tr>
+					<tr>
+						<td style ="vertical-align: top">
+							<input type="text">
+							<select>
+								<option value="false">mph</option>
+								<option value="true">kmh</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+            </td>
+			<td>Speed is set so that a car driving by too quickly is not being captured as a valid data</td>
+        </tr>	
+		<tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td><hr></td>
+        </tr>		
+		<tr>
+            <td></td>
+            <td style ="vertical-align: top">
+				<input type="checkbox">User must be inside geofence (geo validation)
+            </td>
+			<td>Confirming the user is currently at the location geofenced to access the survey</td>
+        </tr>	
+		<tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td><hr></td>
+        </tr>		
+		<tr>
+            <td></td>
+            <td style ="vertical-align: top">
+				<table>
+					<tr>
+						<td style ="vertical-align: top">
+							<input type="checkbox">Expiration Time<br>
+						</td>
+					</tr>
+					<tr>
+						<td style ="vertical-align: top">
+							<input type="text">
+							<select>
+								<option value="false">minutes</option>
+								<option value="true">seconds</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+            </td>
+			<td></td>
+        </tr>
+		<tr>
+            <td colspan="3"><hr>&nbsp;</td>
         </tr>		
     </table>
     <ul>

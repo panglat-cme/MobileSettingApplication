@@ -23,12 +23,18 @@ export class AreaSpecificationForm {
 	selectedCountryId;
     categories :  Category [];
 	myCategoryList : Category [];
+	mobileSettings : MobileSettings;
+	radius : number;
+	radiusInM : boolean;
 
 	constructor(private countryService: CountryService, private categoryService: CategoryService
 		private commonService: CommonService, private selectedCategoryList: SelectedCategoryList, private mobileSettingsService: MobileSettingsService) {
 		this.selectedCountryId = 0;  // United State
 		this.countryList = [];
 		this.myCategoryList = [];
+		this.mobileSettings = new MobileSettings();
+		this.radius = 0;
+		this.radiusInM = true;
     }
 
     ngOnInit(){
@@ -57,14 +63,23 @@ export class AreaSpecificationForm {
         console.log(areaSpecification);
     }
 	
+	private fillMobileSettingsComputedProperties() {
+		if(this.radiusInM == true) {
+			this.mobileSettings.radius = this.radius;
+		} else {
+			this.mobileSettings.radius = this.radius * 0.3048;
+		}
+	}
+	
 	save() {
-		let mobileSettings = new MobileSettings();
-		mobileSettings.activityDescription = "Angular2 Test 01";
-		this.mobileSettingsService.createNewMobileSettings(mobileSettings)
+		this.fillMobileSettingsComputedProperties();
+		alert("mobileSettings=" + JSON.stringify(this.mobileSettings));
+/*
+		this.mobileSettingsService.createNewMobileSettings(this.mobileSettings)
 			.subscribe(
 				ms => alert("mobileSettingsService=" + JSON.stringify(ms)),
 				error => alert("mobileSettingsService error: " + error)
-				);
+				);*/
 	}
 
     /**
