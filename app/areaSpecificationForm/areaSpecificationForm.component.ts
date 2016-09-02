@@ -113,18 +113,59 @@ export class AreaSpecificationForm {
 		this.mobileSettings.activityDescription = this.activityDescription;
 		this.mobileSettings.proposalId =  this.proposalId;
 		this.mobileSettings.projectId = this.projectId;
-		this.mobileSettings.loiterTime = this.loiterTime;
-		this.mobileSettings.minSpeed = this.minSpeed;
-		this.mobileSettings.maxSpeed = this.maxSpeed;
-		this.mobileSettings.expirationTime = this.expirationTime;
 		this.mobileSettings.currentlyAtLocation = this.currentlyAtLocation;
 		this.mobileSettings.activityTypes = "2,3,5";
+
 		if(this.radiusUnit == "m") {
 			this.mobileSettings.radius = this.radius;
 		} else {
 			this.mobileSettings.radius = this.radius * 0.3048;
 		}
 		this.mobileSettings.radius = Math.round(this.mobileSettings.radius);
+		
+		if(this.loitureTimeSelected) {
+			if(this.loiterTimeUnit == "h") {
+				this.mobileSettings.loiterTime = this.loiterTime * 60;
+			} else {
+				this.mobileSettings.loiterTime = this.loiterTime;
+			}
+			this.mobileSettings.loiterTime = Math.round(this.mobileSettings.loiterTime);
+		} else {
+			this.mobileSettings.loiterTime = 0;
+		}
+		
+		if(this.minSpeedSelected) {
+			if(this.minSpeedUnit == "m") {
+				this.mobileSettings.minSpeed = this.minSpeed * 1.60934;
+			} else {
+				this.mobileSettings.minSpeed = this.minSpeed;
+			}
+			this.mobileSettings.minSpeed = Math.round(this.mobileSettings.minSpeed);
+		} else {
+			this.mobileSettings.minSpeed = 0;
+		}
+		
+		if(this.maxSpeedSelected) {
+			if(this.maxSpeedUnit == "m") {
+				this.mobileSettings.maxSpeed = this.maxSpeed * 1.60934;
+			} else {
+				this.mobileSettings.maxSpeed = this.maxSpeed;
+			}
+			this.mobileSettings.minSpeed = Math.round(this.mobileSettings.minSpeed);
+		} else {
+			this.mobileSettings.minSpeed = 0;
+		}
+		
+		if(this.expirationTimeSelected) {
+			if(this.expirationTimeUnit == "h") {
+				this.mobileSettings.expirationTime = this.expirationTime * 60;
+			} else {
+				this.mobileSettings.expirationTime = this.expirationTime;
+			}
+			this.mobileSettings.expirationTime = Math.round(this.mobileSettings.expirationTime);
+		} else {
+			this.mobileSettings.expirationTime = 0;
+		}		
 	}
 	
 	save() {
