@@ -18,11 +18,11 @@
         <tr>
             <td class="criteriaLabel">Activity Type</td>
             <td>
-                <input type="checkbox" [(ngModel)]="activityType_GeoLocationSelected">Geo-Location<br>
-                <input type="checkbox" [(ngModel)]="activityType_SurveySelected">Survey<br>
-                <input type="checkbox" [(ngModel)]="activityType_PhotoSelected">Photo<br>
-                <input type="checkbox" [(ngModel)]="activityType_VideoSelected">Video<br>
-                <input type="checkbox" [(ngModel)]="activityType_AudioSelected">Audio<br>
+                <input type="checkbox">Geo-Location<br>
+                <input type="checkbox">Survey<br>
+                <input type="checkbox">Photo<br>
+                <input type="checkbox">Video<br>
+                <input type="checkbox">Audio<br>
 
             </td>
         </tr>
@@ -63,9 +63,9 @@
         <tr>
             <td></td>
             <td><input type="text" [(ngModel)]="radius">
-            <select [(ngModel)]="radiusInM">
-                <option value="false">feet</option>
-                <option value="true">meters</option>
+            <select [(ngModel)]="radiusUnit">
+                <option value="f" >feet</option>
+                <option value="m" >meters</option>
             </select>
             </td>
         </tr>
@@ -226,15 +226,15 @@
 				<table>
 					<tr>
 						<td style ="vertical-align: top">
-							<input type="checkbox">Loiter-Time
+							<input type="checkbox" [(ngModel)]="loitureTimeSelected">Loiter-Time
 						</td>
 					</tr>
 					<tr>
 						<td style ="vertical-align: top">
-							<input type="text" [(ngModel)]="loiterTime">
-							<select>
-								<option value="false">minutes</option>
-								<option value="true">seconds</option>
+							<input type="text" [(ngModel)]="loiterTime" [disabled]="!loitureTimeSelected">
+							<select [(ngModel)]="loiterTimeUnit" [disabled]="!loitureTimeSelected">
+								<option value="m">minutes</option>
+								<option value="h">hours</option>
 							</select>
 						</td>
 					</tr>
@@ -253,29 +253,29 @@
 				<table>
 					<tr>
 						<td>
-							<input type="checkbox">Min Speed<br>
+							<input type="checkbox" [(ngModel)]="minSpeedSelected">Min Speed<br>
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<input type="text" [(ngModel)]="minSpeed">
-							<select>
-								<option value="false">mph</option>
-								<option value="true">kmh</option>
+							<input type="text" [(ngModel)]="minSpeed" [disabled]="!minSpeedSelected">
+							<select [(ngModel)]="minSpeedUnit" [disabled]="!minSpeedSelected">
+								<option value="m">mph</option>
+								<option value="k">kmh</option>
 							</select>
 						</td>
 					</tr>
 					<tr>
 						<td style ="vertical-align: top">
-							<input type="checkbox">Max Speed<br>
+							<input type="checkbox" [(ngModel)]="maxSpeedSelected">Max Speed<br>
 						</td>
 					</tr>
 					<tr>
 						<td style ="vertical-align: top">
-							<input type="text" [(ngModel)]="maxSpeed">
-							<select>
-								<option value="false">mph</option>
-								<option value="true">kmh</option>
+							<input type="text" [(ngModel)]="maxSpeed" [disabled]="!maxSpeedSelected">
+							<select [(ngModel)]="maxSpeedUnit" [disabled]="!maxSpeedSelected">
+								<option value="m">mph</option>
+								<option value="k">kmh</option>
 							</select>
 						</td>
 					</tr>
@@ -306,15 +306,15 @@
 				<table>
 					<tr>
 						<td style ="vertical-align: top">
-							<input type="checkbox">Expiration Time<br>
+							<input type="checkbox" [(ngModel)]="expirationTimeSelected">Expiration Time<br>
 						</td>
 					</tr>
 					<tr>
 						<td style ="vertical-align: top">
-							<input type="text" [(ngModel)]="expirationTime">
-							<select>
-								<option value="false">minutes</option>
-								<option value="true">seconds</option>
+							<input type="text" [(ngModel)]="expirationTime" [disabled]="!expirationTimeSelected">
+							<select [(ngModel)]="expirationTimeUnit" [disabled]="!expirationTimeSelected">
+								<option value="m">minutes</option>
+								<option value="h">hours</option>
 							</select>
 						</td>
 					</tr>

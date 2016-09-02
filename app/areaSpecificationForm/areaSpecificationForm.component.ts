@@ -29,20 +29,26 @@ export class AreaSpecificationForm {
     projectId : string;
 	activityDescription : string;
 	
-	activityType_GeoLocationSelected : boolean;
-	activityType_SurveySelected : boolean;
-	activityType_PhotoSelected : boolean;
-	activityType_VideoSelected : boolean;
-	activityType_AudioSelected : boolean;
-	
 	radius : number;
-	radiusInM : boolean;
+	radiusUnit : string; // "m" / "f"
 
+	loitureTimeSelected : boolean;
 	loiterTime : number;
+	loiterTimeUnit : string; // "m" / "h"
+	
+	minSpeedSelected : boolean;
 	minSpeed : number;
+	minSpeedUnit : string; // "k" / "m"
+
+	maxSpeedSelected : boolean;
 	maxSpeed : number;
-	expirationTime : number
+	maxSpeedUnit : string; // "k" / "m"
+
 	currentlyAtLocation : boolean
+
+	expirationTimeSelected : boolean;
+	expirationTime : number;
+	expirationTimeUnit : string; // "m" / "h"
 	
 	constructor(private countryService: CountryService, private categoryService: CategoryService
 		private commonService: CommonService, private selectedCategoryList: SelectedCategoryList, private mobileSettingsService: MobileSettingsService) {
@@ -55,19 +61,26 @@ export class AreaSpecificationForm {
 		this.projectId = "78";
 		this.activityDescription = "";
 
-		this.activityType_GeoLocationSelected = false;
-		this.activityType_SurveySelected = false;
-		this.activityType_PhotoSelected = false;
-		this.activityType_VideoSelected = false;
-		this.activityType_AudioSelected = false;
-		
 		this.radius = 0;
-		this.radiusInM = true;
+		this.radiusUnit = "f";
+		
+		this.loitureTimeSelected = false;
 		this.loiterTime = 0;
+		this.loiterTimeUnit = "m";
+		
+		this.minSpeedSelected = false;
 		this.minSpeed = 0;
+		this.minSpeedUnit = "m";
+
+		this.maxSpeedSelected = false;
 		this.maxSpeed = 0;
+		this.maxSpeedUnit = "m";
+
+		this.currentlyAtLocation = false;
+
+		this.expirationTimeSelected = false;
 		this.expirationTime = 0;
-		this.currentlyAtLocation = true;
+		this.expirationTimeUnit = "m";
     }
 
     ngOnInit(){
@@ -106,7 +119,7 @@ export class AreaSpecificationForm {
 		this.mobileSettings.expirationTime = this.expirationTime;
 		this.mobileSettings.currentlyAtLocation = this.currentlyAtLocation;
 		this.mobileSettings.activityTypes = "2,3,5";
-		if(this.radiusInM == true) {
+		if(this.radiusUnit == "m") {
 			this.mobileSettings.radius = this.radius;
 		} else {
 			this.mobileSettings.radius = this.radius * 0.3048;
@@ -116,7 +129,6 @@ export class AreaSpecificationForm {
 	
 	save() {
 		this.fillMobileSettingsComputedProperties();
-		///alert("activityType_AudioSelected=" + JSON.stringify(this.activityType_AudioSelected));
 
 		this.mobileSettingsService.createNewMobileSettings(this.mobileSettings)
 			.subscribe(
