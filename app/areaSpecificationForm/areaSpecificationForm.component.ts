@@ -24,17 +24,50 @@ export class AreaSpecificationForm {
     categories :  Category [];
 	myCategoryList : Category [];
 	mobileSettings : MobileSettings;
+	
+    proposalId : string;
+    projectId : string;
+	activityDescription : string;
+	
+	activityType_GeoLocationSelected : boolean;
+	activityType_SurveySelected : boolean;
+	activityType_PhotoSelected : boolean;
+	activityType_VideoSelected : boolean;
+	activityType_AudioSelected : boolean;
+	
 	radius : number;
 	radiusInM : boolean;
 
+	loiterTime : number;
+	minSpeed : number;
+	maxSpeed : number;
+	expirationTime : number
+	currentlyAtLocation : boolean
+	
 	constructor(private countryService: CountryService, private categoryService: CategoryService
 		private commonService: CommonService, private selectedCategoryList: SelectedCategoryList, private mobileSettingsService: MobileSettingsService) {
 		this.selectedCountryId = 0;  // United State
 		this.countryList = [];
 		this.myCategoryList = [];
 		this.mobileSettings = new MobileSettings();
+		
+		this.proposalId = "67";
+		this.projectId = "78";
+		this.activityDescription = "";
+
+		this.activityType_GeoLocationSelected = false;
+		this.activityType_SurveySelected = false;
+		this.activityType_PhotoSelected = false;
+		this.activityType_VideoSelected = false;
+		this.activityType_AudioSelected = false;
+		
 		this.radius = 0;
 		this.radiusInM = true;
+		this.loiterTime = 0;
+		this.minSpeed = 0;
+		this.maxSpeed = 0;
+		this.expirationTime = 0;
+		this.currentlyAtLocation = true;
     }
 
     ngOnInit(){
@@ -64,22 +97,32 @@ export class AreaSpecificationForm {
     }
 	
 	private fillMobileSettingsComputedProperties() {
+		this.mobileSettings.activityDescription = this.activityDescription;
+		this.mobileSettings.proposalId =  this.proposalId;
+		this.mobileSettings.projectId = this.projectId;
+		this.mobileSettings.loiterTime = this.loiterTime;
+		this.mobileSettings.minSpeed = this.minSpeed;
+		this.mobileSettings.maxSpeed = this.maxSpeed;
+		this.mobileSettings.expirationTime = this.expirationTime;
+		this.mobileSettings.currentlyAtLocation = this.currentlyAtLocation;
+		this.mobileSettings.activityTypes = "2,3,5";
 		if(this.radiusInM == true) {
 			this.mobileSettings.radius = this.radius;
 		} else {
 			this.mobileSettings.radius = this.radius * 0.3048;
 		}
+		this.mobileSettings.radius = Math.round(this.mobileSettings.radius);
 	}
 	
 	save() {
 		this.fillMobileSettingsComputedProperties();
-		alert("mobileSettings=" + JSON.stringify(this.mobileSettings));
-/*
+		///alert("activityType_AudioSelected=" + JSON.stringify(this.activityType_AudioSelected));
+
 		this.mobileSettingsService.createNewMobileSettings(this.mobileSettings)
 			.subscribe(
 				ms => alert("mobileSettingsService=" + JSON.stringify(ms)),
 				error => alert("mobileSettingsService error: " + error)
-				);*/
+				);
 	}
 
     /**

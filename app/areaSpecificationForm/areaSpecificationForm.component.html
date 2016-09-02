@@ -1,3 +1,9 @@
+<h1 class="titleStyle">Mobile Location Settings</h1>
+<hr>
+<div class="mainInformation">
+    <h1 class="proposalIdStyle">Proposal Id: {{proposalId}}</h1>
+    <h1 class="projectIdStyle">Project Id: {{projectId}}</h1>
+</div>
 <form (ngSubmit)="onSubmit(formControlGroup.value)" [ngFormModel]="formControlGroup">
     <hr>
     <table>
@@ -7,16 +13,16 @@
         </tr>
         <tr>
             <td></td>
-            <td><textarea cols="50" rows="4" [(ngModel)]="mobileSettings.activityDescription"></textarea></td>
+            <td><textarea cols="50" rows="4" [(ngModel)]="activityDescription"></textarea></td>
         </tr>
         <tr>
             <td class="criteriaLabel">Activity Type</td>
             <td>
-                <input type="checkbox">Geo-Location<br>
-                <input type="checkbox">Survey<br>
-                <input type="checkbox">Photo<br>
-                <input type="checkbox">Video<br>
-                <input type="checkbox">Audio<br>
+                <input type="checkbox" [(ngModel)]="activityType_GeoLocationSelected">Geo-Location<br>
+                <input type="checkbox" [(ngModel)]="activityType_SurveySelected">Survey<br>
+                <input type="checkbox" [(ngModel)]="activityType_PhotoSelected">Photo<br>
+                <input type="checkbox" [(ngModel)]="activityType_VideoSelected">Video<br>
+                <input type="checkbox" [(ngModel)]="activityType_AudioSelected">Audio<br>
 
             </td>
         </tr>
@@ -225,7 +231,7 @@
 					</tr>
 					<tr>
 						<td style ="vertical-align: top">
-							<input type="text">
+							<input type="text" [(ngModel)]="loiterTime">
 							<select>
 								<option value="false">minutes</option>
 								<option value="true">seconds</option>
@@ -252,7 +258,7 @@
 					</tr>
 					<tr>
 						<td>
-							<input type="text">
+							<input type="text" [(ngModel)]="minSpeed">
 							<select>
 								<option value="false">mph</option>
 								<option value="true">kmh</option>
@@ -266,7 +272,7 @@
 					</tr>
 					<tr>
 						<td style ="vertical-align: top">
-							<input type="text">
+							<input type="text" [(ngModel)]="maxSpeed">
 							<select>
 								<option value="false">mph</option>
 								<option value="true">kmh</option>
@@ -285,7 +291,7 @@
 		<tr>
             <td></td>
             <td style ="vertical-align: top">
-				<input type="checkbox">User must be inside geofence (geo validation)
+				<input type="checkbox" [(ngModel)]="currentlyAtLocation">User must be inside geofence (geo validation)
             </td>
 			<td>Confirming the user is currently at the location geofenced to access the survey</td>
         </tr>	
@@ -305,7 +311,7 @@
 					</tr>
 					<tr>
 						<td style ="vertical-align: top">
-							<input type="text">
+							<input type="text" [(ngModel)]="expirationTime">
 							<select>
 								<option value="false">minutes</option>
 								<option value="true">seconds</option>
