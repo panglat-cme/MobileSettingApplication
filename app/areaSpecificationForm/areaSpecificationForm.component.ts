@@ -49,6 +49,7 @@ export class AreaSpecificationForm {
 	expirationTimeSelected : boolean;
 	expirationTime : number;
 	expirationTimeUnit : string; // "m" / "h"
+	mobileSettingsId : number;
 	
 	constructor(private countryService: CountryService, private categoryService: CategoryService
 		private commonService: CommonService, private selectedCategoryList: SelectedCategoryList, private mobileSettingsService: MobileSettingsService) {
@@ -56,6 +57,8 @@ export class AreaSpecificationForm {
 		this.countryList = [];
 		this.myCategoryList = [];
 		this.mobileSettings = new MobileSettings();
+		
+		this.mobileSettingsId = 0;;
 		
 		this.proposalId = "67";
 		this.projectId = "78";
@@ -110,6 +113,9 @@ export class AreaSpecificationForm {
     }
 	
 	private fillMobileSettingsComputedProperties() {
+		if(this.mobileSettingsId != 0) {
+			this.mobileSettings.id = this.mobileSettingsId;
+		}
 		this.mobileSettings.activityDescription = this.activityDescription;
 		this.mobileSettings.proposalId =  this.proposalId;
 		this.mobileSettings.projectId = this.projectId;
@@ -173,7 +179,10 @@ export class AreaSpecificationForm {
 
 		this.mobileSettingsService.createNewMobileSettings(this.mobileSettings)
 			.subscribe(
-				ms => alert("mobileSettingsService=" + JSON.stringify(ms)),
+				ms => { 
+					alert("mobileSettingsService=" + JSON.stringify(ms)) 
+					this.mobileSettingsId = ms.id;
+				},
 				error => alert("mobileSettingsService error: " + error)
 				);
 	}

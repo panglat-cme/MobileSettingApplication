@@ -16,7 +16,4 @@ export class AppComponent {
     ngOnInit(){
         //console.log(this.commonService.get());
     }
-
-    proposalId = 45678;
-    projectId = 156465;
 }

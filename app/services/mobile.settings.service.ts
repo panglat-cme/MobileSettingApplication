@@ -15,7 +15,6 @@ export class MobileSettingsService {
 			}
         }
 		return searchParams.toString();
-		//return "activityDescription=This is my 5&radius=1100&proposalId=108&projectId=1456&loiterTime=11&minSpeed=21&maxSpeed=110&expirationTime=14&currentlyAtLocation=true&activityTypes=2,3,5";
 	}
 	
 	createNewMobileSettings(mobileSettings : MobileSettings) {
@@ -34,8 +33,15 @@ export class MobileSettingsService {
 	}
 
 	private handleError(error: Response) {
-		alert("handleError=" + JSON.stringify(error))
-		console.error(error);
-		return Observable.throw(error.json().error || 'Server error');
+		let e = error.json();
+		if(e.hasOwnProperty("data") && e.data instanceof Array && e.data.length > 0 && e.data[0].hasOwnProperty("message")) {
+			let msg = e.data[0].message;
+			if (e.data[0].hasOwnProperty("code")) {
+				msg = "(" + e.data[0].code + ") " + msg;
+			}
+			return Observable.throw(msg);
+		} else {
+			return Observable.throw('Server error');
+		}
 	}
 }
