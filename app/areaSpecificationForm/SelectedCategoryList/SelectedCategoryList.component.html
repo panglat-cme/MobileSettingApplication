@@ -1,5 +1,7 @@
-<h4>YOU SELECTED</h4>
-<selectedCategory *ngFor="#categoryItem of categoryList" [category]="categoryItem">
-        
+<selectedCategory *ngFor="#category of categoryList"
+  [category]="category"
+  (deleted)="onCategoryDeleted($event)"
+  class="selectedCategory">
 </selectedCategory>
+        
 

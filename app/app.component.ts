@@ -1,7 +1,6 @@
 import {Component} from 'angular2/core';
 import { HTTP_PROVIDERS } from 'angular2/http';
 import {AreaSpecificationForm} from './areaSpecificationForm/areaSpecificationForm.component';
-import {CommonService} from './common.service';
 
 @Component({
     selector : 'app',
@@ -11,8 +10,6 @@ import {CommonService} from './common.service';
 	providers : [HTTP_PROVIDERS]
 })
 export class AppComponent {
-    constructor(private commonService: CommonService){}
-
     ngOnInit(){
         //console.log(this.commonService.get());
     }

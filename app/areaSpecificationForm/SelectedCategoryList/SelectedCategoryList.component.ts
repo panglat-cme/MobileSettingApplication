@@ -1,5 +1,4 @@
-import {Component, Input} from 'angular2/core';
-import {Category} from "../../models/category";
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {SelectedCategory} from 'app/areaSpecificationForm/selectedCategoryList/selectedCategory/selectedCategory.component';
 
 @Component({
@@ -10,4 +9,20 @@ import {SelectedCategory} from 'app/areaSpecificationForm/selectedCategoryList/s
 })
 export class SelectedCategoryList {
 	@Input('categoryList') categoryList;
+    @Output() remove = new EventEmitter();
+
+    onCategoryDeleted(category){
+        this.remove.emit(category);
+        this.deleteCategoryList(category);
+    }
+
+    /**
+     * Function used to delete an item from the categories list
+     */
+    deleteCategoryList(category){
+        var index = this.categoryList.indexOf(category);
+        if(index!=-1)
+            this.categoryList.splice(index,1);
+    }
+
 }

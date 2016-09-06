@@ -1,4 +1,4 @@
-import {Component, Input} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 
 
 @Component({
@@ -9,5 +9,9 @@ import {Component, Input} from 'angular2/core';
 export class SelectedCategory {
 
     @Input('category') category;
+    @Output('deleted') delete = new EventEmitter();
 	
-}
+    onDelete(e){
+        this.delete.emit(this.category);
+}}
+

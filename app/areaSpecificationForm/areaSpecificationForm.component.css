@@ -17,7 +17,9 @@ ul{
     border: solid;
     overflow-y: scroll;
 }
-
+.checkboxOption{
+    margin-top: 10px;
+}
 .titleStyle{
     text-align: center;
 }
@@ -27,7 +29,4 @@ ul{
 .projectIdStyle{
     display: inline-block;
     margin-left: 80px;
-}
-.mainInformation{
-
 }

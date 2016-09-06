@@ -6,23 +6,31 @@ import {MobileSettings} from '../models/mobile.settings';
 
 import {CountryService} from '../services/country.service';
 import {CategoryService} from '../services/category.service';
-import {CommonService} from 'app/common.service';
 import {SelectedCategoryList} from 'app/areaSpecificationForm/selectedCategoryList/selectedCategoryList.component';
 import {MobileSettingsService} from '../services/mobile.settings.service';
+import {SelectedCategory} from "app/areaSpecificationForm/selectedCategoryList/selectedCategory/selectedCategory.component";
+import {ActivityTypeService} from '../services/activityType.service';
+import {Observable} from "rxjs/Rx";
+import {ActivityType} from "../models/activityType";
+import {SelectedActivityTypes} from "../models/selectedActivityTypes";
 
 @Component({
     selector: 'areaSpecificationForm',
     templateUrl: 'app/areaSpecificationForm/areaSpecificationForm.component.html',
     styleUrls: ['app/areaSpecificationForm/areaSpecificationForm.component.css'],
-	providers: [CountryService, CategoryService, CommonService, SelectedCategoryList, MobileSettingsService],
-    directives: [SelectedCategoryList]
+    providers: [CountryService, CategoryService, SelectedCategoryList, MobileSettingsService,ActivityTypeService],
+    directives: [SelectedCategory,SelectedCategoryList]
 })
 export class AreaSpecificationForm {
 	countryList : Country[];
+    categories :  Category [];
+ activityTypes: ActivityType[];
+    selectedActivityTypes: SelectedActivityTypes;
+    displayableActivityTypes = [];
     formControlGroup;
 	selectedCountryId;
-    categories :  Category [];
-	myCategoryList : Category [];
+   
+	selectedCategories : Category [];
 	mobileSettings : MobileSettings;
 	
     proposalId : string;
@@ -51,14 +59,13 @@ export class AreaSpecificationForm {
 	expirationTimeUnit : string; // "m" / "h"
 	mobileSettingsId : number;
 	
-	constructor(private countryService: CountryService, private categoryService: CategoryService
-		private commonService: CommonService, private selectedCategoryList: SelectedCategoryList, private mobileSettingsService: MobileSettingsService) {
+	constructor(private countryService: CountryService, private categoryService: CategoryService, private activityTypeService: ActivityTypeService, private selectedCategoryList: SelectedCategoryList, private mobileSettingsService: MobileSettingsService) {
 		this.selectedCountryId = 0;  // United State
 		this.countryList = [];
-		this.myCategoryList = [];
+		this.selectedCategories = [];
 		this.mobileSettings = new MobileSettings();
 		
-		this.mobileSettingsId = 0;;
+		this.mobileSettingsId = 0;
 		
 		this.proposalId = "67";
 		this.projectId = "78";
@@ -88,13 +95,9 @@ export class AreaSpecificationForm {
 
     ngOnInit(){
         this.formControlGroup = new ControlGroup({
-            'radius' : new Control(''),
-            'latitude': new Control(''),
-            'longitude' : new Control(''),
-            'studyId' : new Control ('')
+
         });
-        //this.categories = this.commonService.get();
-		// TODO: commonService has to be deleted?
+
 		this.countryService.getCountries()
 			.subscribe(
 				countryList => this.countryList = countryList,
@@ -106,12 +109,14 @@ export class AreaSpecificationForm {
 				categoryList => this.categories = categoryList,
 				error => alert("Category list error: " + error)
 				);
+
+        this.getAll();
     }
+
     onSubmit(areaSpecification){
-		alert("Submit");
-        console.log(areaSpecification);
+        //console.log(areaSpecification);
     }
-	
+
 	private fillMobileSettingsComputedProperties() {
 		if(this.mobileSettingsId != 0) {
 			this.mobileSettings.id = this.mobileSettingsId;
@@ -157,9 +162,9 @@ export class AreaSpecificationForm {
 			} else {
 				this.mobileSettings.maxSpeed = this.maxSpeed;
 			}
-			this.mobileSettings.minSpeed = Math.round(this.mobileSettings.minSpeed);
+			this.mobileSettings.maxSpeed = Math.round(this.mobileSettings.minSpeed);
 		} else {
-			this.mobileSettings.minSpeed = 0;
+			this.mobileSettings.maxSpeed = 0;
 		}
 		
 		if(this.expirationTimeSelected) {
@@ -187,13 +192,96 @@ export class AreaSpecificationForm {
 				);
 	}
 
-    /**
+ /**
      * Function used to handle the category checkbox selection event.
      */
     onCategorySelect(category, e){
+        //Check if the selection lead to selecting an item or deselecting it in order to add it to or remove it from the list of selectedCategories 
         if (e.target.checked){
-			this.myCategoryList.push(category);
+			this.selectedCategories.push(category);
+            console.log(this.selectedActivityTypes);
+        }
+        else{
+            var index = this.selectedCategories.indexOf(category);
+            if(index!=-1)
+                this.selectedCategories.splice(index,1);
+        }
+        this.modifyDisplay("youSelectedLabel");
+        var perCategoryRadioButtonStatus = document.getElementById("perCategory").checked;
+        if(perCategoryRadioButtonStatus == true)
+            this.modifyDisplay("quotasPerCategory");
+    }
+
+    onCategoryRemoved(category){
+        document.getElementById(category.name).checked = false;
+        this.modifyDisplay("youSelectedLabel");
+    }
+
+    /**
+     * Function used to changes the visibility of some elements.
+     * @param id
+     */
+    private modifyDisplay(id){
+        if(this.selectedCategories.length > 0)
+            this.display(id);
+        else
+            this.removeDisplay(id);
+    }
+
+    /**
+     * Function used to remove the display of certain elements
+     * @param id
+     */
+    private removeDisplay(id){
+        var elementId = document.getElementById(id);
+        elementId.style.display = "none";
+    }
+
+    /**
+     * Function used to display certain elements
+     * @param id
+     */
+    private display(id){
+        var elementId = document.getElementById(id);
+        elementId.style.display = "";
+    }
+
+    private getAll(){
+        Observable.forkJoin(
+            this.activityTypeService.getActivityTypes().map((returnedData: ActivityType) => returnedData),
+            this.activityTypeService.getSelectedActivityTypes().map((returnedData: SelectedActivityTypes) => returnedData)
+        ).subscribe(returnedData => this.fillData(returnedData));
+    }
+
+    private fillData(returnedData){
+        this.activityTypes=returnedData[0];
+        this.displayableActivityTypes = this.activityTypes;
+        if(returnedData[1].length==1) {
+            this.selectedActivityTypes = returnedData[1][0];
+            for (var i = 0; i < this.activityTypes.length; i++) {
+                var parentAreaSpecificationForm = this;
+                var selected = this.selectedActivityTypes['projectActivityTypes'].filter(function (item) {
+                    return (item['activityTypeId'] == parentAreaSpecificationForm.activityTypes[i].id);
+                });
+
+                if (selected.length != 0)
+                    this.displayableActivityTypes[i]['selected'] = true;
+
+                else
+                    this.displayableActivityTypes[i]['selected'] = false;
+
+            }
         }
     }
 
+	displayDaysAndTime(selectedOption){
+		var selected = selectedOption.currentTarget.value;
+		var elementId = document.getElementById("onlyDayAndTime");
+
+		if(selected == "Only on these days/times")
+			elementId.style.display = "";
+
+		else
+			elementId.style.display = "none";
+	}
 }

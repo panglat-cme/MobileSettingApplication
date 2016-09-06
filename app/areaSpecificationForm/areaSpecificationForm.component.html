@@ -7,6 +7,10 @@
 <form (ngSubmit)="onSubmit(formControlGroup.value)" [ngFormModel]="formControlGroup">
     <hr>
     <table>
+        <colgroup>
+            <col style="width:200px">
+            <col style="width:733px">
+        </colgroup>
         <tr>
             <td class="criteriaLabel">Activity</td>
             <td>Description of activity</td>
@@ -18,12 +22,9 @@
         <tr>
             <td class="criteriaLabel">Activity Type</td>
             <td>
-                <input type="checkbox">Geo-Location<br>
-                <input type="checkbox">Survey<br>
-                <input type="checkbox">Photo<br>
-                <input type="checkbox">Video<br>
-                <input type="checkbox">Audio<br>
-
+                <div *ngFor="#activityType of displayableActivityTypes">
+                    <input [(ngModel)]="activityType.selected" type="checkbox">{{ activityType.name }}<br>
+                </div>
             </td>
         </tr>
 
@@ -78,11 +79,54 @@
         </tr>
         <tr>
             <td></td>
-            <td><select>
+            <td><select (change)="displayDaysAndTime($event)">
                     <option>Any day/time</option>
                     <option>Only on these days/times</option>
                 </select>
             </td>
+        </tr>
+        <tr id="onlyDayAndTime" style="display: none">
+            <td></td>
+            <td>
+                <div style="float:left">
+                <input type="checkbox">Monday<br>
+                <input type="checkbox">Tuesday<br>
+                <input type="checkbox">Wednesday<br>
+                <input type="checkbox">Thursday<br>
+                <input type="checkbox">Friday<br>
+                <input type="checkbox">Saturday<br>
+                <input type="checkbox">Sunday
+                </div>
+                <div style="position:relative;left:200px;top:30px">
+                <table>
+                <tr>
+                    <td>
+                        From:
+                    </td>
+                    <td>
+                        <input style="width:40px" type="text">
+                        <select>
+                            <option>AM</option>
+                            <option>PM</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        To:
+                    </td>
+                    <td>
+                        <input style="width:40px" type="text">
+                        <select>
+                            <option>AM</option>
+                            <option>PM</option>
+                        </select>
+                    </td>
+                </tr>
+                    </table>
+                </div>
+            </td>
+            <td></td>
         </tr>
         <tr>
             <td colspan="3"><hr></td>
@@ -104,18 +148,25 @@
             <td>
                 <div class="categoryTable">
                     <table *ngFor="#category of categories">
-                        <tr><input (change)="onCategorySelect(category, $event)" type="checkbox">{{category.name}}</tr>
+                        <tr><input id="{{category.name}}" (change)="onCategorySelect(category, $event)"  type="checkbox">{{category.name}}</tr>
                     </table>
                 </div>
             </td>
         </tr>
-        <selectedCategoryList [categoryList]="myCategoryList"></selectedCategoryList>
+        <tr>
+            <td>
+                <h6 style="display: none" id="youSelectedLabel">YOU SELECTED</h6>
+            </td>
+            <td>
+                <selectedCategoryList (remove)="onCategoryRemoved($event)" [categoryList]="selectedCategories"></selectedCategoryList>
+            </td>
+        </tr>
         <tr>
             <td colspan="3"><hr></td>
         </tr>
 
         <tr>
-            <td class="criteriaLabel">Redefine</td>
+            <td class="criteriaLabel">Refine</td>
             <td style ="vertical-align: top">
                Country *
             </td>
@@ -195,33 +246,34 @@
             <td colspan="3"><hr></td>
         </tr>	
 		<tr>
-            <td style ="vertical-align: top">Preferences</td>
-            <td style ="vertical-align: top">
-				<table>
-					<tr>
-						<td style ="vertical-align: top">
-							<input type="checkbox">No quotas
+            <td class="criteriaLabel">Quotas</td>
+            <td>
+                <input name="quotas" (change)="removeDisplay('quotasPerCategory')" type="radio" checked>No Quotas<br>
+                <input id="perCategory" (change)="modifyDisplay('quotasPerCategory')" name="quotas" type="radio">Per Category<br>
+                <input name="quotas" (change)="removeDisplay('quotasPerCategory')" type="radio">Per Location<br>
+						</td>
+            <td>
+                <p>Restricts the number of completes allowed per location.  Once the number of completes are met, the location will no longer be displayed on users survey list</p>
 						</td>
 					</tr>
-					<tr>
-						<td style ="vertical-align: top">
-							<input type="checkbox">Per Category
-						</td>
-					</tr>
-					<tr>
-						<td style ="vertical-align: top">
-							<input type="checkbox">Per Location
-						</td>
-					</tr>
-				</table>
+        <tr id="quotasPerCategory" style="display: none">
+            <td></td>
+            <td>
+                <table>
+                    <tr *ngFor="#category of selectedCategories">
+                        <td>{{ category.name }}</td>
+                        <td><input type="text"></td>
+                        <td>completes</td>
+                    </tr>
+                </table>
             </td>
-			<td>Restricts the number of completes allowed per location.  Once the number of completes are met, the location will no longer be displayed on users survey list</td>
+            <td></td>
         </tr>
 		<tr>
             <td colspan="3"><hr></td>
         </tr>	
 		<tr>
-            <td style ="vertical-align: top">Preferences</td>
+            <td class="criteriaLabel" style ="vertical-align: top">Preferences</td>
             <td style ="vertical-align: top">
 				<table>
 					<tr>
@@ -324,25 +376,12 @@
         </tr>
 		<tr>
             <td colspan="3"><hr>&nbsp;</td>
-        </tr>		
+        </tr>	
+  <tr>
+            <td style="text-align: center" colspan="3">
+                <button >Cancel</button>
+                <button (click)="save()" >Save</button>
+            </td>
+        </tr>	
     </table>
-    <ul>
-        <li>
-            <label for="longitude">Longitude</label>
-            <input ngControl="longitude" type="text" name="longitude" id="longitude" required>
-        </li>
-        <li>
-            <label for="latitude">Latitude</label>
-            <input ngControl="latitude" type="text" name="latitude" id="latitude" required>
-        </li>
-        <li>
-            <label for="radius">Radius</label>
-            <input ngControl="radius" type="text" name="radius" id="radius" required>
-        </li>
-        <li>
-            <label for="studyId">Study Id</label>
-            <input ngControl="studyId" type="text" name="studyId" id="studyId" required>
-        </li>
-    </ul>
-    <button (click)="save()">Save</button>
 </form>

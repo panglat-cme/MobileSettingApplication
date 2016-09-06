@@ -1,6 +1,7 @@
 import { Injectable } from 'angular2/core';
-import { Http, Response, Headers, RequestOptions } from 'angular2/http';
+import {Http, Response, Headers, RequestOptions, URLSearchParams} from 'angular2/http';
 import { Observable } from 'rxjs/Rx';
+import {MobileSettings} from "../models/mobile.settings";
 
 @Injectable()
 export class MobileSettingsService {
@@ -22,7 +23,7 @@ export class MobileSettingsService {
 		let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
 		let options = new RequestOptions({ headers: headers });
 
-		return this._http.post('http://intranet.cmeoffshore.com:8899/MobileSettings/MobileSetting', body, options)
+		return this._http.post('http://172.17.1.45:8899/MobileSettings/MobileSetting', body, options)
 		.map((response: Response) => {
 			let id = response.json().data.id
 			mobileSettings.id = id;
