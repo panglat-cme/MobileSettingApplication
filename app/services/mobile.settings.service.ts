@@ -12,7 +12,15 @@ export class MobileSettingsService {
 		let searchParams = new URLSearchParams();
         for (let param in mobileSettings) {
 			if((typeof mobileSettings[param]) !== "undefined") {
-				searchParams.set(param, mobileSettings[param]);
+				if(param == "currentlyAtLocation") {
+					let val = 0;
+					if(mobileSettings[param] == true) {
+						val = 1;
+					}
+					searchParams.set(param, val);
+				} else {
+					searchParams.set(param, mobileSettings[param]);
+				}
 			}
         }
 		return searchParams.toString();
@@ -23,7 +31,7 @@ export class MobileSettingsService {
 		let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
 		let options = new RequestOptions({ headers: headers });
 
-		return this._http.post('http://172.17.1.45:8899/MobileSettings/MobileSetting', body, options)
+		return this._http.post('http://localhost:9080/MobileSettings/MobileSetting', body, options)
 		.map((response: Response) => {
 			let id = response.json().data.id
 			mobileSettings.id = id;

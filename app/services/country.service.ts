@@ -8,7 +8,7 @@ export class CountryService {
 	constructor(private _http: Http) { }
 
 	getCountries() {
-		return this._http.get('http://172.17.1.45:8899/MobileSettings/Countries')
+		return this._http.get('http://intranet.cmeoffshore.com:8899/MobileSettings/Countries')
 		.map((response: Response) => <Country[]>response.json().data)
 		//.do(data => console.log(data))
 		.catch(this.handleError);

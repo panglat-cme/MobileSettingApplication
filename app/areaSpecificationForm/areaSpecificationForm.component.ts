@@ -185,7 +185,8 @@ export class AreaSpecificationForm {
 		this.mobileSettingsService.createNewMobileSettings(this.mobileSettings)
 			.subscribe(
 				ms => { 
-					alert("mobileSettingsService=" + JSON.stringify(ms)) 
+					//alert("mobileSettingsService=" + JSON.stringify(ms)) 
+					alert("Data saved. Id=" + ms.id);
 					this.mobileSettingsId = ms.id;
 				},
 				error => alert("mobileSettingsService error: " + error)
