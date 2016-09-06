@@ -31,7 +31,7 @@ export class MobileSettingsService {
 		let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
 		let options = new RequestOptions({ headers: headers });
 
-		return this._http.post('http://localhost:9080/MobileSettings/MobileSetting', body, options)
+		return this._http.post('http://intranet.cmeoffshore.com:8899/MobileSettings/MobileSetting', body, options)
 		.map((response: Response) => {
 			let id = response.json().data.id
 			mobileSettings.id = id;
