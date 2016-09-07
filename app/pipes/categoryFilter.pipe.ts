@@ -9,6 +9,6 @@ import {Category} from '../models/category';
 export class CategoryFilterPipe implements PipeTransformPipeTransform {
     transform(value: any, args: string[]): any {
        let filter = args[0].toLocaleLowerCase();
-       return filter ? value.filter(category => category.name.toLocaleLowerCase().indexOf(filter) != -1) : value;
+       return (filter && value) ? value.filter(category => category.name.toLocaleLowerCase().indexOf(filter) != -1) : value;
     }
 }
