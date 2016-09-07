@@ -1,0 +1,35 @@
+{
+    "status": "ok",
+    "meta": {
+        "metaId": "846cea48-bc46-40a1-9514-aef07d984320",
+        "metaDate": "2016/09/07 16:46:27+03:00",
+        "version": null
+    },
+    "data": [
+        {
+            "id": 1,
+            "name": "Geo-Location",
+            "itemKey": "GEO-LOCATION"
+        },
+        {
+            "id": 2,
+            "name": "Survey",
+            "itemKey": "SURVEY"
+        },
+        {
+            "id": 3,
+            "name": "Photo",
+            "itemKey": "PHOTO"
+        },
+        {
+            "id": 4,
+            "name": "Video",
+            "itemKey": "VIDEO"
+        },
+        {
+            "id": 5,
+            "name": "Audio",
+            "itemKey": "AUDIO"
+        }
+    ]
+}

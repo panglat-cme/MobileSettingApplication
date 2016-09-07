@@ -14,17 +14,20 @@ import {Observable} from "rxjs/Rx";
 import {ActivityType} from "../models/activityType";
 import {SelectedActivityTypes} from "../models/selectedActivityTypes";
 
+import {CategoryFilterPipe} from "../pipes/categoryFilter.pipe";
+
 @Component({
     selector: 'areaSpecificationForm',
     templateUrl: 'app/areaSpecificationForm/areaSpecificationForm.component.html',
     styleUrls: ['app/areaSpecificationForm/areaSpecificationForm.component.css'],
     providers: [CountryService, CategoryService, SelectedCategoryList, MobileSettingsService,ActivityTypeService],
-    directives: [SelectedCategory,SelectedCategoryList]
+    directives: [SelectedCategory,SelectedCategoryList],
+	pipes: [CategoryFilterPipe]
 })
 export class AreaSpecificationForm {
 	countryList : Country[];
     categories :  Category [];
- activityTypes: ActivityType[];
+	activityTypes: ActivityType[];
     selectedActivityTypes: SelectedActivityTypes;
     displayableActivityTypes = [];
     formControlGroup;
@@ -59,6 +62,8 @@ export class AreaSpecificationForm {
 	expirationTimeUnit : string; // "m" / "h"
 	mobileSettingsId : number;
 	
+	categoryFilterInput : string;
+	
 	constructor(private countryService: CountryService, private categoryService: CategoryService, private activityTypeService: ActivityTypeService, private selectedCategoryList: SelectedCategoryList, private mobileSettingsService: MobileSettingsService) {
 		this.selectedCountryId = 0;  // United State
 		this.countryList = [];
@@ -91,6 +96,8 @@ export class AreaSpecificationForm {
 		this.expirationTimeSelected = false;
 		this.expirationTime = 0;
 		this.expirationTimeUnit = "m";
+		
+		this.categoryFilterInput = "";
     }
 
     ngOnInit(){

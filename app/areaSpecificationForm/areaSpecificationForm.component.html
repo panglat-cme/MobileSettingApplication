@@ -137,7 +137,7 @@
         </tr>
         <tr>
             <td></td>
-            <input type="text" size="100" placeholder="Type to narrow your choices">
+            <input type="text" size="100" placeholder="Type to narrow your choices" [(ngModel)]="categoryFilterInput">
         </tr>
         <tr>
             <td>
@@ -147,7 +147,7 @@
             </td>
             <td>
                 <div class="categoryTable">
-                    <table *ngFor="#category of categories">
+                    <table *ngFor="#category of categories | categoryFilter: categoryFilterInput ">
                         <tr><input id="{{category.name}}" (change)="onCategorySelect(category, $event)"  type="checkbox">{{category.name}}</tr>
                     </table>
                 </div>
