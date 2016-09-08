@@ -10,8 +10,10 @@ import {MobileSettingsService} from '../services/mobileSettings.service';
 import {SelectedCategory} from "app/areaSpecificationForm/selectedCategoryList/selectedCategory/selectedCategory.component";
 import {ActivityTypeService} from '../services/activityType.service';
 import {TrafficTypesService} from '../services/trafficTypes.service';
+import {QuotaTypeService} from '../services/quotaType.service';
 import {ActivityType} from "../models/activityType";
 import {TrafficTypes} from "../models/trafficTypes";
+import {QuotaTypes} from "../models/quotaTypes";
 import {CategoryFilterPipe} from "../pipes/categoryFilter.pipe";
 import {Constants} from 'app/constants';
 
@@ -19,7 +21,7 @@ import {Constants} from 'app/constants';
     selector: 'areaSpecificationForm',
     templateUrl: 'app/areaSpecificationForm/areaSpecificationForm.component.html',
     styleUrls: ['app/areaSpecificationForm/areaSpecificationForm.component.css'],
-    providers: [CountryService, CategoryService, SelectedCategoryList, MobileSettingsService,ActivityTypeService,TrafficTypesService],
+    providers: [CountryService, CategoryService, SelectedCategoryList, MobileSettingsService, ActivityTypeService, TrafficTypesService, QuotaTypeService],
     directives: [SelectedCategory,SelectedCategoryList],
 	pipes: [CategoryFilterPipe]
 })
@@ -33,6 +35,8 @@ export class AreaSpecificationForm {
 
 	activityTypes: ActivityType[];
     selectedActivityTypes = [];
+	
+	quotaTypes: QuotaTypes[];
 	
 	selectedCountryId = 0; // United State
 
@@ -69,7 +73,7 @@ export class AreaSpecificationForm {
 
 	categoryFilterInput = "";
 	constructor(private countryService: CountryService, private categoryService: CategoryService, private activityTypeService: ActivityTypeService, private selectedCategoryList: SelectedCategoryList, private mobileSettingsService: MobileSettingsService,
-	private trafficTypesService: TrafficTypesService) {}
+	private trafficTypesService: TrafficTypesService, private quotaTypeService : QuotaTypeService) {}
 
     ngOnInit(){
         this.formControlGroup = new ControlGroup({
@@ -104,6 +108,13 @@ export class AreaSpecificationForm {
 				error => alert("Traffic Types options error: " + error)
 			);
 
+		//Get the list of quota types
+		this.quotaTypeService.getQuotasTypes()
+			.subscribe(
+				quotaTypes => this.quotaTypes = quotaTypes,
+				error => alert("Traffic Types options error: " + error)
+			);
+			
 		//Get all the mobile setting information
 		this.mobileSettingsService.getMobileSettings()
 			.subscribe(
