@@ -22,8 +22,8 @@
         <tr>
             <td class="criteriaLabel">Activity Type</td>
             <td>
-                <div *ngFor="#activityType of displayableActivityTypes">
-                    <input [(ngModel)]="activityType.selected" type="checkbox">{{ activityType.name }}<br>
+                <div *ngFor="#activityType of activityTypes">
+                    <input (change)="updateSelectedActivityType($event)" [value]="activityType.id" [checked]="selectedActivityTypes.indexOf(activityType.id) != -1" type="checkbox" >{{ activityType.name }}<br>
                 </div>
             </td>
         </tr>
@@ -32,24 +32,17 @@
             <td colspan="3"><hr></td>
         </tr>
 
-        <tr>
             <td class="criteriaLabel">Traffic Type *</td>
             <td>
-                <input name="trafficType" type="radio" checked>Geovalidation<br>
-                (aka driven)
+            <div *ngFor="#trafficTypeOption of trafficTypesOptions" style="margin-bottom: 30px">
+                <input [value]="trafficTypeOption.id" [checked]="trafficTypeOption.id == selectedTrafficType"  (change)="updateSelectedTrafficType($event)" name="trafficType" type="radio">{{ trafficTypeOption.name }}
+            </div>
             </td>
-            <td>Location surveys allow users to see surveys available and at which locations but can only access the survey once the user is at the location indicated
-            </td>
-        </tr>
-        <tr>
-            <td></td>
             <td>
-                <input name="trafficType" type="radio">Geofencing<br>
-                (aka passive)
+            <p>Location surveys allow users to see surveys available and at which locations but can only access the survey once the user is at the location indicated.<br>
+            Captures the user only when they cross the geofence. Survey alerts can be triggered once the user crosses the geofence or can be used as passive location data collection
+            </p>
             </td>
-            <td rowspan="2">Captures the user only when they cross the geofence. Survey alerts can be triggered once the user crosses the geofence or can be used as passive location data collection
-            </td>
-        </tr>
         <tr>
             <td colspan="3"><hr></td>
         </tr>
@@ -278,13 +271,13 @@
 				<table>
 					<tr>
 						<td style ="vertical-align: top">
-							<input type="checkbox" [(ngModel)]="loitureTimeSelected">Loiter-Time
+							<input type="checkbox" [(ngModel)]="loiterTimeSelected">Loiter-Time
 						</td>
 					</tr>
 					<tr>
 						<td style ="vertical-align: top">
-							<input type="text" [(ngModel)]="loiterTime" [disabled]="!loitureTimeSelected">
-							<select [(ngModel)]="loiterTimeUnit" [disabled]="!loitureTimeSelected">
+							<input type="text" [(ngModel)]="loiterTime" [disabled]="!loiterTimeSelected">
+							<select [(ngModel)]="loiterTimeUnit" [disabled]="!loiterTimeSelected">
 								<option value="m">minutes</option>
 								<option value="h">hours</option>
 							</select>
@@ -380,7 +373,7 @@
   <tr>
             <td style="text-align: center" colspan="3">
                 <button >Cancel</button>
-                <button (click)="save()" >Save</button>
+                <button>Save</button>
             </td>
         </tr>	
     </table>

@@ -7,22 +7,27 @@ import {MobileSettings} from "../models/mobile.settings";
 export class MobileSettingsService {
 	constructor(private _http: Http) { }
 
+    getMobileSettings() {
+        return this._http.get('http://172.17.1.45:8899/MobileSettings/MobileSetting?id=8')
+            .map((response: Response) => <MobileSettings>response.json().data)
+            .catch(this.handleError);
+    }
+
 	private mobileSettingsToUrlParams(mobileSettings : MobileSettings)
 	{
 		let searchParams = new URLSearchParams();
-        for (let param in mobileSettings) {
-			if((typeof mobileSettings[param]) !== "undefined") {
-				if(param == "currentlyAtLocation") {
-					let val = 0;
-					if(mobileSettings[param] == true) {
-						val = 1;
-					}
-					searchParams.set(param, val);
-				} else {
-					searchParams.set(param, mobileSettings[param]);
-				}
-			}
-        }
+
+		if(mobileSettings['id'] !== "undefined")
+			searchParams.set("id",  mobileSettings['id']);
+
+
+		if(mobileSettings['traffic_type_id'] !== "undefined")
+			searchParams.set("trafficType",  mobileSettings['traffic_type_id']);
+
+		if(mobileSettings['activityTypes'] !== "undefined")
+			searchParams.set("activityTypes",  mobileSettings['activityTypes']);
+
+
 		return searchParams.toString();
 	}
 	
@@ -31,14 +36,22 @@ export class MobileSettingsService {
 		let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
 		let options = new RequestOptions({ headers: headers });
 
-		return this._http.post('http://intranet.cmeoffshore.com:8899/MobileSettings/MobileSetting', body, options)
+		if (mobileSettings.id != "undefined"){
+			return this._http.put('http://172.17.1.45:8899/MobileSettings/MobileSetting', body, options)
 		.map((response: Response) => {
-			let id = response.json().data.id
-			mobileSettings.id = id;
-			return mobileSettings;
+					let id = response.json().data.id;
+					return id;
 		})
-		//.do(data => console.log(data))
 		.catch((response: Response) => this.handleError(response));
+	}
+		else{
+		return this._http.post('http://172.17.1.45:8899/MobileSettings/MobileSetting', body, options)
+		.map((response: Response) => {
+			let id = response.json().data.id;
+			return id;
+		})
+		.catch((response: Response) => this.handleError(response));
+	}
 	}
 
 	private handleError(error: Response) {

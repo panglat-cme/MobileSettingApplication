@@ -10,10 +10,11 @@ import {SelectedCategoryList} from 'app/areaSpecificationForm/selectedCategoryLi
 import {MobileSettingsService} from '../services/mobile.settings.service';
 import {SelectedCategory} from "app/areaSpecificationForm/selectedCategoryList/selectedCategory/selectedCategory.component";
 import {ActivityTypeService} from '../services/activityType.service';
+import {TrafficTypesService} from '../services/trafficTypes.service';
 import {Observable} from "rxjs/Rx";
 import {ActivityType} from "../models/activityType";
 import {SelectedActivityTypes} from "../models/selectedActivityTypes";
-
+import {TrafficTypes} from "../models/trafficTypes";
 import {CategoryFilterPipe} from "../pipes/categoryFilter.pipe";
 
 @Component({
@@ -27,9 +28,11 @@ import {CategoryFilterPipe} from "../pipes/categoryFilter.pipe";
 export class AreaSpecificationForm {
 	countryList : Country[];
     categories :  Category [];
+	trafficTypesOptions :  TrafficTypes [];
+	selectedTrafficType;
 	activityTypes: ActivityType[];
-    selectedActivityTypes: SelectedActivityTypes;
-    displayableActivityTypes = [];
+    selectedActivityTypes= [];
+
     formControlGroup;
 	selectedCountryId;
    
@@ -43,7 +46,7 @@ export class AreaSpecificationForm {
 	radius : number;
 	radiusUnit : string; // "m" / "f"
 
-	loitureTimeSelected : boolean;
+	loiterTimeSelected : boolean;
 	loiterTime : number;
 	loiterTimeUnit : string; // "m" / "h"
 	
@@ -55,7 +58,7 @@ export class AreaSpecificationForm {
 	maxSpeed : number;
 	maxSpeedUnit : string; // "k" / "m"
 
-	currentlyAtLocation : boolean
+	currentlyAtLocation : boolean;
 
 	expirationTimeSelected : boolean;
 	expirationTime : number;
@@ -63,8 +66,8 @@ export class AreaSpecificationForm {
 	mobileSettingsId : number;
 	
 	categoryFilterInput : string;
-	
-	constructor(private countryService: CountryService, private categoryService: CategoryService, private activityTypeService: ActivityTypeService, private selectedCategoryList: SelectedCategoryList, private mobileSettingsService: MobileSettingsService) {
+	constructor(private countryService: CountryService, private categoryService: CategoryService, private activityTypeService: ActivityTypeService, private selectedCategoryList: SelectedCategoryList, private mobileSettingsService: MobileSettingsService,
+	private trafficTypesService: TrafficTypesService) {
 		this.selectedCountryId = 0;  // United State
 		this.countryList = [];
 		this.selectedCategories = [];
@@ -79,7 +82,7 @@ export class AreaSpecificationForm {
 		this.radius = 0;
 		this.radiusUnit = "f";
 		
-		this.loitureTimeSelected = false;
+		this.loiterTimeSelected = false;
 		this.loiterTime = 0;
 		this.loiterTimeUnit = "m";
 		
@@ -117,15 +120,58 @@ export class AreaSpecificationForm {
 				error => alert("Category list error: " + error)
 				);
 
-        this.getAll();
+		this.trafficTypesService.getTrafficTypes()
+			.subscribe(
+				trafficTypesOptions => this.trafficTypesOptions = trafficTypesOptions,
+				error => alert("Traffic Types options error: " + error)
+			);
+
+		this.activityTypeService.getActivityTypes()
+			.subscribe(
+				activityTypes => this.activityTypes = activityTypes,
+				error => alert("Traffic Types options error: " + error)
+			);
+
+		this.mobileSettingsService.getMobileSettings()
+			.subscribe(
+				mobileSettings => this.handleMobileSettings(mobileSettings),
+				error => alert("Traffic Types options error: " + error)
+			);
+    }
+
+    private handleMobileSettings(mobileSettings: MobileSettings){
+		this.selectedTrafficType = mobileSettings[0].traffic_type_id;
+		for(var i = 0; i < mobileSettings[0].projectActivityTypes.length; i++){
+			this.selectedActivityTypes[i] = mobileSettings[0].projectActivityTypes[i].activityTypeId;
+	}
+    }
+
+private updateSelectedActivityType(selectedOption){
+		if(selectedOption.currentTarget.checked)
+			this.selectedActivityTypes.push(parseInt(selectedOption.currentTarget.value));
+		else{
+			var index = this.selectedActivityTypes.indexOf(parseInt(selectedOption.currentTarget.value));
+			if (index > -1) {
+				this.selectedActivityTypes.splice(index, 1);
+			}
+		}
     }
 
     onSubmit(areaSpecification){
-        //console.log(areaSpecification);
+		this.fillMobileSettingsComputedProperties();
+
+		this.mobileSettingsService.createNewMobileSettings(this.mobileSettings)
+			.subscribe(
+				ms => { 
+					alert("mobileSettingsService=" + JSON.stringify(ms)) 
+					this.mobileSettingsId = ms.id;
+				},
+				error => alert("mobileSettingsService error: " + error)
+				);
     }
 
 	private fillMobileSettingsComputedProperties() {
-		if(this.mobileSettingsId != 0) {
+		/*if(this.mobileSettingsId != 0) {
 			this.mobileSettings.id = this.mobileSettingsId;
 		}
 		this.mobileSettings.activityDescription = this.activityDescription;
@@ -141,7 +187,7 @@ export class AreaSpecificationForm {
 		}
 		this.mobileSettings.radius = Math.round(this.mobileSettings.radius);
 		
-		if(this.loitureTimeSelected) {
+		if(this.loiterTimeSelected) {
 			if(this.loiterTimeUnit == "h") {
 				this.mobileSettings.loiterTime = this.loiterTime * 60;
 			} else {
@@ -183,21 +229,15 @@ export class AreaSpecificationForm {
 			this.mobileSettings.expirationTime = Math.round(this.mobileSettings.expirationTime);
 		} else {
 			this.mobileSettings.expirationTime = 0;
+		}*/
+		this.mobileSettings.id = 8;
+        this.mobileSettings.traffic_type_id = this.selectedTrafficType;
+		this.mobileSettings.activityTypes = "";
+		for (var i = 0; i < this.selectedActivityTypes.length; i++){
+			this.mobileSettings.activityTypes += this.selectedActivityTypes[i] + ",";
 		}		
-	}
+		this.mobileSettings.activityTypes = this.mobileSettings.activityTypes.substring(0, this.mobileSettings.activityTypes.length - 1);
 	
-	save() {
-		this.fillMobileSettingsComputedProperties();
-
-		this.mobileSettingsService.createNewMobileSettings(this.mobileSettings)
-			.subscribe(
-				ms => { 
-					//alert("mobileSettingsService=" + JSON.stringify(ms)) 
-					alert("Data saved. Id=" + ms.id);
-					this.mobileSettingsId = ms.id;
-				},
-				error => alert("mobileSettingsService error: " + error)
-				);
 	}
 
  /**
@@ -254,34 +294,6 @@ export class AreaSpecificationForm {
         elementId.style.display = "";
     }
 
-    private getAll(){
-        Observable.forkJoin(
-            this.activityTypeService.getActivityTypes().map((returnedData: ActivityType) => returnedData),
-            this.activityTypeService.getSelectedActivityTypes().map((returnedData: SelectedActivityTypes) => returnedData)
-        ).subscribe(returnedData => this.fillData(returnedData));
-    }
-
-    private fillData(returnedData){
-        this.activityTypes=returnedData[0];
-        this.displayableActivityTypes = this.activityTypes;
-        if(returnedData[1].length==1) {
-            this.selectedActivityTypes = returnedData[1][0];
-            for (var i = 0; i < this.activityTypes.length; i++) {
-                var parentAreaSpecificationForm = this;
-                var selected = this.selectedActivityTypes['projectActivityTypes'].filter(function (item) {
-                    return (item['activityTypeId'] == parentAreaSpecificationForm.activityTypes[i].id);
-                });
-
-                if (selected.length != 0)
-                    this.displayableActivityTypes[i]['selected'] = true;
-
-                else
-                    this.displayableActivityTypes[i]['selected'] = false;
-
-            }
-        }
-    }
-
 	displayDaysAndTime(selectedOption){
 		var selected = selectedOption.currentTarget.value;
 		var elementId = document.getElementById("onlyDayAndTime");
@@ -292,4 +304,9 @@ export class AreaSpecificationForm {
 		else
 			elementId.style.display = "none";
 	}
+
+	updateSelectedTrafficType(selectedOption){
+		this.selectedTrafficType = selectedOption.currentTarget.value;
+	}
+
 }
