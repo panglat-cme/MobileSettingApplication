@@ -3,18 +3,17 @@ import {ControlGroup, Control} from 'angular2/common';
 import {Country} from '../models/country';
 import {Category} from '../models/category';
 import {MobileSettings} from '../models/mobile.settings';
-
 import {CountryService} from '../services/country.service';
 import {CategoryService} from '../services/category.service';
 import {SelectedCategoryList} from 'app/areaSpecificationForm/selectedCategoryList/selectedCategoryList.component';
-import {MobileSettingsService} from '../services/mobile.settings.service';
+import {MobileSettingsService} from '../services/mobileSettings.service';
 import {SelectedCategory} from "app/areaSpecificationForm/selectedCategoryList/selectedCategory/selectedCategory.component";
 import {ActivityTypeService} from '../services/activityType.service';
 import {TrafficTypesService} from '../services/trafficTypes.service';
-import {Observable} from "rxjs/Rx";
 import {ActivityType} from "../models/activityType";
 import {TrafficTypes} from "../models/trafficTypes";
 import {CategoryFilterPipe} from "../pipes/categoryFilter.pipe";
+import {Constants} from 'app/constants';
 
 @Component({
     selector: 'areaSpecificationForm',
@@ -24,23 +23,25 @@ import {CategoryFilterPipe} from "../pipes/categoryFilter.pipe";
     directives: [SelectedCategory,SelectedCategoryList],
 	pipes: [CategoryFilterPipe]
 })
+
 export class AreaSpecificationForm {
 	countryList : Country[];
     categories :  Category [];
+
 	trafficTypesOptions :  TrafficTypes [];
 	selectedTrafficType;
+
 	activityTypes: ActivityType[];
-    selectedActivityTypes= [];
+    selectedActivityTypes = [];
 
     formControlGroup;
-	selectedCountryId;
    
-	selectedCategories : Category [];
-	mobileSettings : MobileSettings;
+	selectedCategories = new Array<Category>();
+	mobileSettings = new MobileSettings();
 	
-    proposalId : string;
-    projectId : string;
-	activityDescription : string;
+    proposalId = 67;
+    projectId = 78;
+	activityDescription = "";
 	
 	radius : number;
 	radiusUnit : string; // "m" / "f"
@@ -62,75 +63,46 @@ export class AreaSpecificationForm {
 	expirationTimeSelected : boolean;
 	expirationTime : number;
 	expirationTimeUnit : string; // "m" / "h"
-	mobileSettingsId : number;
-	
-	categoryFilterInput : string;
+	mobileSettingsId = 0;
+
+	categoryFilterInput = "";
 	constructor(private countryService: CountryService, private categoryService: CategoryService, private activityTypeService: ActivityTypeService, private selectedCategoryList: SelectedCategoryList, private mobileSettingsService: MobileSettingsService,
-	private trafficTypesService: TrafficTypesService) {
-		this.selectedCountryId = 0;  // United State
-		this.countryList = [];
-		this.selectedCategories = [];
-		this.mobileSettings = new MobileSettings();
-		
-		this.mobileSettingsId = 0;
-		
-		this.proposalId = "67";
-		this.projectId = "78";
-		this.activityDescription = "";
-
-		this.radius = 0;
-		this.radiusUnit = "f";
-		
-		this.loiterTimeSelected = false;
-		this.loiterTime = 0;
-		this.loiterTimeUnit = "m";
-		
-		this.minSpeedSelected = false;
-		this.minSpeed = 0;
-		this.minSpeedUnit = "m";
-
-		this.maxSpeedSelected = false;
-		this.maxSpeed = 0;
-		this.maxSpeedUnit = "m";
-
-		this.currentlyAtLocation = false;
-
-		this.expirationTimeSelected = false;
-		this.expirationTime = 0;
-		this.expirationTimeUnit = "m";
-		
-		this.categoryFilterInput = "";
-    }
+	private trafficTypesService: TrafficTypesService) {}
 
     ngOnInit(){
         this.formControlGroup = new ControlGroup({
 
         });
 
+		//Get the countries LOV
 		this.countryService.getCountries()
 			.subscribe(
 				countryList => this.countryList = countryList,
-				error => alert("Country list error: " + error)
+				error => alert("" + error)
 				);
-				
+
+		//Get all the categories
 		this.categoryService.getCategories()
 			.subscribe(
 				categoryList => this.categories = categoryList,
 				error => alert("Category list error: " + error)
 				);
 
-		this.trafficTypesService.getTrafficTypes()
-			.subscribe(
-				trafficTypesOptions => this.trafficTypesOptions = trafficTypesOptions,
-				error => alert("Traffic Types options error: " + error)
-			);
-
+		//Get the list of activity types
 		this.activityTypeService.getActivityTypes()
 			.subscribe(
 				activityTypes => this.activityTypes = activityTypes,
 				error => alert("Traffic Types options error: " + error)
 			);
 
+		//Get the list of traffic types
+		this.trafficTypesService.getTrafficTypes()
+			.subscribe(
+				trafficTypesOptions => this.trafficTypesOptions = trafficTypesOptions,
+				error => alert("Traffic Types options error: " + error)
+			);
+
+		//Get all the mobile setting information
 		this.mobileSettingsService.getMobileSettings()
 			.subscribe(
 				mobileSettings => this.handleMobileSettings(mobileSettings),
@@ -138,28 +110,26 @@ export class AreaSpecificationForm {
 			);
     }
 
+	/**
+	 * Function used to save the mobile settings in variables
+	 * after calling the mobile settings webservice.
+	 * @param mobileSettings
+     */
     private handleMobileSettings(mobileSettings: MobileSettings){
 		this.selectedTrafficType = mobileSettings[0].traffic_type_id;
 		for(var i = 0; i < mobileSettings[0].projectActivityTypes.length; i++){
 			this.selectedActivityTypes[i] = mobileSettings[0].projectActivityTypes[i].activityTypeId;
-	}
+		}
 
 		this.activityDescription = mobileSettings[0].activity_description;
     }
 
-private updateSelectedActivityType(selectedOption){
-		if(selectedOption.currentTarget.checked)
-			this.selectedActivityTypes.push(parseInt(selectedOption.currentTarget.value));
-		else{
-			var index = this.selectedActivityTypes.indexOf(parseInt(selectedOption.currentTarget.value));
-			if (index > -1) {
-				this.selectedActivityTypes.splice(index, 1);
-			}
-		}
-    }
-
+	/**
+	 * Function used to save the mobile settings data
+	 * @param areaSpecification
+     */
     onSubmit(areaSpecification){
-		this.fillMobileSettingsComputedProperties();
+		this.constructMobileSettingsObject();
 
 		this.mobileSettingsService.createNewMobileSettings(this.mobileSettings)
 			.subscribe(
@@ -171,7 +141,11 @@ private updateSelectedActivityType(selectedOption){
 				);
     }
 
-	private fillMobileSettingsComputedProperties() {
+	/**
+	 * Function used to construct the mobile settings object
+	 * based on the values in the UI
+	 */
+	private constructMobileSettingsObject() {
 		/*if(this.mobileSettingsId != 0) {
 			this.mobileSettings.id = this.mobileSettingsId;
 		}
@@ -242,14 +216,14 @@ private updateSelectedActivityType(selectedOption){
 		this.mobileSettings.activityDescription = this.activityDescription;
 	}
 
- /**
+ 	/**
      * Function used to handle the category checkbox selection event.
      */
     onCategorySelect(category, e){
         //Check if the selection lead to selecting an item or deselecting it in order to add it to or remove it from the list of selectedCategories 
         if (e.target.checked){
 			this.selectedCategories.push(category);
-            console.log(this.selectedActivityTypes);
+			console.log(Constants.ERRORCODE);
         }
         else{
             var index = this.selectedCategories.indexOf(category);
@@ -262,6 +236,10 @@ private updateSelectedActivityType(selectedOption){
             this.modifyDisplay("quotasPerCategory");
     }
 
+	/**
+	 * Function used to handle the deselection of the category checkbox
+	 * @param category
+     */
     onCategoryRemoved(category){
         document.getElementById(category.name).checked = false;
         this.modifyDisplay("youSelectedLabel");
@@ -296,6 +274,11 @@ private updateSelectedActivityType(selectedOption){
         elementId.style.display = "";
     }
 
+	/**
+	 * Function used to display the list of days and time when
+	 * 'Only on these days/times' is selected
+	 * @param selectedOption
+     */
 	displayDaysAndTime(selectedOption){
 		var selected = selectedOption.currentTarget.value;
 		var elementId = document.getElementById("onlyDayAndTime");
@@ -307,8 +290,28 @@ private updateSelectedActivityType(selectedOption){
 			elementId.style.display = "none";
 	}
 
+	/**
+	 * Function used to update the traffic types object
+	 * when traffic type is modified
+	 * @param selectedOption
+     */
 	updateSelectedTrafficType(selectedOption){
 		this.selectedTrafficType = selectedOption.currentTarget.value;
 	}
 
+	/**
+	 * Function used to update the activity types object
+	 * when the the activity types checkboxes are modified
+	 * @param selectedOption
+     */
+	private updateSelectedActivityType(selectedOption){
+		if(selectedOption.currentTarget.checked)
+			this.selectedActivityTypes.push(parseInt(selectedOption.currentTarget.value));
+		else{
+			var index = this.selectedActivityTypes.indexOf(parseInt(selectedOption.currentTarget.value));
+			if (index > -1) {
+				this.selectedActivityTypes.splice(index, 1);
+			}
+		}
+	}
 }

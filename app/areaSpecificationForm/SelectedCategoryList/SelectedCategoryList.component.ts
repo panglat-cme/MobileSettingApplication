@@ -11,6 +11,11 @@ export class SelectedCategoryList {
 	@Input('categoryList') categoryList;
     @Output() remove = new EventEmitter();
 
+    /**
+     * Function used to remove a category from the categories
+     * object and delete it
+     * @param category
+     */
     onCategoryDeleted(category){
         this.remove.emit(category);
         this.deleteCategoryList(category);

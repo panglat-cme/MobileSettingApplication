@@ -7,12 +7,21 @@ import {MobileSettings} from "../models/mobile.settings";
 export class MobileSettingsService {
 	constructor(private _http: Http) { }
 
+	/**
+	 * Function used to get all the mobile settings info
+	 * @returns {Observable<R>}
+     */
     getMobileSettings() {
         return this._http.get('http://172.17.1.45:8899/MobileSettings/MobileSetting?id=8')
             .map((response: Response) => <MobileSettings>response.json().data)
             .catch(this.handleError);
     }
 
+	/**
+	 * Function used to build the url to the webservice
+	 * @param mobileSettings
+	 * @returns {string}
+     */
 	private mobileSettingsToUrlParams(mobileSettings : MobileSettings)
 	{
 		let searchParams = new URLSearchParams();
@@ -30,7 +39,12 @@ export class MobileSettingsService {
 
 		return searchParams.toString();
 	}
-	
+
+	/**
+	 * Function used to save the mobile settings
+	 * @param mobileSettings
+	 * @returns {Observable<R>}
+     */
 	createNewMobileSettings(mobileSettings : MobileSettings) {
 		let body = this.mobileSettingsToUrlParams(mobileSettings);
 		let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
@@ -38,22 +52,27 @@ export class MobileSettingsService {
 
 		if (mobileSettings.id != "undefined"){
 			return this._http.put('http://172.17.1.45:8899/MobileSettings/MobileSetting', body, options)
-		.map((response: Response) => {
-					let id = response.json().data.id;
-					return id;
-		})
-		.catch((response: Response) => this.handleError(response));
-	}
+			.map((response: Response) => {
+						let id = response.json().data.id;
+						return id;
+			})
+			.catch((response: Response) => this.handleError(response));
+		}
 		else{
-		return this._http.post('http://172.17.1.45:8899/MobileSettings/MobileSetting', body, options)
-		.map((response: Response) => {
-			let id = response.json().data.id;
-			return id;
-		})
-		.catch((response: Response) => this.handleError(response));
-	}
+			return this._http.post('http://172.17.1.45:8899/MobileSettings/MobileSetting', body, options)
+			.map((response: Response) => {
+				let id = response.json().data.id;
+				return id;
+			})
+			.catch((response: Response) => this.handleError(response));
+		}
 	}
 
+	/**
+	 * Function used to throw errors
+	 * @param error
+	 * @returns {ErrorObservable}
+     */
 	private handleError(error: Response) {
 		let e = error.json();
 		if(e.hasOwnProperty("data") && e.data instanceof Array && e.data.length > 0 && e.data[0].hasOwnProperty("message")) {

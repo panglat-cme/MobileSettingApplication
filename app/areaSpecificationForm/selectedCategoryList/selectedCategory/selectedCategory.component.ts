@@ -10,7 +10,12 @@ export class SelectedCategory {
 
     @Input('category') category;
     @Output('deleted') delete = new EventEmitter();
-	
+
+    /**
+     * Function used to handle the click of the delete button of the
+     * category under the categories grid
+     * @param e
+     */
     onDelete(e){
         this.delete.emit(this.category);
 }}
