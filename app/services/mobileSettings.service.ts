@@ -1,20 +1,21 @@
 import { Injectable } from 'angular2/core';
+import { DiyServerService } from '../services/diyServer.service'
 import {Http, Response, Headers, RequestOptions, URLSearchParams} from 'angular2/http';
 import { Observable } from 'rxjs/Rx';
 import {MobileSettings} from "../models/mobile.settings";
 
 @Injectable()
 export class MobileSettingsService {
-	constructor(private _http: Http) { }
+	constructor(private _http: Http, private diyServerService : DiyServerService) { }
 
 	/**
 	 * Function used to get all the mobile settings info
 	 * @returns {Observable<R>}
      */
     getMobileSettings() {
-        return this._http.get('http://172.17.1.45:8899/MobileSettings/MobileSetting?id=8')
+        return this._http.get(this.diyServerService.getBaseServerUrl() + 'MobileSetting?id=8')
             .map((response: Response) => <MobileSettings>response.json().data)
-            .catch(this.handleError);
+			.catch(this.diyServerService.handleResponseError);
     }
 
 	/**
@@ -51,38 +52,20 @@ export class MobileSettingsService {
 		let options = new RequestOptions({ headers: headers });
 
 		if (mobileSettings.id != "undefined"){
-			return this._http.put('http://172.17.1.45:8899/MobileSettings/MobileSetting', body, options)
+			return this._http.put(this.diyServerService.getBaseServerUrl() + 'MobileSetting', body, options)
 			.map((response: Response) => {
 						let id = response.json().data.id;
 						return id;
 			})
-			.catch((response: Response) => this.handleError(response));
+			.catch(this.diyServerService.handleResponseError);
 		}
 		else{
-			return this._http.post('http://172.17.1.45:8899/MobileSettings/MobileSetting', body, options)
+			return this._http.post(this.diyServerService.getBaseServerUrl() + 'MobileSetting', body, options)
 			.map((response: Response) => {
 				let id = response.json().data.id;
 				return id;
 			})
-			.catch((response: Response) => this.handleError(response));
-		}
-	}
-
-	/**
-	 * Function used to throw errors
-	 * @param error
-	 * @returns {ErrorObservable}
-     */
-	private handleError(error: Response) {
-		let e = error.json();
-		if(e.hasOwnProperty("data") && e.data instanceof Array && e.data.length > 0 && e.data[0].hasOwnProperty("message")) {
-			let msg = e.data[0].message;
-			if (e.data[0].hasOwnProperty("code")) {
-				msg = "(" + e.data[0].code + ") " + msg;
-			}
-			return Observable.throw(msg);
-		} else {
-			return Observable.throw('Server error');
+		.catch(this.diyServerService.handleResponseError);
 		}
 	}
 }
