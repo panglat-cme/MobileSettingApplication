@@ -33,6 +33,8 @@ export class AreaSpecificationForm {
 
 	activityTypes: ActivityType[];
     selectedActivityTypes = [];
+	
+	selectedCountryId = 0; // United State
 
     formControlGroup;
    
@@ -43,26 +45,26 @@ export class AreaSpecificationForm {
     projectId = 78;
 	activityDescription = "";
 	
-	radius : number;
-	radiusUnit : string; // "m" / "f"
+	radius = 0;
+	radiusUnit = "f"; // "m" / "f"
 
-	loiterTimeSelected : boolean;
-	loiterTime : number;
-	loiterTimeUnit : string; // "m" / "h"
+	loiterTimeSelected = false;
+	loiterTime = 0;
+	loiterTimeUnit = "m"; // "m" / "h"
 	
-	minSpeedSelected : boolean;
-	minSpeed : number;
-	minSpeedUnit : string; // "k" / "m"
+	minSpeedSelected = false;
+	minSpeed = 0;
+	minSpeedUnit = "m"; // "k" / "m"
 
-	maxSpeedSelected : boolean;
-	maxSpeed : number;
-	maxSpeedUnit : string; // "k" / "m"
+	maxSpeedSelected = false;
+	maxSpeed = 0;
+	maxSpeedUnit = "m";  // "k" / "m"
 
-	currentlyAtLocation : boolean;
+	currentlyAtLocation : false;
 
-	expirationTimeSelected : boolean;
-	expirationTime : number;
-	expirationTimeUnit : string; // "m" / "h"
+	expirationTimeSelected : false;
+	expirationTime = 0;
+	expirationTimeUnit "m"; // "m" / "h"
 	mobileSettingsId = 0;
 
 	categoryFilterInput = "";
