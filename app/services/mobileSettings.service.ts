@@ -5,17 +5,17 @@ import { Observable } from 'rxjs/Rx';
 import {MobileSettings} from "../models/mobile.settings";
 
 @Injectable()
-export class MobileSettingsService {
-	constructor(private _http: Http, private diyServerService : DiyServerService) { }
+export class MobileSettingsService extends DiyServerService {
+	constructor(private _http: Http) { }
 
 	/**
 	 * Function used to get all the mobile settings info
 	 * @returns {Observable<R>}
      */
     getMobileSettings() {
-        return this._http.get(this.diyServerService.getBaseServerUrl() + 'MobileSetting?id=8')
+        return this._http.get(this.getBaseServerUrl() + 'MobileSetting?id=8')
             .map((response: Response) => <MobileSettings>response.json().data)
-			.catch(this.diyServerService.handleResponseError);
+			.catch(this.handleResponseError);
     }
 
 	/**
@@ -52,20 +52,20 @@ export class MobileSettingsService {
 		let options = new RequestOptions({ headers: headers });
 
 		if (mobileSettings.id != "undefined"){
-			return this._http.put(this.diyServerService.getBaseServerUrl() + 'MobileSetting', body, options)
+			return this._http.put(this.getBaseServerUrl() + 'MobileSetting', body, options)
 			.map((response: Response) => {
 						let id = response.json().data.id;
 						return id;
 			})
-			.catch(this.diyServerService.handleResponseError);
+			.catch(this.handleResponseError);
 		}
 		else{
-			return this._http.post(this.diyServerService.getBaseServerUrl() + 'MobileSetting', body, options)
+			return this._http.post(this.getBaseServerUrl() + 'MobileSetting', body, options)
 			.map((response: Response) => {
 				let id = response.json().data.id;
 				return id;
 			})
-		.catch(this.diyServerService.handleResponseError);
+		.catch(this.handleResponseError);
 		}
 	}
 }

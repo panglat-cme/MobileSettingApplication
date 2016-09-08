@@ -5,8 +5,8 @@ import { Observable } from 'rxjs/Rx';
 import {Category} from "../models/category";
 
 @Injectable()
-export class CategoryService {
-	constructor(private _http: Http, private diyServerService : DiyServerService) { }
+export class CategoryService extends DiyServerService {
+	constructor(private _http: Http) { }
 
 	/**
 	 * Function used to call the webservice that gets all the
@@ -14,9 +14,9 @@ export class CategoryService {
 	 * @returns {Observable<R>}
      */
 	getCategories() {
-		return this._http.get(this.diyServerService.getBaseServerUrl() + 'Categories')
+		return this._http.get(this.getBaseServerUrl() + 'Categories')
 		.map((response: Response) => <Category[]>response.json().data)
 		//.do(data => console.log(data))
-		.catch(this.diyServerService.handleResponseError);
+		.catch(this.handleResponseError);
 	}
 }

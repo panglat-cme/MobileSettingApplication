@@ -5,13 +5,13 @@ import { Observable } from 'rxjs/Rx';
 import { QuotaType } from "../models/quotaType";
 
 @Injectable()
-export class QuotaTypeService {
-	constructor(private _http: Http, private diyServerService : DiyServerService) { }
+export class QuotaTypeService extends DiyServerService {
+	constructor(private _http: Http) { }
 
     getQuotasTypes() {
-        return this._http.get(this.diyServerService.getBaseServerUrl() + 'LookupItems?lookupName=Quota_Type')
+        return this._http.get(this.getBaseServerUrl() + 'LookupItems?lookupName=Quota_Type')
             .map((response: Response) => <QuotaType>response.json().data)
-			.catch(this.diyServerService.handleResponseError);
+			.catch(this.handleResponseError);
     }
 }
 

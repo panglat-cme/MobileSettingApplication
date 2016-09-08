@@ -5,17 +5,17 @@ import { Observable } from 'rxjs/Rx';
 import {Country} from "../models/country";
 
 @Injectable()
-export class CountryService {
-	constructor(private _http: Http, private diyServerService : DiyServerService) { }
+export class CountryService extends DiyServerService {
+	constructor(private _http: Http) { }
 
 	/**
 	 * Function used to call the webservice that fetches all the countries
 	 * @returns {Observable<R>}
      */
 	getCountries() {
-		return this._http.get(this.diyServerService.getBaseServerUrl() + 'Countries')
+		return this._http.get(this.getBaseServerUrl() + 'Countries')
 		.map((response: Response) => <Country[]>response.json().data)
 		//.do(data => console.log(data))
-		.catch(this.diyServerService.handleResponseError);
+		.catch(this.handleResponseError);
 	}
 }

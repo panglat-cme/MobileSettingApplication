@@ -5,8 +5,8 @@ import { Observable } from 'rxjs/Rx';
 import {ActivityType} from "../models/activityType";
 
 @Injectable()
-export class ActivityTypeService {
-	constructor(private _http: Http, private diyServerService : DiyServerService) { }
+export class ActivityTypeService extends DiyServerService {
+	constructor(private _http: Http) { }
 
     /**
      * Function used to call the webservice to
@@ -14,9 +14,9 @@ export class ActivityTypeService {
      * @returns {Observable<R>}
      */
     getActivityTypes() {
-        return this._http.get(this.diyServerService.getBaseServerUrl() + 'LookupItems?lookupName=Activity_Type')
+        return this._http.get(this.getBaseServerUrl() + 'LookupItems?lookupName=Activity_Type')
             .map((response: Response) => <ActivityType>response.json().data)
-			.catch(this.diyServerService.handleResponseError);
+			.catch(this.handleResponseError);
     }
 }
 
