@@ -8,7 +8,7 @@ export class CategoryService {
 	constructor(private _http: Http) { }
 
 	getCategories() {
-		return this._http.get('http://intranet.cmeoffshore.com:8899/MobileSettings/Categories')
+		return this._http.get('http://172.17.1.45:8899/MobileSettings/Categories')
 		.map((response: Response) => <Category[]>response.json().data)
 		//.do(data => console.log(data))
 		.catch(this.handleError);

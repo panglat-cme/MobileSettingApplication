@@ -9,13 +9,13 @@ export class ActivityTypeService {
     constructor(private _http: Http) { }
 
     getActivityTypes() {
-        return this._http.get('http://intranet.cmeoffshore.com:8899/MobileSettings/LookupItems?lookupName=Activity_Type')
+        return this._http.get('http://172.17.1.45:8899/MobileSettings/LookupItems?lookupName=Activity_Type')
             .map((response: Response) => <ActivityType>response.json().data)
             .catch(this.handleError);
     }
 
     getSelectedActivityTypes() {
-        return this._http.get('http://intranet.cmeoffshore.com:8899/MobileSettings/MobileSetting?id=41')
+        return this._http.get('http://172.17.1.45:8899/MobileSettings/MobileSetting?id=41')
             .map((response: Response) => <SelectedActivityTypes>response.json().data)
             .catch(this.handleError);
     }

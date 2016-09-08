@@ -13,7 +13,6 @@ import {ActivityTypeService} from '../services/activityType.service';
 import {TrafficTypesService} from '../services/trafficTypes.service';
 import {Observable} from "rxjs/Rx";
 import {ActivityType} from "../models/activityType";
-import {SelectedActivityTypes} from "../models/selectedActivityTypes";
 import {TrafficTypes} from "../models/trafficTypes";
 import {CategoryFilterPipe} from "../pipes/categoryFilter.pipe";
 
@@ -21,7 +20,7 @@ import {CategoryFilterPipe} from "../pipes/categoryFilter.pipe";
     selector: 'areaSpecificationForm',
     templateUrl: 'app/areaSpecificationForm/areaSpecificationForm.component.html',
     styleUrls: ['app/areaSpecificationForm/areaSpecificationForm.component.css'],
-    providers: [CountryService, CategoryService, SelectedCategoryList, MobileSettingsService,ActivityTypeService],
+    providers: [CountryService, CategoryService, SelectedCategoryList, MobileSettingsService,ActivityTypeService,TrafficTypesService],
     directives: [SelectedCategory,SelectedCategoryList],
 	pipes: [CategoryFilterPipe]
 })
@@ -144,6 +143,8 @@ export class AreaSpecificationForm {
 		for(var i = 0; i < mobileSettings[0].projectActivityTypes.length; i++){
 			this.selectedActivityTypes[i] = mobileSettings[0].projectActivityTypes[i].activityTypeId;
 	}
+
+		this.activityDescription = mobileSettings[0].activity_description;
     }
 
 private updateSelectedActivityType(selectedOption){
@@ -238,6 +239,7 @@ private updateSelectedActivityType(selectedOption){
 		}		
 		this.mobileSettings.activityTypes = this.mobileSettings.activityTypes.substring(0, this.mobileSettings.activityTypes.length - 1);
 	
+		this.mobileSettings.activityDescription = this.activityDescription;
 	}
 
  /**
