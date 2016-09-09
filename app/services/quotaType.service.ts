@@ -8,6 +8,11 @@ import { QuotaType } from "../models/quotaType";
 export class QuotaTypeService extends DiyServerService {
 	constructor(private _http: Http) { }
 
+    /**
+     * Function used to call the webservice that gets the
+     * quotas
+     * @returns {Observable<R>}
+     */
     getQuotasTypes() {
         return this._http.get(this.getBaseServerUrl() + 'LookupItems?lookupName=Quota_Type')
             .map((response: Response) => <QuotaType>response.json().data)

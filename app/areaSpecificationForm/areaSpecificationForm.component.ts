@@ -13,7 +13,7 @@ import {TrafficTypesService} from '../services/trafficTypes.service';
 import {QuotaTypeService} from '../services/quotaType.service';
 import {ActivityType} from "../models/activityType";
 import {TrafficTypes} from "../models/trafficTypes";
-import {QuotaTypes} from "../models/quotaTypes";
+import {QuotaType} from "../models/quotaType";
 import {CategoryFilterPipe} from "../pipes/categoryFilter.pipe";
 import {Constants} from 'app/constants';
 
@@ -36,40 +36,43 @@ export class AreaSpecificationForm {
 	activityTypes: ActivityType[];
     selectedActivityTypes = [];
 	
-	quotaTypes: QuotaTypes[];
-	
-	selectedCountryId = 0; // United State
+	quotaTypes: QuotaType[];
 
     formControlGroup;
    
 	selectedCategories = new Array<Category>();
 	mobileSettings = new MobileSettings();
+
+	mobileSettingsId = 0;
 	
-    proposalId = 67;
-    projectId = 78;
-	activityDescription = "";
+    proposalId = 2221;
+    projectId = 21234;
+	activityDescription = "Test";
 	
-	radius = 0;
+	radius = 441;
 	radiusUnit = "f"; // "m" / "f"
 
 	loiterTimeSelected = false;
-	loiterTime = 0;
+	loiterTime = 11;
 	loiterTimeUnit = "m"; // "m" / "h"
 	
 	minSpeedSelected = false;
-	minSpeed = 0;
+	minSpeed = 21;
 	minSpeedUnit = "m"; // "k" / "m"
 
 	maxSpeedSelected = false;
-	maxSpeed = 0;
+	maxSpeed = 110;
 	maxSpeedUnit = "m";  // "k" / "m"
 
-	currentlyAtLocation : false;
+	currentlyAtLocation = -1;
 
-	expirationTimeSelected : false;
-	expirationTime = 0;
-	expirationTimeUnit "m"; // "m" / "h"
-	mobileSettingsId = 0;
+	expirationTimeSelected = false;
+	expirationTime = 14;
+	expirationTimeUnit: "m"; // "m" / "h"
+
+	countryId = 1; // United State
+
+	quotaTypeId = 10;
 
 	categoryFilterInput = "";
 	constructor(private countryService: CountryService, private categoryService: CategoryService, private activityTypeService: ActivityTypeService, private selectedCategoryList: SelectedCategoryList, private mobileSettingsService: MobileSettingsService,
@@ -218,15 +221,34 @@ export class AreaSpecificationForm {
 		} else {
 			this.mobileSettings.expirationTime = 0;
 		}*/
-		this.mobileSettings.id = 8;
+		this.mobileSettings.id = 11;
+		this.mobileSettings.projectId = this.projectId;
+		this.mobileSettings.proposalId = this.proposalId;
+
+		this.mobileSettings.activityDescription = this.activityDescription;
+
+		this.mobileSettings.radius = this.radius;
+
+		this.mobileSettings.loiterTime = this.loiterTime;
+
+		this.mobileSettings.minSpeed = this.minSpeed;
+		this.mobileSettings.maxSpeed = this.maxSpeed;
+
+		this.mobileSettings.expirationTime = this.expirationTime;
+
+		this.mobileSettings.currentlyAtLocation = this.currentlyAtLocation;
+
+		this.mobileSettings.countryId = this.countryId;
+
         this.mobileSettings.traffic_type_id = this.selectedTrafficType;
+		
 		this.mobileSettings.activityTypes = "";
 		for (var i = 0; i < this.selectedActivityTypes.length; i++){
 			this.mobileSettings.activityTypes += this.selectedActivityTypes[i] + ",";
 		}		
 		this.mobileSettings.activityTypes = this.mobileSettings.activityTypes.substring(0, this.mobileSettings.activityTypes.length - 1);
-	
-		this.mobileSettings.activityDescription = this.activityDescription;
+
+		this.mobileSettings.quotaTypeId = this.quotaTypeId;
 	}
 
  	/**
@@ -236,7 +258,6 @@ export class AreaSpecificationForm {
         //Check if the selection lead to selecting an item or deselecting it in order to add it to or remove it from the list of selectedCategories 
         if (e.target.checked){
 			this.selectedCategories.push(category);
-			console.log(Constants.ERRORCODE);
         }
         else{
             var index = this.selectedCategories.indexOf(category);

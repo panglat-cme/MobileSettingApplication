@@ -1,5 +1,3 @@
-<h1 class="titleStyle">Mobile Location Settings</h1>
-<hr>
 <div class="mainInformation">
     <h1 class="proposalIdStyle">Proposal Id: {{proposalId}}</h1>
     <h1 class="projectIdStyle">Project Id: {{projectId}}</h1>
@@ -8,16 +6,18 @@
     <hr>
     <table>
         <colgroup>
-            <col style="width:200px">
-            <col style="width:733px">
+            <col id="firstTd">
+            <col class="secondTd">
         </colgroup>
+
         <tr>
             <td class="criteriaLabel">Activity</td>
             <td>Description of activity</td>
         </tr>
+
         <tr>
             <td></td>
-            <td><textarea cols="50" rows="4" [(ngModel)]="activityDescription"></textarea></td>
+            <td><textarea class="form-control" cols="50" rows="4" [(ngModel)]="activityDescription"></textarea></td>
         </tr>
         <tr>
             <td class="criteriaLabel">Activity Type</td>
@@ -31,10 +31,10 @@
         <tr>
             <td colspan="3"><hr></td>
         </tr>
-
+        <tr>
             <td class="criteriaLabel">Traffic Type *</td>
             <td>
-            <div *ngFor="#trafficTypeOption of trafficTypesOptions" style="margin-bottom: 30px">
+            <div *ngFor="#trafficTypeOption of trafficTypesOptions" id="trafficTypesSpacing">
                 <input [value]="trafficTypeOption.id" [checked]="trafficTypeOption.id == selectedTrafficType"  (change)="updateSelectedTrafficType($event)" name="trafficType" type="radio">{{ trafficTypeOption.name }}
             </div>
             </td>
@@ -43,12 +43,13 @@
             Captures the user only when they cross the geofence. Survey alerts can be triggered once the user crosses the geofence or can be used as passive location data collection
             </p>
             </td>
+        </tr>
         <tr>
             <td colspan="3"><hr></td>
         </tr>
         <tr>
             <td class="criteriaLabel">Geofence</td>
-            <td style ="vertical-align: top">
+            <td class="criteriaLabel">
                Radius *
             </td>
             <td rowspan="2">Captures the user only when they cross the geofence. Survey alerts can be triggered once the user crosses the geofence or can be used as passive location data collection
@@ -56,32 +57,35 @@
         </tr>
         <tr>
             <td></td>
-            <td><input type="text" [(ngModel)]="radius">
-            <select [(ngModel)]="radiusUnit">
+            <td>
+                <div>
+                    <input class="form-control tighterInput" type="text" [(ngModel)]="radius">
+                    <select class="form-control smallSelect" [(ngModel)]="radiusUnit">
                 <option value="f" >feet</option>
                 <option value="m" >meters</option>
             </select>
+                </div>
             </td>
         </tr>
         <tr>
             <td></td>
-            <td style ="vertical-align: top">
+            <td class="criteriaLabel">
                 Trigger Schedule
             </td>
-            <td>Trigger Schedule Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac mi</td>
+            <td rowspan="2">Trigger Schedule Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac mi</td>
         </tr>
         <tr>
             <td></td>
-            <td><select (change)="displayDaysAndTime($event)">
+            <td><select class="form-control" (change)="displayDaysAndTime($event)">
                     <option>Any day/time</option>
                     <option>Only on these days/times</option>
                 </select>
             </td>
         </tr>
-        <tr id="onlyDayAndTime" style="display: none">
+        <tr id="onlyDayAndTime" class="hideElement">
             <td></td>
             <td>
-                <div style="float:left">
+                <div id="floatStyling">
                 <input type="checkbox">Monday<br>
                 <input type="checkbox">Tuesday<br>
                 <input type="checkbox">Wednesday<br>
@@ -90,18 +94,20 @@
                 <input type="checkbox">Saturday<br>
                 <input type="checkbox">Sunday
                 </div>
-                <div style="position:relative;left:200px;top:30px">
+                <div id="dayAndTimePosition">
                 <table>
                 <tr>
                     <td>
                         From:
                     </td>
                     <td>
-                        <input style="width:40px" type="text">
-                        <select>
+                        <div>
+                            <input class="inputWidth" type="text">
+                            <select class="smallSelect">
                             <option>AM</option>
                             <option>PM</option>
                         </select>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -109,11 +115,13 @@
                         To:
                     </td>
                     <td>
-                        <input style="width:40px" type="text">
-                        <select>
+                        <div>
+                        <input class="inputWidth" type="text">
+                            <select class="smallSelect">
                             <option>AM</option>
                             <option>PM</option>
                         </select>
+                         </div>
                     </td>
                 </tr>
                     </table>
@@ -130,25 +138,27 @@
         </tr>
         <tr>
             <td></td>
-            <input type="text" size="100" placeholder="Type to narrow your choices" [(ngModel)]="categoryFilterInput">
+            <td><input class="form-control" type="text" size="100" placeholder="Type to narrow your choices" [(ngModel)]="categoryFilterInput"></td>
         </tr>
         <tr>
             <td>
                Data Sources<br>
-               <input type="checkbox">Foursquare<br>
+               <input type="checkbox" checked disabled> Foursquare<br>
                <input type="checkbox" disabled>LSGMI Custom
             </td>
             <td>
                 <div class="categoryTable">
-                    <table *ngFor="#category of categories | categoryFilter: categoryFilterInput ">
+                    <table class="table table-striped" *ngFor="#category of categories | categoryFilter: categoryFilterInput ">
+                        <tbody>
                         <tr><input id="{{category.name}}" (change)="onCategorySelect(category, $event)"  type="checkbox">{{category.name}}</tr>
+                        </tbody>
                     </table>
                 </div>
             </td>
         </tr>
         <tr>
             <td>
-                <h6 style="display: none" id="youSelectedLabel">YOU SELECTED</h6>
+                <h6 class="hideElement" id="youSelectedLabel">YOU SELECTED</h6>
             </td>
             <td>
                 <selectedCategoryList (remove)="onCategoryRemoved($event)" [categoryList]="selectedCategories"></selectedCategoryList>
@@ -160,7 +170,7 @@
 
         <tr>
             <td class="criteriaLabel">Refine</td>
-            <td style ="vertical-align: top">
+            <td class="criteriaLabel">
                Country *
             </td>
             <td>
@@ -169,7 +179,7 @@
         <tr>
             <td class="criteriaLabel">Location</td>
             <td>
-				<select [(ngModel)]="selectedCountryId">
+				<select class="form-control" [(ngModel)]="selectedCountryId">
                     <option *ngFor="#c of countryList" [value]="c.id" [selected]="c.id == selectedCountryId">{{c.name}}</option>
                 </select>
             </td>
@@ -179,21 +189,22 @@
         </tr>		
         <tr>
             <td></td>
-            <td style ="vertical-align: top">
+            <td class="criteriaLabel">
                 Refine by keywords
             </td>
             <td></td>
         </tr>
         <tr>
             <td></td>
-            <td><select>
+            <td>
+                <select class="form-control">
                     <option>All Categories</option>
                 </select>
             </td>
         </tr>
         <tr>
             <td></td>
-            <td><textarea cols="50" rows="4"></textarea></td>
+            <td><textarea class="form-control checkboxOption" cols="50" rows="4"></textarea></td>
 			<td>Exact name of the retailer(s), location(s), or store(s) should be inputted here if only specific ones are required.  If no keywords are defined here, all locations under the category identified will be geofenced and captured</td>
         </tr>
         <tr>
@@ -205,7 +216,7 @@
         </tr>		
         <tr>
             <td></td>
-            <td style ="vertical-align: top">
+            <td class="criteriaLabel">
                 Refine by Zip Codes
             </td>
             <td></td>
@@ -228,7 +239,7 @@
 		</tr>
         <tr>
             <td></td>
-            <td><textarea cols="50" rows="4"></textarea></td>
+            <td><textarea class="form-control" cols="50" rows="4"></textarea></td>
 			<td>Targets specific areas within categories identified.  Any location outside of the identified zip code will not be captured. </td>
         </tr>
         <tr>
@@ -249,7 +260,7 @@
                 <p>Restricts the number of completes allowed per location.  Once the number of completes are met, the location will no longer be displayed on users survey list</p>
 						</td>
 					</tr>
-        <tr id="quotasPerCategory" style="display: none">
+        <tr id="quotasPerCategory" class="hideElement">
             <td></td>
             <td>
                 <table>
@@ -266,21 +277,26 @@
             <td colspan="3"><hr></td>
         </tr>	
 		<tr>
-            <td class="criteriaLabel" style ="vertical-align: top">Preferences</td>
-            <td style ="vertical-align: top">
+            <td class="criteriaLabel" class="criteriaLabel">Preferences</td>
+            <td class="criteriaLabel">
 				<table>
+                    <colgroup>
+                        <col class="secondTd">
+                    </colgroup>
 					<tr>
-						<td style ="vertical-align: top">
+						<td class="criteriaLabel">
 							<input type="checkbox" [(ngModel)]="loiterTimeSelected">Loiter-Time
 						</td>
 					</tr>
 					<tr>
-						<td style ="vertical-align: top">
-							<input type="text" [(ngModel)]="loiterTime" [disabled]="!loiterTimeSelected">
-							<select [(ngModel)]="loiterTimeUnit" [disabled]="!loiterTimeSelected">
+						<td class="criteriaLabel">
+                            <div>
+                                <input type="text" class="tighterInput form-control" [(ngModel)]="loiterTime" [disabled]="!loiterTimeSelected">
+                                <select class="smallSelect form-control" [(ngModel)]="loiterTimeUnit" [disabled]="!loiterTimeSelected">
 								<option value="m">minutes</option>
 								<option value="h">hours</option>
 							</select>
+                             </div>
 						</td>
 					</tr>
 				</table>
@@ -294,8 +310,11 @@
         </tr>		
 		<tr>
             <td></td>
-            <td style ="vertical-align: top">
+            <td class="criteriaLabel">
 				<table>
+                    <colgroup>
+                        <col class="secondTd">
+                    </colgroup>
 					<tr>
 						<td>
 							<input type="checkbox" [(ngModel)]="minSpeedSelected">Min Speed<br>
@@ -303,25 +322,29 @@
 					</tr>
 					<tr>
 						<td>
-							<input type="text" [(ngModel)]="minSpeed" [disabled]="!minSpeedSelected">
-							<select [(ngModel)]="minSpeedUnit" [disabled]="!minSpeedSelected">
+                            <div>
+                                <input type="text" class="tighterInput form-control" [(ngModel)]="minSpeed" [disabled]="!minSpeedSelected">
+                                <select class="smallSelect form-control" [(ngModel)]="minSpeedUnit" [disabled]="!minSpeedSelected">
 								<option value="m">mph</option>
 								<option value="k">kmh</option>
 							</select>
+                             </div>
 						</td>
 					</tr>
 					<tr>
-						<td style ="vertical-align: top">
+						<td class="criteriaLabel">
 							<input type="checkbox" [(ngModel)]="maxSpeedSelected">Max Speed<br>
 						</td>
 					</tr>
 					<tr>
-						<td style ="vertical-align: top">
-							<input type="text" [(ngModel)]="maxSpeed" [disabled]="!maxSpeedSelected">
-							<select [(ngModel)]="maxSpeedUnit" [disabled]="!maxSpeedSelected">
+						<td class="criteriaLabel">
+                            <div>
+                                <input type="text" class="tighterInput form-control" [(ngModel)]="maxSpeed" [disabled]="!maxSpeedSelected">
+                                <select class="smallSelect form-control" [(ngModel)]="maxSpeedUnit" [disabled]="!maxSpeedSelected">
 								<option value="m">mph</option>
 								<option value="k">kmh</option>
 							</select>
+                            </div>
 						</td>
 					</tr>
 				</table>
@@ -335,8 +358,15 @@
         </tr>		
 		<tr>
             <td></td>
-            <td style ="vertical-align: top">
+            <td class="criteriaLabel">
+                <table>
+                    <colgroup>
+                        <col class="secondTd">
+                    </colgroup>
+                    <td>
 				<input type="checkbox" [(ngModel)]="currentlyAtLocation">User must be inside geofence (geo validation)
+            </td>
+                </table>
             </td>
 			<td>Confirming the user is currently at the location geofenced to access the survey</td>
         </tr>	
@@ -347,20 +377,25 @@
         </tr>		
 		<tr>
             <td></td>
-            <td style ="vertical-align: top">
+            <td class="criteriaLabel">
 				<table>
+                    <colgroup>
+                        <col class="secondTd">
+                    </colgroup>
 					<tr>
-						<td style ="vertical-align: top">
+						<td class="criteriaLabel">
 							<input type="checkbox" [(ngModel)]="expirationTimeSelected">Expiration Time<br>
 						</td>
 					</tr>
 					<tr>
-						<td style ="vertical-align: top">
-							<input type="text" [(ngModel)]="expirationTime" [disabled]="!expirationTimeSelected">
-							<select [(ngModel)]="expirationTimeUnit" [disabled]="!expirationTimeSelected">
+						<td class="criteriaLabel">
+                            <div>
+                                <input type="text" class="tighterInput form-control" [(ngModel)]="expirationTime" [disabled]="!expirationTimeSelected">
+                                <select class="smallSelect form-control" [(ngModel)]="expirationTimeUnit" [disabled]="!expirationTimeSelected">
 								<option value="m">minutes</option>
 								<option value="h">hours</option>
 							</select>
+                            </div>
 						</td>
 					</tr>
 				</table>
@@ -371,9 +406,9 @@
             <td colspan="3"><hr>&nbsp;</td>
         </tr>	
   <tr>
-            <td style="text-align: center" colspan="3">
-                <button >Cancel</button>
-                <button>Save</button>
+            <td class="titleStyle" colspan="3">
+                <button class="pager" class="btn btn-secondary btn-sm">Cancel</button>
+                <button class="pager" class="btn btn-primary btn-sm">Save</button>
             </td>
         </tr>	
     </table>

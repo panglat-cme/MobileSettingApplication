@@ -3,19 +3,28 @@ textarea {
 }
 select
 {
-    border:0px;
     outline:0px;
 }
 ul{
     list-style-type:none;
+}
+body{
+    padding: 40px;
+}
+td{
+    padding-left:10px;
+}
+tr
+{
+    line-height:30px;
 }
 .criteriaLabel{
     vertical-align: top;
 }
 .categoryTable{
     height: 300px;
-    border: solid;
     overflow-y: scroll;
+    margin-top: 10px;
 }
 .checkboxOption{
     margin-top: 10px;
@@ -29,4 +38,42 @@ ul{
 .projectIdStyle{
     display: inline-block;
     margin-left: 80px;
+}
+
+#firstTd{
+    width:200px;
+}
+
+.secondTd{
+    width:733px
+}
+
+.smallSelect{
+    width:13%;
+}
+.tighterInput{
+    width:87%;
+    float:left;
+}
+
+#trafficTypesSpacing{
+    margin-bottom: 30px;
+}
+
+.hideElement{
+    display: none;
+}
+
+#dayAndTimePosition{
+    position:relative;
+    left:200px;
+    top:30px
+}
+
+.inputWidth{
+    width: 40px;
+}
+
+#floatStyling{
+    float: left;
 }
