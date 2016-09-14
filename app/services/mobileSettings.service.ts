@@ -1,8 +1,9 @@
 import { Injectable } from 'angular2/core';
-import { DiyServerService } from '../services/diyServer.service'
+import { DiyServerService } from '../services/diyServer.service';
 import {Http, Response, Headers, RequestOptions, URLSearchParams} from 'angular2/http';
 import { Observable } from 'rxjs/Rx';
 import {MobileSettings} from "../models/mobile.settings";
+import {Constants} from "../constants";
 
 @Injectable()
 export class MobileSettingsService extends DiyServerService {
@@ -12,8 +13,8 @@ export class MobileSettingsService extends DiyServerService {
 	 * Function used to get all the mobile settings info
 	 * @returns {Observable<R>}
      */
-    getMobileSettings() {
-        return this._http.get(this.getBaseServerUrl() + 'MobileSetting?id=11')
+    getMobileSettings(id : number) {
+        return this._http.get(Constants.BASE_SERVER_URL + 'MobileSetting?id=' + id)
             .map((response: Response) => <MobileSettings>response.json().data)
 			.catch(this.handleResponseError);
     }
@@ -82,7 +83,7 @@ export class MobileSettingsService extends DiyServerService {
 		let options = new RequestOptions({ headers: headers });
 
 		if (mobileSettings.id != undefined){
-			return this._http.put(this.getBaseServerUrl() + 'MobileSetting', body, options)
+			return this._http.put(Constants.BASE_SERVER_URL + 'MobileSetting', body, options)
 			.map((response: Response) => {
 						let id = response.json().data.id;
 						return id;
@@ -90,7 +91,7 @@ export class MobileSettingsService extends DiyServerService {
 			.catch(this.handleResponseError);
 		}
 		else{
-			return this._http.post(this.getBaseServerUrl() + 'MobileSetting', body, options)
+			return this._http.post(Constants.BASE_SERVER_URL + 'MobileSetting', body, options)
 			.map((response: Response) => {
 				let id = response.json().data.id;
 				return id;

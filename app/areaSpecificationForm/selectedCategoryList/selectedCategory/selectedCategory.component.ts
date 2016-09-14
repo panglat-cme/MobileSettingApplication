@@ -17,6 +17,7 @@ export class SelectedCategory {
      * @param e
      */
     onDelete(e){
+        e.preventDefault();
         this.delete.emit(this.category);
 }}
 

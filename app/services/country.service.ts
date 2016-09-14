@@ -1,8 +1,9 @@
 import { Injectable } from 'angular2/core';
-import { DiyServerService } from '../services/diyServer.service'
+import { DiyServerService } from '../services/diyServer.service';
 import { Http, Response } from 'angular2/http';
 import { Observable } from 'rxjs/Rx';
 import {Country} from "../models/country";
+import {Constants} from "../constants";
 
 @Injectable()
 export class CountryService extends DiyServerService {
@@ -13,7 +14,7 @@ export class CountryService extends DiyServerService {
 	 * @returns {Observable<R>}
      */
 	getCountries() {
-		return this._http.get(this.getBaseServerUrl() + 'Countries')
+		return this._http.get(Constants.BASE_SERVER_URL + 'Countries')
 		.map((response: Response) => <Country[]>response.json().data)
 		//.do(data => console.log(data))
 		.catch(this.handleResponseError);

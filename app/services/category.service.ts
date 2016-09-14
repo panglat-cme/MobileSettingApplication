@@ -1,8 +1,9 @@
 import { Injectable } from 'angular2/core';
-import { DiyServerService } from '../services/diyServer.service'
+import { DiyServerService } from '../services/diyServer.service';
 import { Http, Response } from 'angular2/http';
 import { Observable } from 'rxjs/Rx';
 import {Category} from "../models/category";
+import {Constants} from "../constants";
 
 @Injectable()
 export class CategoryService extends DiyServerService {
@@ -14,7 +15,7 @@ export class CategoryService extends DiyServerService {
 	 * @returns {Observable<R>}
      */
 	getCategories() {
-		return this._http.get(this.getBaseServerUrl() + 'Categories')
+		return this._http.get(Constants.BASE_SERVER_URL + 'Categories')
 		.map((response: Response) => <Category[]>response.json().data)
 		//.do(data => console.log(data))
 		.catch(this.handleResponseError);

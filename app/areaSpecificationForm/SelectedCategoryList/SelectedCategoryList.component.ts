@@ -18,16 +18,7 @@ export class SelectedCategoryList {
      */
     onCategoryDeleted(category){
         this.remove.emit(category);
-        this.deleteCategoryList(category);
     }
 
-    /**
-     * Function used to delete an item from the categories list
-     */
-    deleteCategoryList(category){
-        var index = this.categoryList.indexOf(category);
-        if(index!=-1)
-            this.categoryList.splice(index,1);
-    }
 
 }

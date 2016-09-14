@@ -150,7 +150,7 @@
                 <div class="categoryTable">
                     <table class="table table-striped" *ngFor="#category of categories | categoryFilter: categoryFilterInput ">
                         <tbody>
-                        <tr><input id="{{category.name}}" (change)="onCategorySelect(category, $event)"  type="checkbox">{{category.name}}</tr>
+                        <tr><input [ngModel]="selectedCategories.indexOf(category)!=-1" [checked]="selectedCategories.indexOf(category)!=-1" (change)="onCategorySelect(category)" type="checkbox">{{category.name}}</tr>
                         </tbody>
                     </table>
                 </div>
@@ -158,10 +158,10 @@
         </tr>
         <tr>
             <td>
-                <h6 class="hideElement" id="youSelectedLabel">YOU SELECTED</h6>
+                <h6 [hidden]="selectedCategories.length == 0" >YOU SELECTED</h6>
             </td>
             <td>
-                <selectedCategoryList (remove)="onCategoryRemoved($event)" [categoryList]="selectedCategories"></selectedCategoryList>
+                <selectedCategoryList (remove)="onCategorySelect($event)" [categoryList]="selectedCategories"></selectedCategoryList>
             </td>
         </tr>
         <tr>
@@ -186,7 +186,24 @@
         </tr>
 		<tr>
             <td colspan="3">&nbsp;</td>
-        </tr>		
+        </tr>
+        <tr>
+            <td></td>
+            <td class="criteriaLabel">
+                <input name="categorySelection" type="radio" (change)="display('refineByCategoryDropdown')" checked>Refine by category
+                <input name="categorySelection" type="radio" (change)="removeDisplay('refineByCategoryDropdown')">Apply for all categories<br>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="criteriaLabel">
+                <select id="refineByCategoryDropdown" class="form-control" [(ngModel)]="categorySelected">
+                    <option *ngFor="#category of selectedCategories" [value]="category.name">{{category.name}}</option>
+                </select>
+            </td>
+            <td></td>
+        </tr>
         <tr>
             <td></td>
             <td class="criteriaLabel">
@@ -196,15 +213,7 @@
         </tr>
         <tr>
             <td></td>
-            <td>
-                <select class="form-control">
-                    <option>All Categories</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><textarea class="form-control checkboxOption" cols="50" rows="4"></textarea></td>
+            <td><textarea class="form-control" cols="50" rows="4"></textarea></td>
 			<td>Exact name of the retailer(s), location(s), or store(s) should be inputted here if only specific ones are required.  If no keywords are defined here, all locations under the category identified will be geofenced and captured</td>
         </tr>
         <tr>
@@ -252,15 +261,17 @@
 		<tr>
             <td class="criteriaLabel">Quotas</td>
             <td>
-                <input name="quotas" (change)="removeDisplay('quotasPerCategory')" type="radio" checked>No Quotas<br>
-                <input id="perCategory" (change)="modifyDisplay('quotasPerCategory')" name="quotas" type="radio">Per Category<br>
-                <input name="quotas" (change)="removeDisplay('quotasPerCategory')" type="radio">Per Location<br>
+				<p *ngFor="#q of quotaTypes">
+					<input type="radio" name="quotas" (change)="quotaTypeChanged(q)"
+					[value]="q.id" [checked]="quotaTypeId == q.id">
+					{{q.name}}
+				</p>
 						</td>
             <td>
                 <p>Restricts the number of completes allowed per location.  Once the number of completes are met, the location will no longer be displayed on users survey list</p>
 						</td>
 					</tr>
-        <tr id="quotasPerCategory" class="hideElement">
+        <tr id="quotasPerCategory" [hidden]="!quotaTypePerCategory || selectedCategories.length == 0" >
             <td></td>
             <td>
                 <table>
