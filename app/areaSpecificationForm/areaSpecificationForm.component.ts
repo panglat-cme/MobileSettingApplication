@@ -78,6 +78,8 @@ export class AreaSpecificationForm {
 	countryId = 1; // United State
 
 	categoryFilterInput = "";
+	
+	showLoadingModalCount = 0;
 
 	constructor(private countryService:CountryService, private categoryService:CategoryService, private activityTypeService:ActivityTypeService, private selectedCategoryList:SelectedCategoryList, private mobileSettingsService:MobileSettingsService,
 				private trafficTypesService:TrafficTypesService, private quotaTypeService:QuotaTypeService, private refineLocationService: RefineLocationService) {
@@ -87,56 +89,121 @@ export class AreaSpecificationForm {
 		this.formControlGroup = new ControlGroup({});
 
 		//Get the countries LOV
+		this.showLoadingModal();
 		this.countryService.getCountries()
 			.subscribe(
-				countryList => this.countryList = countryList,
-				error => alert(Constants.ERROR_RETRIEVING_LIST + "Countries.")
+				countryList => {
+					this.countryList = countryList;
+					this.hideLoadingModal();
+				},
+				error => {
+					alert(Constants.ERROR_RETRIEVING_LIST + "Countries.");
+					this.hideLoadingModal();
+				}
 			);
 
 		//Get all the categories
+		this.showLoadingModal();
 		this.categoryService.getCategories()
 			.subscribe(
-				categoryList => this.categories = categoryList,
-				error => alert(Constants.ERROR_RETRIEVING_LIST + "Categories.")
+				categoryList => {
+					this.categories = categoryList
+					this.hideLoadingModal();
+				},
+				error => { 
+					alert(Constants.ERROR_RETRIEVING_LIST + "Categories.")
+					this.hideLoadingModal();
+				}
 			);
 
 		//Get the list of activity types
+		this.showLoadingModal();
 		this.activityTypeService.getActivityTypes()
 			.subscribe(
-				activityTypes => this.activityTypes = activityTypes,
-				error => alert(Constants.ERROR_RETRIEVING_LIST + "Activity Types.")
+				activityTypes => {
+				this.activityTypes = activityTypes;
+					this.hideLoadingModal();
+				},
+				error => {
+					alert(Constants.ERROR_RETRIEVING_LIST + "Activity Types.");
+					this.hideLoadingModal();
+				}
 			);
 
 		//Get the list of traffic types
+		this.showLoadingModal();
 		this.trafficTypesService.getTrafficTypes()
 			.subscribe(
-				trafficTypesOptions => this.trafficTypesOptions = trafficTypesOptions,
-				error => alert(Constants.ERROR_RETRIEVING_LIST + "Traffic Types.")
+				trafficTypesOptions => {
+					this.trafficTypesOptions = trafficTypesOptions;
+					this.hideLoadingModal();
+				},
+				error => {
+					alert(Constants.ERROR_RETRIEVING_LIST + "Traffic Types.");
+					this.hideLoadingModal();
+				}
 			);
 
 		//Get the list of quota types
+		this.showLoadingModal();
 		this.quotaTypeService.getQuotasTypes()
 			.subscribe(
-				quotaTypes => this.quotaTypes = quotaTypes,
-				error => alert(Constants.ERROR_RETRIEVING_LIST + "Quota Types.")
+				quotaTypes => {
+					this.quotaTypes = quotaTypes;
+					this.hideLoadingModal();					
+				},
+				error => {
+					alert(Constants.ERROR_RETRIEVING_LIST + "Quota Types.");
+					this.hideLoadingModal();
+				}
 			);
 
 		//Get all the refine locations
+		this.showLoadingModal();
 		this.refineLocationService.getRefineLocations()
 			.subscribe(
-				refineLocation => this.refineLocation = refineLocation,
-				error => alert("Refine Locations error: " + error)
+				refineLocation => {
+					this.refineLocation = refineLocation;
+					this.hideLoadingModal();
+				},
+				error => {
+					alert("Refine Locations error: " + error);
+					this.hideLoadingModal();
+				}
 			);
 		//Get all the mobile setting information
+		this.showLoadingModal();
 		this.mobileSettingsService.getMobileSettings(1)
 			.subscribe(
-				mobileSettings => this.handleMobileSettings(mobileSettings),
-				error => alert(Constants.ERROR_RETRIEVING_MOBILE_SETTINGS)
+				mobileSettings => {
+					this.handleMobileSettings(mobileSettings);
+					this.hideLoadingModal();
+				},
+				error => {
+					alert(Constants.ERROR_RETRIEVING_MOBILE_SETTINGS);
+					this.hideLoadingModal();
+				}
 			);
 
 
 	}
 
+	private showLoadingModal() {
+		this.showLoadingModalCount++;
+		console.log("showLoadingModal showLoadingModalCount=" + this.showLoadingModalCount);
+		if(this.showLoadingModalCount == 1) {
+			$('#loadingModal').modal('show');
+		}
+	}
+	
+	private hideLoadingModal() {
+		this.showLoadingModalCount--;
+		console.log("showLoadingModal showLoadingModalCount=" + this.showLoadingModalCount);
+		if(this.showLoadingModalCount == 0) {
+			$('#loadingModal').modal('hide');
+		}
+	}
+	
 	/**
 	 * Function used to save the mobile settings in variables
 	 * after calling the mobile settings webservice.
@@ -165,13 +232,18 @@ export class AreaSpecificationForm {
 	onSubmit(areaSpecification) {
 		this.constructMobileSettingsObject();
 
+		this.showLoadingModal();
 		this.mobileSettingsService.createNewMobileSettings(this.mobileSettings)
 			.subscribe(
 				ms => {
 					alert("mobileSettingsService=" + JSON.stringify(ms))
 					this.mobileSettingsId = ms.id;
+					this.hideLoadingModal();
 				},
-				error => alert("mobileSettingsService error: " + error)
+				error => {
+					alert("mobileSettingsService error: " + error);
+					this.hideLoadingModal();
+				}
 			);
 	}
 

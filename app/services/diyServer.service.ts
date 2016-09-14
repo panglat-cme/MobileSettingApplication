@@ -10,7 +10,7 @@ export class DiyServerService {
      * @returns string
      */
     getBaseServerUrl() {
-		return 'http://172.17.1.45:8899/MobileSettings/';
+		return 'http://intranet.cmeoffshore.com:8899/MobileSettings/';
 	}
 
 	/**
