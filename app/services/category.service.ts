@@ -15,7 +15,7 @@ export class CategoryService extends DiyServerService {
 	 * @returns {Observable<R>}
      */
 	getCategories() {
-		return this._http.get(Constants.BASE_SERVER_URL + 'Categories')
+		return this._http.get(Constants.BASE_SERVER_URL + 'Categories?providerId=1')
 		.map((response: Response) => <Category[]>response.json().data)
 		//.do(data => console.log(data))
 		.catch(this.handleResponseError);

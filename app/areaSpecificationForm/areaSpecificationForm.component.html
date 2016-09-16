@@ -76,13 +76,13 @@
         </tr>
         <tr>
             <td></td>
-            <td><select class="form-control" (change)="displayDaysAndTime($event)">
-                    <option>Any day/time</option>
-                    <option>Only on these days/times</option>
+            <td><select id="triggerScheduleSelect" class="form-control" [(ngModel)]="triggerScheduleSelectedValue">
+                    <option value="anyDayTime">Any day/time</option>
+                    <option value="onlyTheseDaysAndTimes">Only on these days/times</option>
                 </select>
             </td>
         </tr>
-        <tr id="onlyDayAndTime" class="hideElement">
+        <tr id="daysAndTimes" [hidden]="triggerScheduleSelectedValue == 'anyDayTime'">
             <td></td>
             <td>
                 <div id="floatStyling">

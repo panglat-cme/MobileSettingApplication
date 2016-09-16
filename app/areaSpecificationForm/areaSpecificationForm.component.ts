@@ -11,6 +11,7 @@ import {SelectedCategory} from "app/areaSpecificationForm/selectedCategoryList/s
 import {ActivityTypeService} from '../services/activityType.service';
 import {TrafficTypesService} from '../services/trafficTypes.service';
 import {QuotaTypeService} from '../services/quotaType.service';
+import {SettingCategoriesService} from '../services/settingCategories.service';
 import {ActivityType} from "../models/activityType";
 import {TrafficTypes} from "../models/trafficTypes";
 import {QuotaType} from "../models/quotaType";
@@ -22,7 +23,7 @@ import {Constants} from 'app/constants';
     selector: 'areaSpecificationForm',
     templateUrl: 'app/areaSpecificationForm/areaSpecificationForm.component.html',
     styleUrls: ['app/areaSpecificationForm/areaSpecificationForm.component.css'],
-    providers: [CountryService, CategoryService, SelectedCategoryList, MobileSettingsService, ActivityTypeService, TrafficTypesService, QuotaTypeService, RefineLocationService],
+    providers: [CountryService, CategoryService, SelectedCategoryList, MobileSettingsService, ActivityTypeService, TrafficTypesService, QuotaTypeService, RefineLocationService,SettingCategoriesService],
     directives: [SelectedCategory,SelectedCategoryList],
 	pipes: [CategoryFilterPipe]
 })
@@ -81,11 +82,14 @@ export class AreaSpecificationForm {
 	
 	showLoadingModalCount = 0;
 
+	triggerScheduleSelectedValue ="";
+
 	constructor(private countryService:CountryService, private categoryService:CategoryService, private activityTypeService:ActivityTypeService, private selectedCategoryList:SelectedCategoryList, private mobileSettingsService:MobileSettingsService,
-				private trafficTypesService:TrafficTypesService, private quotaTypeService:QuotaTypeService, private refineLocationService: RefineLocationService) {
+				private trafficTypesService:TrafficTypesService, private quotaTypeService:QuotaTypeService, private refineLocationService: RefineLocationService, private settingCategoriesService: SettingCategoriesService) {
 	}
 
 	ngOnInit() {
+		this.triggerScheduleSelectedValue = "anyDayTime" ;
 		this.formControlGroup = new ControlGroup({});
 
 		//Get the countries LOV
@@ -184,9 +188,7 @@ export class AreaSpecificationForm {
 					this.hideLoadingModal();
 				}
 			);
-
-
-	}
+		}
 
 	private showLoadingModal() {
 		this.showLoadingModalCount++;
@@ -236,17 +238,36 @@ export class AreaSpecificationForm {
 		this.mobileSettingsService.createNewMobileSettings(this.mobileSettings)
 			.subscribe(
 				ms => {
-					alert("mobileSettingsService=" + JSON.stringify(ms))
 					this.mobileSettingsId = ms.id;
-					this.hideLoadingModal();
+					this.saveSettingCategories();
 				},
 				error => {
 					alert("mobileSettingsService error: " + error);
 					this.hideLoadingModal();
 				}
 			);
-	}
 
+	}
+	/**
+	 * Function to test the category saving service
+	 */
+	private saveSettingCategories(){
+		var categoryIds = ["1","2"];
+		var quotas= ["21","22"];
+		var keywords=["edduy,jad","asdu,asdasd,asd"];
+		var nears = ["234,23423","2344"];
+
+        this.settingCategoriesService.saveSettingCategories(2,"6",categoryIds,quotas,keywords,nears)
+			.subscribe(
+				success => {
+					this.hideLoadingModal();
+				},
+				error => {
+					alert("error "+  error);
+					this.hideLoadingModal();
+				}
+			);
+	}
 	/**
 	 * Function used to construct the mobile settings object
 	 * based on the values in the UI
