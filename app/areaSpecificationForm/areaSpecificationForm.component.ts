@@ -91,7 +91,8 @@ export class AreaSpecificationForm {
 	ngOnInit() {
 		this.triggerScheduleSelectedValue = "anyDayTime" ;
 		this.formControlGroup = new ControlGroup({});
-
+		//Disable the effect of clicks and keyboard keys from hiding the dialog
+		$('#loadingModal').modal({backdrop: 'static', keyboard: false});
 		//Get the countries LOV
 		this.showLoadingModal();
 		this.countryService.getCountries()
