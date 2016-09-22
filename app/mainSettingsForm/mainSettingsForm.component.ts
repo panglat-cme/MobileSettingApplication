@@ -72,6 +72,7 @@ export class MainSettingsForm {
             .subscribe(
                 ms => {
                     this.mobileSettingsId = ms.id;
+                    this.hideLoadingModal();
                 },
                 error => {
                     alert("mobileSettingsService error: " + error);
