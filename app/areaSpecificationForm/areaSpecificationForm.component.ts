@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, Input, EventEmitter, Output} from 'angular2/core';
 import {ControlGroup, Control} from 'angular2/common';
 import {Country} from '../models/country';
 import {Category} from '../models/category';
@@ -29,6 +29,8 @@ import {Constants} from 'app/constants';
 })
 
 export class AreaSpecificationForm {
+	@Input('selectedTab') selectedTab;
+	@Output('tabChanged') changeTab = new EventEmitter();
 	countryList:Country[];
 	categories:Category [];
 
@@ -91,10 +93,11 @@ export class AreaSpecificationForm {
 	ngOnInit() {
 		this.triggerScheduleSelectedValue = "anyDayTime" ;
 		this.formControlGroup = new ControlGroup({});
+		this.openTab("tab0");
 		//Disable the effect of clicks and keyboard keys from hiding the dialog
 		$('#loadingModal').modal({backdrop: 'static', keyboard: false});
 		//Get the countries LOV
-		this.showLoadingModal();
+		/*this.showLoadingModal();
 		this.countryService.getCountries()
 			.subscribe(
 				countryList => {
@@ -188,7 +191,7 @@ export class AreaSpecificationForm {
 					alert(Constants.ERROR_RETRIEVING_MOBILE_SETTINGS);
 					this.hideLoadingModal();
 				}
-			);
+			);*/
 		}
 
 	private showLoadingModal() {
@@ -446,5 +449,28 @@ export class AreaSpecificationForm {
 				this.selectedActivityTypes.splice(index, 1);
 			}
 		}
+	}
+
+	openTab(tabName){
+		// Declare all variables
+		var i, tabcontent, tablinks;
+
+		// Get all elements with class="tabcontent" and hide them
+		tabcontent = document.getElementsByClassName("tabcontent");
+		for (i = 0; i < tabcontent.length; i++) {
+			tabcontent[i].style.display = "none";
+		}
+
+		// Get all elements with class="tablinks" and remove the class "active"
+		tablinks = document.getElementsByClassName("tablinks");
+		for (i = 0; i < tablinks.length; i++) {
+			tablinks[i].className = tablinks[i].className.replace(" active", "");
+			if(tablinks[i].id == tabName+"Link")
+				tablinks[i].className += " active";
+		}
+
+		//Show the current tab, and add an "active" class to the link that opened the tab
+		document.getElementById(tabName).style.display = "block";
+		this.changeTab.emit(tabName);
 	}
 }

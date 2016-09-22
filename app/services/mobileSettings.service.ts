@@ -30,43 +30,43 @@ export class MobileSettingsService extends DiyServerService {
 		if(mobileSettings.id !== undefined)
 			searchParams.set("id",  mobileSettings['id']);
 
-		if(mobileSettings['projectId'] !== "undefined")
+		if(mobileSettings['projectId'] !== undefined)
 			searchParams.set("projectId",  mobileSettings['projectId']);
 
-		if(mobileSettings['proposalId'] !== "undefined")
+		if(mobileSettings['proposalId'] !== undefined)
 			searchParams.set("proposalId",  mobileSettings['proposalId']);
 
-		if(mobileSettings['radius'] !== "undefined")
+		if(mobileSettings['radius'] !== undefined)
 			searchParams.set("radius",  mobileSettings['radius']);
 
-		if(mobileSettings['loiterTime'] !== "undefined")
+		if(mobileSettings['loiterTime'] !== undefined)
 			searchParams.set("loiterTime",  mobileSettings['loiterTime']);
 
-		if(mobileSettings['minSpeed'] !== "undefined")
+		if(mobileSettings['minSpeed'] !== undefined)
 			searchParams.set("minSpeed",  mobileSettings['minSpeed']);
 
-		if(mobileSettings['maxSpeed'] !== "undefined")
+		if(mobileSettings['maxSpeed'] !== undefined)
 			searchParams.set("maxSpeed",  mobileSettings['maxSpeed']);
 
-		if(mobileSettings['expirationTime'] !== "undefined")
+		if(mobileSettings['expirationTime'] !== undefined)
 			searchParams.set("expirationTime",  mobileSettings['expirationTime']);
 
-		if(mobileSettings['currentlyAtLocation'] !== "undefined")
+		if(mobileSettings['currentlyAtLocation'] !== undefined)
 			searchParams.set("currentlyAtLocation",  mobileSettings['currentlyAtLocation']);
 
-		if(mobileSettings['countryId'] !== "undefined")
+		if(mobileSettings['countryId'] !== undefined)
 			searchParams.set("countryId",  mobileSettings['countryId']);
 
-		if(mobileSettings['traffic_type_id'] !== "undefined")
+		if(mobileSettings['traffic_type_id'] !== undefined)
 			searchParams.set("trafficTypeId",  mobileSettings['traffic_type_id']);
 
-		if(mobileSettings['activityTypes'] !== "undefined")
+		if(mobileSettings['activityTypes'] !== undefined)
 			searchParams.set("activityTypes",  mobileSettings['activityTypes']);
 
-		if(mobileSettings['quotaTypeId'] !== "undefined")
+		if(mobileSettings['quotaTypeId'] !== undefined)
 			searchParams.set("quotaTypeId",  mobileSettings['quotaTypeId']);
 
-		if(mobileSettings['activityDescription'] !== "undefined")
+		if(mobileSettings['activityDescription'] !== undefined)
 			searchParams.set("activityDescription",  mobileSettings['activityDescription']);
 		
 		return searchParams.toString();

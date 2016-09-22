@@ -2,425 +2,447 @@
     <h1 class="proposalIdStyle">Proposal Id: {{proposalId}}</h1>
     <h1 class="projectIdStyle">Project Id: {{projectId}}</h1>
 </div>
-<form (ngSubmit)="onSubmit(formControlGroup.value)" [ngFormModel]="formControlGroup">
-    <hr>
-    <table>
-        <colgroup>
-            <col id="firstTd">
-            <col class="secondTd">
-        </colgroup>
+<ul class="tab">
+        <li><a href="#" class="tablinks" id="tab0Link" (click)="openTab('tab0')">GEOFENCING MODEL</a></li>
+        <li><a href="#" class="tablinks" id="tab1Link" (click)="openTab('tab1')">GEOFENCE TRIGGER OPTIONS</a></li>
+        <li><a href="#" class="tablinks" id="tab2Link" (click)="openTab('tab2')">LOCATIONS IDENTIFICATION</a></li>
+        <li><a href="#" class="tablinks" id="tab3Link" (click)="openTab('tab3')">QUOTA MANAGEMENT</a></li>
+</ul>
 
-        <tr>
-            <td class="criteriaLabel">Activity</td>
-            <td>Description of activity</td>
-        </tr>
+<div id="later" class="tabcontent">
+    <form (ngSubmit)="onSubmit(formControlGroup.value)" [ngFormModel]="formControlGroup">
+        <table>
+            <colgroup>
+                <col id="firstTd">
+                <col class="secondTd">
+            </colgroup>
 
-        <tr>
-            <td></td>
-            <td><textarea class="form-control" cols="50" rows="4" [(ngModel)]="activityDescription"></textarea></td>
-        </tr>
-        <tr>
-            <td class="criteriaLabel">Activity Type</td>
-            <td>
-                <div *ngFor="#activityType of activityTypes">
-                    <input (change)="updateSelectedActivityType($event)" [value]="activityType.id" [checked]="selectedActivityTypes.indexOf(activityType.id) != -1" type="checkbox" >{{ activityType.name }}<br>
-                </div>
-            </td>
-        </tr>
+            <tr>
+                <td class="criteriaLabel">Activity</td>
+                <td>Description of activity</td>
+            </tr>
 
-        <tr>
-            <td colspan="3"><hr></td>
-        </tr>
-        <tr>
-            <td class="criteriaLabel">Traffic Type *</td>
-            <td>
-            <div *ngFor="#trafficTypeOption of trafficTypesOptions" id="trafficTypesSpacing">
-                <input [value]="trafficTypeOption.id" [checked]="trafficTypeOption.id == selectedTrafficType"  (change)="updateSelectedTrafficType($event)" name="trafficType" type="radio">{{ trafficTypeOption.name }}
-            </div>
-            </td>
-            <td>
-            <p>Location surveys allow users to see surveys available and at which locations but can only access the survey once the user is at the location indicated.<br>
-            Captures the user only when they cross the geofence. Survey alerts can be triggered once the user crosses the geofence or can be used as passive location data collection
-            </p>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3"><hr></td>
-        </tr>
-        <tr>
-            <td class="criteriaLabel">Geofence</td>
-            <td class="criteriaLabel">
-               Radius *
-            </td>
-            <td rowspan="2">Captures the user only when they cross the geofence. Survey alerts can be triggered once the user crosses the geofence or can be used as passive location data collection
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>
-                <div>
-                    <input class="form-control tighterInput" type="text" [(ngModel)]="radius">
-                    <select class="form-control smallSelect" [(ngModel)]="radiusUnit">
-                <option value="f" >feet</option>
-                <option value="m" >meters</option>
-            </select>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td class="criteriaLabel">
-                Trigger Schedule
-            </td>
-            <td rowspan="2">Trigger Schedule Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac mi</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><select id="triggerScheduleSelect" class="form-control" [(ngModel)]="triggerScheduleSelectedValue">
+            <tr>
+                <td></td>
+                <td><textarea class="form-control" cols="50" rows="4" [(ngModel)]="activityDescription"></textarea></td>
+            </tr>
+            <tr>
+                <td class="criteriaLabel">Activity Type</td>
+                <td>
+                    <div *ngFor="#activityType of activityTypes">
+                        <input (change)="updateSelectedSelectedActivityType($event)" [value]="activityType.id" [checked]="selectedActivityTypes.indexOf(activityType.id) != -1" type="checkbox" >{{ activityType.name }}<br>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="3"><hr></td>
+            </tr>
+            <tr>
+                <td class="criteriaLabel">Traffic Type *</td>
+                <td>
+                    <div *ngFor="#trafficTypeOption of trafficTypesOptions" id="trafficTypesSpacing">
+                        <input [value]="trafficTypeOption.id" [checked]="trafficTypeOption.id == selectedTrafficType"  (change)="updateSelectedTrafficType($event)" name="trafficType" type="radio">{{ trafficTypeOption.name }}
+                    </div>
+                </td>
+                <td>
+                    <p>Location surveys allow users to see surveys available and at which locations but can only access the survey once the user is at the location indicated.<br>
+                        Captures the user only when they cross the geofence. Survey alerts can be triggered once the user crosses the geofence or can be used as passive location data collection
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3"><hr></td>
+            </tr>
+            <tr>
+                <td class="criteriaLabel">Geofence</td>
+                <td class="criteriaLabel">
+                    Radius *
+                </td>
+                <td rowspan="2">Captures the user only when they cross the geofence. Survey alerts can be triggered once the user crosses the geofence or can be used as passive location data collection
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <div>
+                        <input class="form-control tighterInput" type="text" [(ngModel)]="radius">
+                        <select class="form-control smallSelect" [(ngModel)]="radiusUnit">
+                            <option value="f" >feet</option>
+                            <option value="m" >meters</option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="criteriaLabel">
+                    Trigger Schedule
+                </td>
+                <td rowspan="2">Trigger Schedule Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac mi</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><select id="triggerScheduleSelect" class="form-control" [(ngModel)]="triggerScheduleSelectedValue">
                     <option value="anyDayTime">Any day/time</option>
                     <option value="onlyTheseDaysAndTimes">Only on these days/times</option>
                 </select>
-            </td>
-        </tr>
-        <tr id="daysAndTimes" *ngIf="triggerScheduleSelectedValue != 'anyDayTime'">
-            <td></td>
-            <td>
-                <div id="floatStyling">
-                <input type="checkbox">Monday<br>
-                <input type="checkbox">Tuesday<br>
-                <input type="checkbox">Wednesday<br>
-                <input type="checkbox">Thursday<br>
-                <input type="checkbox">Friday<br>
-                <input type="checkbox">Saturday<br>
-                <input type="checkbox">Sunday
-                </div>
-                <div id="dayAndTimePosition">
-                <table>
-                <tr>
-                    <td>
-                        From:
-                    </td>
-                    <td>
-                        <div>
-                            <input class="inputWidth" type="text">
-                            <select class="smallSelect">
-                            <option>AM</option>
-                            <option>PM</option>
-                        </select>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        To:
-                    </td>
-                    <td>
-                        <div>
-                        <input class="inputWidth" type="text">
-                            <select class="smallSelect">
-                            <option>AM</option>
-                            <option>PM</option>
-                        </select>
-                         </div>
-                    </td>
-                </tr>
-                    </table>
-                </div>
-            </td>
-            <td></td>
-        </tr>
-        <tr>
-            <td colspan="3"><hr></td>
-        </tr>
-        <tr>
-            <td class="criteriaLabel">Location *</td>
-            <td>Select one or more location categories</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><input class="form-control" type="text" size="100" placeholder="Type to narrow your choices" [(ngModel)]="categoryFilterInput"></td>
-        </tr>
-        <tr>
-            <td>
-               Data Sources<br>
-               <input type="checkbox" checked disabled> Foursquare<br>
-               <input type="checkbox" disabled>LSGMI Custom
-            </td>
-            <td>
-                <div class="categoryTable">
-                    <table class="table table-striped" *ngFor="#category of categories | categoryFilter: categoryFilterInput ">
-                        <tbody>
-                        <tr><input [ngModel]="selectedCategories.indexOf(category)!=-1" [checked]="selectedCategories.indexOf(category)!=-1" (change)="onCategorySelect(category)" type="checkbox">{{category.name}}</tr>
-                        </tbody>
-                    </table>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <h6 *ngIf="selectedCategories.length != 0" >YOU SELECTED</h6>
-            </td>
-            <td>
-                <selectedCategoryList (remove)="onCategorySelect($event)" [categoryList]="selectedCategories"></selectedCategoryList>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3"><hr></td>
-        </tr>
+                </td>
+            </tr>
+            <tr id="daysAndTimes" *ngIf="triggerScheduleSelectedValue != 'anyDayTime'">
+                <td></td>
+                <td>
+                    <div id="floatStyling">
+                        <input type="checkbox">Monday<br>
+                        <input type="checkbox">Tuesday<br>
+                        <input type="checkbox">Wednesday<br>
+                        <input type="checkbox">Thursday<br>
+                        <input type="checkbox">Friday<br>
+                        <input type="checkbox">Saturday<br>
+                        <input type="checkbox">Sunday
+                    </div>
+                    <div id="dayAndTimePosition">
+                        <table>
+                            <tr>
+                                <td>
+                                    From:
+                                </td>
+                                <td>
+                                    <div>
+                                        <input class="inputWidth" type="text">
+                                        <select class="smallSelect">
+                                            <option>AM</option>
+                                            <option>PM</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    To:
+                                </td>
+                                <td>
+                                    <div>
+                                        <input class="inputWidth" type="text">
+                                        <select class="smallSelect">
+                                            <option>AM</option>
+                                            <option>PM</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="3"><hr></td>
+            </tr>
+            <tr>
+                <td class="criteriaLabel">Location *</td>
+                <td>Select one or more location categories</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input class="form-control" type="text" size="100" placeholder="Type to narrow your choices" [(ngModel)]="categoryFilterInput"></td>
+            </tr>
+            <tr>
+                <td>
+                    Data Sources<br>
+                    <input type="checkbox" checked disabled> Foursquare<br>
+                    <input type="checkbox" disabled>LSGMI Custom
+                </td>
+                <td>
+                    <div class="categoryTable">
+                        <table class="table table-striped" *ngFor="#category of categories | categoryFilter: categoryFilterInput ">
+                            <tbody>
+                            <tr><input [ngModel]="selectedCategories.indexOf(category)!=-1" [checked]="selectedCategories.indexOf(category)!=-1" (change)="onCategorySelect(category)" type="checkbox">{{category.name}}</tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h6 *ngIf="selectedCategories.length != 0" >YOU SELECTED</h6>
+                </td>
+                <td>
+                    <selectedCategoryList (remove)="onCategorySelect($event)" [categoryList]="selectedCategories"></selectedCategoryList>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3"><hr></td>
+            </tr>
 
-        <tr>
-            <td class="criteriaLabel">Refine</td>
-            <td class="criteriaLabel">
-               Country *
-            </td>
-            <td>
-            </td>
-        </tr>
-        <tr>
-            <td class="criteriaLabel">Location</td>
-            <td>
-				<select class="form-control" [(ngModel)]="selectedCountryId">
-                    <option *ngFor="#c of countryList" [value]="c.id" [selected]="c.id == selectedCountryId">{{c.name}}</option>
-                </select>
-            </td>
-        </tr>
-		<tr>
-            <td colspan="3">&nbsp;</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td class="criteriaLabel">
-                <input name="categorySelection" type="radio" (change)="display('refineByCategoryDropdown')" checked>Refine by category
-                <input name="categorySelection" type="radio" (change)="removeDisplay('refineByCategoryDropdown')">Apply for all categories<br>
-            </td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td class="criteriaLabel">
-                <select id="refineByCategoryDropdown" class="form-control" [(ngModel)]="categorySelected">
-                    <option *ngFor="#category of selectedCategories" [value]="category.name">{{category.name}}</option>
-                </select>
-            </td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td class="criteriaLabel">
-                Refine by keywords
-            </td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><textarea class="form-control" cols="50" rows="4"></textarea></td>
-			<td>Exact name of the retailer(s), location(s), or store(s) should be inputted here if only specific ones are required.  If no keywords are defined here, all locations under the category identified will be geofenced and captured</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>(example: skldf, dkl, sdldksd)</td>
-        </tr>
-		<tr>
-            <td colspan="3">&nbsp;</td>
-        </tr>		
-        <tr>
-            <td></td>
-            <td class="criteriaLabel">
-                Refine by Zip Codes
-            </td>
-            <td></td>
-		</tr>
-        <tr>
-            <td></td>
-            <td>
-				<table>
-					<tr>
-						<td>
-							<input name="includeZipCode" type="radio" checked>Include<br>
-						</td>
-						<td>
-							<input name="includeZipCode" type="radio" checked>Exclude<br>
-						</td>
-					</tr>
-				</table>
-            </td>
-            <td></td>
-		</tr>
-        <tr>
-            <td></td>
-            <td><textarea class="form-control" cols="50" rows="4"></textarea></td>
-			<td>Targets specific areas within categories identified.  Any location outside of the identified zip code will not be captured. </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>(example: 90036, 90048, Chicago)</td>
-        </tr>
-		<tr>
-            <td colspan="3"><hr></td>
-        </tr>	
-		<tr>
-            <td class="criteriaLabel">Quotas</td>
-            <td>
-				<p *ngFor="#q of quotaTypes">
-					<input type="radio" name="quotas" (change)="quotaTypeChanged(q)"
-					[value]="q.id" [checked]="quotaTypeId == q.id">
-					{{q.name}}
-				</p>
-						</td>
-            <td>
-                <p>Restricts the number of completes allowed per location.  Once the number of completes are met, the location will no longer be displayed on users survey list</p>
-						</td>
-					</tr>
-        <tr id="quotasPerCategory" *ngIf="quotaTypePerCategory && selectedCategories.length != 0" >
-            <td></td>
-            <td>
-                <table>
-                    <tr *ngFor="#category of selectedCategories">
-                        <td>{{ category.name }}</td>
-                        <td><input type="text"></td>
-                        <td>completes</td>
-                    </tr>
-                </table>
-            </td>
-            <td></td>
-        </tr>
-		<tr>
-            <td colspan="3"><hr></td>
-        </tr>	
-		<tr>
-            <td class="criteriaLabel" class="criteriaLabel">Preferences</td>
-            <td class="criteriaLabel">
-				<table>
-                    <colgroup>
-                        <col class="secondTd">
-                    </colgroup>
-					<tr>
-						<td class="criteriaLabel">
-							<input type="checkbox" [(ngModel)]="loiterTimeSelected">Loiter-Time
-						</td>
-					</tr>
-					<tr>
-						<td class="criteriaLabel">
-                            <div>
-                                <input type="text" class="tighterInput form-control" [(ngModel)]="loiterTime" [disabled]="!loiterTimeSelected">
-                                <select class="smallSelect form-control" [(ngModel)]="loiterTimeUnit" [disabled]="!loiterTimeSelected">
-								<option value="m">minutes</option>
-								<option value="h">hours</option>
-							</select>
-                             </div>
-						</td>
-					</tr>
-				</table>
-            </td>
-			<td>Loiter time is set for a user to be at a location for certain amount of time prior to a survey triggering or data collected.  This feature prevents false data capture of a person just walking by</td>
-        </tr>
-		<tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td><hr></td>
-        </tr>		
-		<tr>
-            <td></td>
-            <td class="criteriaLabel">
-				<table>
-                    <colgroup>
-                        <col class="secondTd">
-                    </colgroup>
-					<tr>
-						<td>
-							<input type="checkbox" [(ngModel)]="minSpeedSelected">Min Speed<br>
-						</td>
-					</tr>
-					<tr>
-						<td>
-                            <div>
-                                <input type="text" class="tighterInput form-control" [(ngModel)]="minSpeed" [disabled]="!minSpeedSelected">
-                                <select class="smallSelect form-control" [(ngModel)]="minSpeedUnit" [disabled]="!minSpeedSelected">
-								<option value="m">mph</option>
-								<option value="k">kmh</option>
-							</select>
-                             </div>
-						</td>
-					</tr>
-					<tr>
-						<td class="criteriaLabel">
-							<input type="checkbox" [(ngModel)]="maxSpeedSelected">Max Speed<br>
-						</td>
-					</tr>
-					<tr>
-						<td class="criteriaLabel">
-                            <div>
-                                <input type="text" class="tighterInput form-control" [(ngModel)]="maxSpeed" [disabled]="!maxSpeedSelected">
-                                <select class="smallSelect form-control" [(ngModel)]="maxSpeedUnit" [disabled]="!maxSpeedSelected">
-								<option value="m">mph</option>
-								<option value="k">kmh</option>
-							</select>
-                            </div>
-						</td>
-					</tr>
-				</table>
-            </td>
-			<td>Speed is set so that a car driving by too quickly is not being captured as a valid data</td>
-        </tr>	
-		<tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td><hr></td>
-        </tr>		
-		<tr>
-            <td></td>
-            <td class="criteriaLabel">
-                <table>
-                    <colgroup>
-                        <col class="secondTd">
-                    </colgroup>
-                    <td>
-				<input type="checkbox" [(ngModel)]="currentlyAtLocation">User must be inside geofence (geo validation)
-            </td>
-                </table>
-            </td>
-			<td>Confirming the user is currently at the location geofenced to access the survey</td>
-        </tr>	
-		<tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td><hr></td>
-        </tr>		
-		<tr>
-            <td></td>
-            <td class="criteriaLabel">
-				<table>
-                    <colgroup>
-                        <col class="secondTd">
-                    </colgroup>
-					<tr>
-						<td class="criteriaLabel">
-							<input type="checkbox" [(ngModel)]="expirationTimeSelected">Expiration Time<br>
-						</td>
-					</tr>
-					<tr>
-						<td class="criteriaLabel">
-                            <div>
-                                <input type="text" class="tighterInput form-control" [(ngModel)]="expirationTime" [disabled]="!expirationTimeSelected">
-                                <select class="smallSelect form-control" [(ngModel)]="expirationTimeUnit" [disabled]="!expirationTimeSelected">
-								<option value="m">minutes</option>
-								<option value="h">hours</option>
-							</select>
-                            </div>
-						</td>
-					</tr>
-				</table>
-            </td>
-			<td></td>
-        </tr>
-		<tr>
-            <td colspan="3"><hr>&nbsp;</td>
-        </tr>	
-  <tr>
-            <td class="titleStyle" colspan="3">
-                <button class="pager" class="btn btn-secondary btn-sm">Cancel</button>
-                <button class="pager" class="btn btn-primary btn-sm">Save</button>
-            </td>
-        </tr>	
-    </table>
-</form>
+            <tr>
+                <td class="criteriaLabel">Refine</td>
+                <td class="criteriaLabel">
+                    Country *
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td class="criteriaLabel">Location</td>
+                <td>
+                    <select class="form-control" [(ngModel)]="selectedCountryId">
+                        <option *ngFor="#c of countryList" [value]="c.id" [selected]="c.id == selectedCountryId">{{c.name}}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">&nbsp;</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="criteriaLabel">
+                    <input name="categorySelection" type="radio" (change)="display('refineByCategoryDropdown')" checked>Refine by category
+                    <input name="categorySelection" type="radio" (change)="removeDisplay('refineByCategoryDropdown')">Apply for all categories<br>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="criteriaLabel">
+                    <select id="refineByCategoryDropdown" class="form-control" [(ngModel)]="categorySelected">
+                        <option *ngFor="#category of selectedCategories" [value]="category.name">{{category.name}}</option>
+                    </select>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="criteriaLabel">
+                    Refine by keywords
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><textarea class="form-control" cols="50" rows="4"></textarea></td>
+                <td>Exact name of the retailer(s), location(s), or store(s) should be inputted here if only specific ones are required.  If no keywords are defined here, all locations under the category identified will be geofenced and captured</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>(example: skldf, dkl, sdldksd)</td>
+            </tr>
+            <tr>
+                <td colspan="3">&nbsp;</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="criteriaLabel">
+                    Refine by Zip Codes
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <table>
+                        <tr>
+                            <td>
+                                <input name="includeZipCode" type="radio" checked>Include<br>
+                            </td>
+                            <td>
+                                <input name="includeZipCode" type="radio" checked>Exclude<br>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><textarea class="form-control" cols="50" rows="4"></textarea></td>
+                <td>Targets specific areas within categories identified.  Any location outside of the identified zip code will not be captured. </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>(example: 90036, 90048, Chicago)</td>
+            </tr>
+            <tr>
+                <td colspan="3"><hr></td>
+            </tr>
+            <tr>
+                <td class="criteriaLabel">Quotas</td>
+                <td>
+                    <p *ngFor="#q of quotaTypes">
+                        <input type="radio" name="quotas" (change)="quotaTypeChanged(q)"
+                               [value]="q.id" [checked]="quotaTypeId == q.id">
+                        {{q.name}}
+                    </p>
+                </td>
+                <td>
+                    <p>Restricts the number of completes allowed per location.  Once the number of completes are met, the location will no longer be displayed on users survey list</p>
+                </td>
+            </tr>
+            <tr id="quotasPerCategory" *ngIf="quotaTypePerCategory && selectedCategories.length != 0" >
+                <td></td>
+                <td>
+                    <table>
+                        <tr *ngFor="#category of selectedCategories">
+                            <td>{{ category.name }}</td>
+                            <td><input type="text"></td>
+                            <td>completes</td>
+                        </tr>
+                    </table>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="3"><hr></td>
+            </tr>
+            <tr>
+                <td class="criteriaLabel" class="criteriaLabel">Preferences</td>
+                <td class="criteriaLabel">
+                    <table>
+                        <colgroup>
+                            <col class="secondTd">
+                        </colgroup>
+                        <tr>
+                            <td class="criteriaLabel">
+                                <input type="checkbox" [(ngModel)]="loiterTimeSelected">Loiter-Time
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="criteriaLabel">
+                                <div>
+                                    <input type="text" class="tighterInput form-control" [(ngModel)]="loiterTime" [disabled]="!loiterTimeSelected">
+                                    <select class="smallSelect form-control" [(ngModel)]="loiterTimeUnit" [disabled]="!loiterTimeSelected">
+                                        <option value="m">minutes</option>
+                                        <option value="h">hours</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td>Loiter time is set for a user to be at a location for certain amount of time prior to a survey triggering or data collected.  This feature prevents false data capture of a person just walking by</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><hr></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="criteriaLabel">
+                    <table>
+                        <colgroup>
+                            <col class="secondTd">
+                        </colgroup>
+                        <tr>
+                            <td>
+                                <input type="checkbox" [(ngModel)]="minSpeedSelected">Min Speed<br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <input type="text" class="tighterInput form-control" [(ngModel)]="minSpeed" [disabled]="!minSpeedSelected">
+                                    <select class="smallSelect form-control" [(ngModel)]="minSpeedUnit" [disabled]="!minSpeedSelected">
+                                        <option value="m">mph</option>
+                                        <option value="k">kmh</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="criteriaLabel">
+                                <input type="checkbox" [(ngModel)]="maxSpeedSelected">Max Speed<br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="criteriaLabel">
+                                <div>
+                                    <input type="text" class="tighterInput form-control" [(ngModel)]="maxSpeed" [disabled]="!maxSpeedSelected">
+                                    <select class="smallSelect form-control" [(ngModel)]="maxSpeedUnit" [disabled]="!maxSpeedSelected">
+                                        <option value="m">mph</option>
+                                        <option value="k">kmh</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td>Speed is set so that a car driving by too quickly is not being captured as a valid data</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><hr></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="criteriaLabel">
+                    <table>
+                        <colgroup>
+                            <col class="secondTd">
+                        </colgroup>
+                        <td>
+                            <input type="checkbox" [(ngModel)]="currentlyAtLocation">User must be inside geofence (geo validation)
+                        </td>
+                    </table>
+                </td>
+                <td>Confirming the user is currently at the location geofenced to access the survey</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><hr></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="criteriaLabel">
+                    <table>
+                        <colgroup>
+                            <col class="secondTd">
+                        </colgroup>
+                        <tr>
+                            <td class="criteriaLabel">
+                                <input type="checkbox" [(ngModel)]="expirationTimeSelected">Expiration Time<br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="criteriaLabel">
+                                <div>
+                                    <input type="text" class="tighterInput form-control" [(ngModel)]="expirationTime" [disabled]="!expirationTimeSelected">
+                                    <select class="smallSelect form-control" [(ngModel)]="expirationTimeUnit" [disabled]="!expirationTimeSelected">
+                                        <option value="m">minutes</option>
+                                        <option value="h">hours</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="3"><hr>&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="titleStyle" colspan="3">
+                    <button class="pager" class="btn btn-secondary btn-sm">Cancel</button>
+                    <button class="pager" class="btn btn-primary btn-sm">Save</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="tab0" class="tabcontent">
+    YOU ARE IN FIRST TAB
+</div>
+<div id="tab1" class="tabcontent">
+    YOU ARE IN GEOFENCE TRIGGER OPTIONS TAB
+</div>
+
+<div id="tab2" class="tabcontent">
+    YOU ARE IN LOCATIONS IDENTIFICATION TAB
+</div>
+
+<div id="tab3" class="tabcontent">
+    YOU ARE IN QUOTA MANAGEMENT TAB
+</div>

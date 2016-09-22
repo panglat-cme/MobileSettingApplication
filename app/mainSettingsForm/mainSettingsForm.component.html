@@ -1,0 +1,27 @@
+<form (ngSubmit)="onSubmit(formControlGroup.value)">
+    <table>
+        <colgroup>
+            <col class="firstTd">
+            <col class="secondTd">
+        </colgroup>
+        <tr>
+            <td class="labelStyle">DESCRIPTION</td>
+            <td colspan="2"><textarea placeholder="Type a description of this study. The text you enter here will be seen by the user." class="form-control" cols="50" rows="8" [(ngModel)]="activityDescription"></textarea></td>
+        </tr>
+    </table>
+    <hr>
+    <table>
+        <colgroup>
+            <col class="firstTd">
+            <col class="secondTd">
+        </colgroup>
+        <tr>
+            <td class="labelStyle">ACTIVITY TYPE</td>
+            <td>
+                <div *ngFor="#activityType of activityTypes">
+                    <input class="spacing" (change)="updateSelectedActivityType($event)" [value]="activityType.id" [checked]="selectedActivityTypes.indexOf(activityType.id) != -1" type="checkbox" >{{ activityType.name }}<br>
+</div>
+            </td>
+        </tr>
+    </table>
+</form>

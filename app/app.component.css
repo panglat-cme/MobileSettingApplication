@@ -8,6 +8,66 @@
     display: inline-block;
     margin-left: 80px;
 }
-.mainInformation{
+* {
+    margin: 0;
+}
+html, body {
+    height: 100%;
+}
+.page-wrap {
+    min-height: 100%;
+    margin-bottom: -60px;
+}
+.page-wrap:after {
+    content: "";
+    display: block;
+}
+.site-footer, .page-wrap:after {
+    height: 60px;
+}
+.site-footer {
+    background: #F0F0F0;
+    height: 60px;
+    vertical-align: middle;
+    display: inline-block;
+    position: absolute;
+    bottom: 0px;
+    right:0px;
+    left:0px;
+}
 
+button {
+    border: none;
+    font-size: 18px;
+    color: #FFFFFF;
+    text-align: center;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+    height: 35px;
+    font-family: Calibri;
+}
+
+.defaultButton{
+    background-color: #F5811A;
+    position: absolute;
+    right:30px;
+    width: 130px;
+    top: 13px;
+
+}
+
+.secondaryButton {
+    background-color: #A6A6A6;
+    position: absolute;
+    left: 30px;
+    width: 100px;
+    top: 13px;
+
+}
+
+.webSiteTitleStyle{
+    text-align: center;
 }

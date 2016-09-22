@@ -1,4 +1,13 @@
 <div class="page-header">
-   <h1 style="text-align:center">Mobile Location Settings</h1>
+   <h1 class="webSiteTitleStyle">Mobile Location Settings</h1>
 </div>
-<areaSpecificationForm></areaSpecificationForm>
+<div *ngIf="page=='mainPage'">
+   <mainSettingsForm></mainSettingsForm>
+</div>
+<div *ngIf="page=='settingsDetails'">
+   <areaSpecificationForm (tabChanged)="updateSelectedPage($event)"></areaSpecificationForm>
+</div>
+<footer class="site-footer">
+   <button id="secondaryButton" class="secondaryButton" (click)="secondaryButtonClicked($event)">Cancel</button>
+   <button id="defaultButton" class="defaultButton" (click)="defaultButtonClicked($event)">Save Project</button>
+</footer>

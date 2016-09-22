@@ -1,0 +1,33 @@
+html, body {height: 100%;}
+
+.footer {
+    clear: both;
+    position: relative;
+    z-index: 10;
+    height: 3em;
+    margin-top: -3em;
+    display: block;
+}
+
+.firstTd{
+    width:200px;
+}
+
+.secondTd{
+    width:733px;
+}
+
+.labelStyle{
+    text-align: center;
+    vertical-align: top;
+}
+
+table{
+    position: relative;
+    left: 25%;
+    right: 25%;
+}
+
+.spacing{
+    margin-bottom: 20px;
+}
