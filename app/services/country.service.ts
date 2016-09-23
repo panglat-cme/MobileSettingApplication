@@ -14,7 +14,7 @@ export class CountryService extends DiyServerService {
 	 * @returns {Observable<R>}
      */
 	getCountries() {
-		return this._http.get(Constants.BASE_SERVER_URL + 'Countries')
+		return this._http.get(Constants.BASE_SERVER_URL + Constants.COUNTRIES)
 		.map((response: Response) => <Country[]>response.json().data)
 		//.do(data => console.log(data))
 		.catch(this.handleResponseError);

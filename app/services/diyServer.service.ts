@@ -5,14 +5,6 @@ import { Observable } from 'rxjs/Rx';
 @Injectable()
 export class DiyServerService {
 
-    /**
-     * Get the base server url
-     * @returns string
-     */
-    getBaseServerUrl() {
-		return 'http://intranet.cmeoffshore.com:8899/MobileSettings/';
-	}
-
 	/**
 	 * Function used to throw errors
 	 * @param error

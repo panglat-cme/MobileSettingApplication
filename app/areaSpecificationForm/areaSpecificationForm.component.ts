@@ -8,9 +8,7 @@ import {CategoryService} from '../services/category.service';
 import {SelectedCategoryList} from 'app/areaSpecificationForm/selectedCategoryList/selectedCategoryList.component';
 import {MobileSettingsService} from '../services/mobileSettings.service';
 import {SelectedCategory} from "app/areaSpecificationForm/selectedCategoryList/selectedCategory/selectedCategory.component";
-import {ActivityTypeService} from '../services/activityType.service';
-import {TrafficTypesService} from '../services/trafficTypes.service';
-import {QuotaTypeService} from '../services/quotaType.service';
+import {LookupItemsService} from '../services/lookupItems.service';
 import {SettingCategoriesService} from '../services/settingCategories.service';
 import {ActivityType} from "../models/activityType";
 import {TrafficTypes} from "../models/trafficTypes";
@@ -23,7 +21,7 @@ import {Constants} from 'app/constants';
     selector: 'areaSpecificationForm',
     templateUrl: 'app/areaSpecificationForm/areaSpecificationForm.component.html',
     styleUrls: ['app/areaSpecificationForm/areaSpecificationForm.component.css'],
-    providers: [CountryService, CategoryService, SelectedCategoryList, MobileSettingsService, ActivityTypeService, TrafficTypesService, QuotaTypeService, RefineLocationService,SettingCategoriesService],
+    providers: [CountryService, CategoryService, SelectedCategoryList, MobileSettingsService, LookupItemsService, RefineLocationService,SettingCategoriesService],
     directives: [SelectedCategory,SelectedCategoryList],
 	pipes: [CategoryFilterPipe]
 })
@@ -84,8 +82,8 @@ export class AreaSpecificationForm {
 
 	triggerScheduleSelectedValue ="";
 
-	constructor(private countryService:CountryService, private categoryService:CategoryService, private activityTypeService:ActivityTypeService, private selectedCategoryList:SelectedCategoryList, private mobileSettingsService:MobileSettingsService,
-				private trafficTypesService:TrafficTypesService, private quotaTypeService:QuotaTypeService, private refineLocationService: RefineLocationService, private settingCategoriesService: SettingCategoriesService) {
+	constructor(private countryService:CountryService, private categoryService:CategoryService, private lookupItemsService:LookupItemsService, private selectedCategoryList:SelectedCategoryList, private mobileSettingsService:MobileSettingsService,
+				  private refineLocationService: RefineLocationService, private settingCategoriesService: SettingCategoriesService) {
 	}
 
 	ngOnInit() {
@@ -124,7 +122,7 @@ export class AreaSpecificationForm {
 
 		//Get the list of activity types
 		this.showLoadingModal();
-		this.activityTypeService.getActivityTypes()
+		this.lookupItemsService.getActivityTypes()
 			.subscribe(
 				activityTypes => {
 				this.activityTypes = activityTypes;
@@ -138,7 +136,7 @@ export class AreaSpecificationForm {
 
 		//Get the list of traffic types
 		this.showLoadingModal();
-		this.trafficTypesService.getTrafficTypes()
+		this.lookupItemsService.getTrafficTypes()
 			.subscribe(
 				trafficTypesOptions => {
 					this.trafficTypesOptions = trafficTypesOptions;
@@ -152,7 +150,7 @@ export class AreaSpecificationForm {
 
 		//Get the list of quota types
 		this.showLoadingModal();
-		this.quotaTypeService.getQuotasTypes()
+		this.lookupItemsService.getQuotasTypes()
 			.subscribe(
 				quotaTypes => {
 					this.quotaTypes = quotaTypes;

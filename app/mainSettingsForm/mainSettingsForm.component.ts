@@ -1,7 +1,7 @@
 import {Component} from 'angular2/core';
 import {Constants} from "../constants";
 import {MobileSettingsService} from '../services/mobileSettings.service';
-import {ActivityTypeService} from '../services/activityType.service';
+import {LookupItemsService} from '../services/lookupItems.service';
 import {MobileSettings} from "../models/mobile.settings";
 import {ActivityType} from "../models/activityType";
 import {ControlGroup} from "angular2/common";
@@ -10,7 +10,7 @@ import {ControlGroup} from "angular2/common";
     selector: 'mainSettingsForm',
     templateUrl: 'app/mainSettingsForm/mainSettingsForm.component.html',
     styleUrls: ['app/mainSettingsForm/mainSettingsForm.component.css'],
-    providers: [MobileSettingsService, ActivityTypeService]
+    providers: [MobileSettingsService, LookupItemsService]
 })
 export class MainSettingsForm {
     mobileSettings = new MobileSettings();
@@ -27,14 +27,14 @@ export class MainSettingsForm {
 
     showLoadingModalCount = 0;
     
-    constructor(private mobileSettingsService: MobileSettingsService, private activityTypeService: ActivityTypeService){}
+    constructor(private mobileSettingsService: MobileSettingsService, private lookupItemsService: LookupItemsService){}
 
     ngOnInit() {
         this.formControlGroup = new ControlGroup({});
 
         //Get the list of activity types
         this.showLoadingModal();
-        this.activityTypeService.getActivityTypes()
+        this.lookupItemsService.getActivityTypes()
             .subscribe(
                 activityTypes => {
                     this.activityTypes = activityTypes;

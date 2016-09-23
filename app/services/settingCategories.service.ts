@@ -36,7 +36,7 @@ export class SettingCategoriesService extends DiyServerService {
         let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
         let options = new RequestOptions({ headers: headers });
 
-        return this._http.put(Constants.BASE_SERVER_URL + 'SettingCategories', body, options)
+        return this._http.put(Constants.BASE_SERVER_URL + Constants.SETTING_CATEGORIES, body, options)
             .map((response: Response) => { })
             .catch(this.handleResponseError);
 

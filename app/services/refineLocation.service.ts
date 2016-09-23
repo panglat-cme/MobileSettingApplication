@@ -14,7 +14,7 @@ export class RefineLocationService extends DiyServerService {
      * @returns {Observable<R>}
      */
     getRefineLocations() {
-        return this._http.get(Constants.BASE_SERVER_URL + 'SettingCategories?projectSettingId=5')
+        return this._http.get(Constants.BASE_SERVER_URL + Constants.SETTING_CATEGORIES + '?projectSettingId=5')
             .map((response: Response) => response.json().data)
             .catch(this.handleResponseError);
     }
