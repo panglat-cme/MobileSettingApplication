@@ -14,7 +14,7 @@ export class MobileSettingsService extends DiyServerService {
 	 * @returns {Observable<R>}
      */
     getMobileSettings(id : number) {
-        return this._http.get(Constants.BASE_SERVER_URL + 'MobileSetting?id=' + id)
+        return this._http.get(Constants.BASE_SERVER_URL + Constants.MOBILE_SETTING + '?id=' + id)
             .map((response: Response) => <MobileSettings>response.json().data)
 			.catch(this.handleResponseError);
     }
@@ -83,7 +83,7 @@ export class MobileSettingsService extends DiyServerService {
 		let options = new RequestOptions({ headers: headers });
 
 		if (mobileSettings.id != undefined){
-			return this._http.put(Constants.BASE_SERVER_URL + 'MobileSetting', body, options)
+			return this._http.put(Constants.BASE_SERVER_URL + Constants.MOBILE_SETTING , body, options)
 			.map((response: Response) => {
 						let id = response.json().data.id;
 						return id;
@@ -91,7 +91,7 @@ export class MobileSettingsService extends DiyServerService {
 			.catch(this.handleResponseError);
 		}
 		else{
-			return this._http.post(Constants.BASE_SERVER_URL + 'MobileSetting', body, options)
+			return this._http.post(Constants.BASE_SERVER_URL + Constants.MOBILE_SETTING , body, options)
 			.map((response: Response) => {
 				let id = response.json().data.id;
 				return id;

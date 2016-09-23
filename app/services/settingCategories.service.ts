@@ -10,7 +10,7 @@ export class SettingCategoriesService extends DiyServerService {
 
     /**
      * Function used to build the url to the webservice
-     * @param objCount, projectSettingId, categoryIds, quotas, keywords, ners
+     * @param objCount, projectSettingId, categoryIds, quotas, keywords, nears
      * @returns {string}
      */
     private categorySettingsToURLParam(objCount : number, projectSettingId: String, categoryIds: String[], quotas: String[], keywords: String[], nears: String[]){
@@ -28,7 +28,7 @@ export class SettingCategoriesService extends DiyServerService {
     }
     /**
      * Function used to save the mobile settings
-     * @param objCount, projectSettingId, categoryIds, quotas, keywords, ners
+     * @param objCount, projectSettingId, categoryIds, quotas, keywords, nears
      * @returns {Observable<R>}
      */
     saveSettingCategories(objCount : number, projectSettingId: String, categoryIds: String[], quotas: String[], keywords: String[], nears: String[]) {

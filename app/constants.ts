@@ -10,4 +10,5 @@ export class Constants {
     public static CATEGORIES = 'Categories';
     public static COUNTRIES = 'Countries';
     public static SETTING_CATEGORIES = 'SettingCategories';
+    public static MOBILE_SETTING = 'MobileSetting';
 }
