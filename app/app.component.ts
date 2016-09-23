@@ -21,48 +21,81 @@ export class AppComponent {
     @ViewChild(MainSettingsForm) mainSettingsForm: MainSettingsForm;
 
     ngOnInit(){
+        //When the application starts open the main page containing the activity description and the activity types
         this.page="mainPage";
     }
-    defaultButtonClicked(evt){
+
+    /**
+     * Function used to handle the event of clicking the default button.
+     * The default button is the one with title Next or Save Project
+     */
+    defaultButtonClicked(){
+        //If the user is on the main page
         if(this.page == "mainPage") {
             this.page = "settingsDetails";
             this.tab = "tab0";
             this.mainSettingsForm.onSubmit();
         }
+        //If the user is not on the main page, clicking the default button will move the user to another tab
         else {
+            //Discover the index of the currently selected tab and increment it
             var tabIndex = this.tab.split("tab")[1];
             tabIndex++;
-            if(tabIndex<=3)
-                this.tab= "tab" + tabIndex;
-            this.areaSpecificationForm.openTab(this.tab);
+            if(tabIndex<=3) {
+                this.tab = "tab" + tabIndex;
+                //Open the tab with index resulting from the incrementation
+                this.areaSpecificationForm.openTab(this.tab);
+            }
         }
-        this.changeButtonTitle(evt.currentTarget);
+        //Call the changeButtonsTitle function to set the button's title based on the selected page or tab after navigation
+        this.changeButtonsTitles();
     }
-    secondaryButtonClicked(evt){
+    /**
+     * Function used to handle the event of clicking the secondary button.
+     * The secondary button is the one with title Back or Cancel
+     */
+    secondaryButtonClicked(){
+        //Discover the index of the currently selected tab and decrement it
         var tabIndex = this.tab.split("tab")[1];
         tabIndex--;
+        //If the user is in the settings details page
         if(tabIndex>=0) {
             this.tab = "tab" + tabIndex;
+            //Open the tab with index resulting from the decrementation
             this.areaSpecificationForm.openTab(this.tab);
         }
+        //If the user is in the main page
         else
             this.page="mainPage";
     }
-    changeButtonTitle(button){
+    /**
+     * Function used to the buttons' titles based on the tab or page the user is in
+     */
+    changeButtonsTitles(){
+        //Retrieving the default button element
+        var defaultButton = document.getElementById("defaultButton");
+        //If user is on the last tab or on the main page then the button's title is Save Project
         if(this.tab=="tab3" || this.page=="mainPage")
-            button.textContent="Save Project";
+            defaultButton.textContent="Save Project";
+        //Otherwise the button title is Next
         else
-            button.textContent="Next";
+            defaultButton.textContent="Next";
 
+        //Retrieving the secondary button element
         var secondaryButton = document.getElementById("secondaryButton");
+        //If user is on the settings details page the title of the secondary button is Back
         if(this.page!="mainPage")
             secondaryButton.textContent="Back";
+        //Otherwise the button title tis Cancel
         else
             secondaryButton.textContent="Cancel";
     }
+    /**
+     * Function called when the user changes tab by clicking on it
+     * @param tabName
+     */
     updateSelectedPage(tabName){
         this.tab = tabName;
-        var button = document.getElementById("defaultButton");
-        this.changeButtonTitle(button);
+        this.changeButtonsTitles();
     }
 }

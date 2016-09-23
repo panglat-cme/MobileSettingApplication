@@ -7,12 +7,12 @@ import {Constants} from "../constants";
 import {QuotaType} from "../models/quotaType";
 import {TrafficTypes} from "../models/trafficTypes";
 
-
-
+//Constants
 const LOOKUP_NAME = "lookupName";
 const ACTIVITY_TYPE = "Activity_Type";
 const QUOTA_TYPE = "Quota_Type";
 const TRAFFIC_TYPE = "Traffic_Type";
+
 @Injectable()
 export class LookupItemsService extends DiyServerService {
 
