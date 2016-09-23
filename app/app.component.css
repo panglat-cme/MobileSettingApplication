@@ -52,15 +52,10 @@ button{
     background-color: #A6A6A6;
     position: absolute;
     left: 30px;
-    width: 100px;
+    width: 130px;
     top: 13px;
 }
-.backButton{
-    padding: 8px 8px 8px 32px;
-    background: #f0f0f0 url(images/Lightspeed logo.png);
-    background-position: 8px 8px;
-    background-repeat: no-repeat;
-}
+
 .lightspeedLogo{
     position: absolute;
     left: 30px;
@@ -94,4 +89,44 @@ button{
 }
 .biggerFont{
     font-size: 24px;
+}
+
+.hoverNextWithStyle span, .hoverBackWithStyle span{
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.hoverBackWithStyle span:after {
+    content: '«';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: 20px;
+    transition: 0.5s;
+}
+.hoverNextWithStyle span:after{
+    content: '»';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+.hoverNextWithStyle:hover span {
+    padding-right: 25px;
+}
+
+.hoverBackWithStyle:hover span{
+    padding-left: 25px;
+}
+
+.hoverNextWithStyle:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+.hoverBackWithStyle:hover span:after {
+    opacity: 1;
+    left: 0;
 }

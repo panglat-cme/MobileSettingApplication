@@ -8,6 +8,7 @@ import {CategoryService} from '../services/category.service';
 import {SelectedCategoryList} from 'app/areaSpecificationForm/selectedCategoryList/selectedCategoryList.component';
 import {MobileSettingsService} from '../services/mobileSettings.service';
 import {SelectedCategory} from "app/areaSpecificationForm/selectedCategoryList/selectedCategory/selectedCategory.component";
+import {GeofencingModel} from "app/geofencingModel/geofencingModel.component";
 import {LookupItemsService} from '../services/lookupItems.service';
 import {SettingCategoriesService} from '../services/settingCategories.service';
 import {ActivityType} from "../models/activityType";
@@ -22,7 +23,7 @@ import {Constants} from 'app/constants';
     templateUrl: 'app/areaSpecificationForm/areaSpecificationForm.component.html',
     styleUrls: ['app/areaSpecificationForm/areaSpecificationForm.component.css'],
     providers: [CountryService, CategoryService, SelectedCategoryList, MobileSettingsService, LookupItemsService, RefineLocationService,SettingCategoriesService],
-    directives: [SelectedCategory,SelectedCategoryList],
+    directives: [SelectedCategory,SelectedCategoryList, GeofencingModel],
 	pipes: [CategoryFilterPipe]
 })
 

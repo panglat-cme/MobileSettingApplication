@@ -1,0 +1,19 @@
+.firstTd{
+    text-align: center;
+    vertical-align: middle;
+    width:200px;
+}
+
+.secondTd{
+    width:600px;
+}
+
+table{
+    margin-top: 30px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.spacing{
+    margin-bottom: 20px;
+}

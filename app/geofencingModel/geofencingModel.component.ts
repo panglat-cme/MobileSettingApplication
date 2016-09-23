@@ -1,0 +1,64 @@
+import {Component, Input} from "angular2/core";
+import {Constants} from "../constants";
+import {LookupItemsService} from "../services/lookupItems.service";
+import {TrafficTypes} from "../models/trafficTypes";
+
+@Component({
+    selector: 'geofencingModel',
+    templateUrl: 'app/geofencingModel/geofencingModel.component.html',
+    styleUrls: ['app/geofencingModel/geofencingModel.component.css'],
+    providers: [LookupItemsService]
+})
+
+export class GeofencingModel{
+    @Input("mobileSettings") mobileSettings;
+    showLoadingModalCount=0;
+
+    trafficTypesOptions:TrafficTypes [];
+    
+    constructor(private lookupItemsService: LookupItemsService){}
+    
+    ngOnInit(){
+        //Get the list of traffic types
+        this.showLoadingModal();
+        this.lookupItemsService.getTrafficTypes()
+            .subscribe(
+                trafficTypesOptions => {
+                    this.trafficTypesOptions = trafficTypesOptions;
+                    this.hideLoadingModal();
+                },
+                error => {
+                    alert(Constants.ERROR_RETRIEVING_LIST + "Traffic Types.");
+                    this.hideLoadingModal();
+                }
+            );
+
+        console.log(this.mobileSettings);
+    }
+
+    /**
+     * Function used to show the loader
+     */
+    private showLoadingModal() {
+        this.showLoadingModalCount++;
+        if(this.showLoadingModalCount == 1) {
+            //noinspection TypeScriptUnresolvedFunction
+            $('#loadingModal').modal('show');
+        }
+    }
+
+    /**
+     * Function used to hide the loader
+     */
+    private hideLoadingModal() {
+        this.showLoadingModalCount--;
+        if(this.showLoadingModalCount == 0) {
+            //noinspection TypeScriptUnresolvedFunction
+            $('#loadingModal').modal('hide');
+        }
+    }
+}
+
+
+
+

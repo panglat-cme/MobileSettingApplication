@@ -1,0 +1,10 @@
+<table >
+    <div *ngFor="#trafficTypeOption of trafficTypesOptions" class="spacing">
+        <tr >
+            <td class="firstTd">
+                <input [value]="trafficTypeOption.id" [checked]="trafficTypeOption.id == selectedTrafficType"  (change)="updateSelectedTrafficType($event)" name="trafficType" type="radio">{{ trafficTypeOption.name }}
+            </td>
+            <td class="secondTd">{{ trafficTypeOption.description }}</td>
+        </tr>
+    </div>
+</table>

@@ -67,6 +67,8 @@ export class AppComponent {
         //If the user is in the main page
         else
             this.page="mainPage";
+        //Call the changeButtonsTitle function to set the button's title based on the selected page or tab after navigation
+        this.changeButtonsTitles();
     }
     /**
      * Function used to the buttons' titles based on the tab or page the user is in
@@ -74,21 +76,33 @@ export class AppComponent {
     changeButtonsTitles(){
         //Retrieving the default button element
         var defaultButton = document.getElementById("defaultButton");
+        var defaultButtonSpan = document.getElementById("defaultButtonSpan");
         //If user is on the last tab or on the main page then the button's title is Save Project
-        if(this.tab=="tab3" || this.page=="mainPage")
-            defaultButton.textContent="Save Project";
+        if(this.tab=="tab3" || this.page=="mainPage") {
+            defaultButtonSpan.textContent = "Save Project";
+            defaultButton.classList.remove("hoverNextWithStyle");
+        }
+
         //Otherwise the button title is Next
-        else
-            defaultButton.textContent="Next ";
+        else {
+            defaultButtonSpan.textContent = "Next";
+            defaultButton.className += " hoverNextWithStyle"
+
+        }
 
         //Retrieving the secondary button element
         var secondaryButton = document.getElementById("secondaryButton");
+        var secondaryButtonSpan = document.getElementById("secondaryButtonSpan");
         //If user is on the settings details page the title of the secondary button is Back
-        if(this.page!="mainPage")
-            secondaryButton.textContent=" Back";
+        if(this.page!="mainPage") {
+            secondaryButtonSpan.textContent = "Back";
+            secondaryButton.className += " hoverBackWithStyle"
+        }
         //Otherwise the button title tis Cancel
-        else
-            secondaryButton.textContent="Cancel";
+        else {
+            secondaryButtonSpan.textContent = "Cancel";
+            secondaryButton.classList.remove("hoverBackWithStyle");
+        }
     }
     /**
      * Function called when the user changes tab by clicking on it
