@@ -79,13 +79,13 @@ export class AppComponent {
             defaultButton.textContent="Save Project";
         //Otherwise the button title is Next
         else
-            defaultButton.textContent="Next";
+            defaultButton.textContent="Next ";
 
         //Retrieving the secondary button element
         var secondaryButton = document.getElementById("secondaryButton");
         //If user is on the settings details page the title of the secondary button is Back
         if(this.page!="mainPage")
-            secondaryButton.textContent="Back";
+            secondaryButton.textContent=" Back";
         //Otherwise the button title tis Cancel
         else
             secondaryButton.textContent="Cancel";
