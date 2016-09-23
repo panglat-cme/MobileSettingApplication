@@ -47,8 +47,6 @@ export class AreaSpecificationForm {
 
 	mobileSettingsId = 0;
 
-	proposalId = 2221;
-	projectId = 21234;
 	activityDescription = "";
 
 	refineLocation =[];

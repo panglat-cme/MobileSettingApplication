@@ -1,3 +1,13 @@
+<style>
+.centered_orange {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -59px;
+    margin-top: -59px;
+    color: #fd8e1e
+}
+</style>
 <!DOCTYPE html>
 <html style="height: 100%">
     <head>
@@ -31,12 +41,10 @@
     <body style="height: 100%">
     <app></app>
     <div class="container">
-      <div class="modal fade" id="loadingModal">
-        <div class="modal-dialog">
-            <div style="position: absolute; top:50%; left: 50%; margin: auto;">
-                <img src="images/spin.gif">
-            </div>
-        </div>
+      <div class="modal fade " id="loadingModal">
+          <!--Font-size property must be placed inline-->
+          <i class="fa fa-spinner fa-spin centered_orange" style="font-size:84px"></i>
+          <!--<img src="images/spin.gif" width="120px" height="120px">-->
       </div>
     </div>
     </body>

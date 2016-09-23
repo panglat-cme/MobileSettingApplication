@@ -13,6 +13,9 @@ import {MainSettingsForm} from './mainSettingsForm/mainSettingsForm.component';
 })
 export class AppComponent {
     page="";
+    proposalId = 2221;
+    projectId = 21234;
+
     @Input('selectedTab') tab;
     @ViewChild(AreaSpecificationForm) areaSpecificationForm: AreaSpecificationForm;
     @ViewChild(MainSettingsForm) mainSettingsForm: MainSettingsForm;
@@ -21,11 +24,10 @@ export class AppComponent {
         this.page="mainPage";
     }
     defaultButtonClicked(evt){
-
         if(this.page == "mainPage") {
-            this.mainSettingsForm.onSubmit();
             this.page = "settingsDetails";
             this.tab = "tab0";
+            this.mainSettingsForm.onSubmit();
         }
         else {
             var tabIndex = this.tab.split("tab")[1];
