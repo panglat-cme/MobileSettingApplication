@@ -11,10 +11,12 @@ import {TrafficTypes} from "../models/trafficTypes";
 })
 
 export class GeofencingModel{
-    @Input("mobileSettings") mobileSettings;
+    @Input("settingsDetails") mobileSettings;
     showLoadingModalCount=0;
 
     trafficTypesOptions:TrafficTypes [];
+    selectedTrafficType=0;
+    trafficTypesCount = 0;
     
     constructor(private lookupItemsService: LookupItemsService){}
     
@@ -26,14 +28,14 @@ export class GeofencingModel{
                 trafficTypesOptions => {
                     this.trafficTypesOptions = trafficTypesOptions;
                     this.hideLoadingModal();
+                    this.trafficTypesCount = this.trafficTypesOptions.length;
                 },
                 error => {
                     alert(Constants.ERROR_RETRIEVING_LIST + "Traffic Types.");
                     this.hideLoadingModal();
                 }
             );
-
-        console.log(this.mobileSettings);
+            this.selectedTrafficType = this.mobileSettings.traffic_type_id;
     }
 
     /**
@@ -56,6 +58,14 @@ export class GeofencingModel{
             //noinspection TypeScriptUnresolvedFunction
             $('#loadingModal').modal('hide');
         }
+    }
+
+    /**
+     * Function used to update the traffic type selected value
+     * @param event
+     */
+    updateSelectedTrafficType(event){
+        this.selectedTrafficType = event.currentTarget.value;
     }
 }
 

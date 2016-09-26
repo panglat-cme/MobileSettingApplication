@@ -9,6 +9,7 @@ import {SelectedCategoryList} from 'app/areaSpecificationForm/selectedCategoryLi
 import {MobileSettingsService} from '../services/mobileSettings.service';
 import {SelectedCategory} from "app/areaSpecificationForm/selectedCategoryList/selectedCategory/selectedCategory.component";
 import {GeofencingModel} from "app/geofencingModel/geofencingModel.component";
+import {QuotaManagement} from 'app/quotaManagement/quotaManagement.component';
 import {LookupItemsService} from '../services/lookupItems.service';
 import {SettingCategoriesService} from '../services/settingCategories.service';
 import {ActivityType} from "../models/activityType";
@@ -23,12 +24,13 @@ import {Constants} from 'app/constants';
     templateUrl: 'app/areaSpecificationForm/areaSpecificationForm.component.html',
     styleUrls: ['app/areaSpecificationForm/areaSpecificationForm.component.css'],
     providers: [CountryService, CategoryService, SelectedCategoryList, MobileSettingsService, LookupItemsService, RefineLocationService,SettingCategoriesService],
-    directives: [SelectedCategory,SelectedCategoryList, GeofencingModel],
+    directives: [SelectedCategory, SelectedCategoryList, GeofencingModel, QuotaManagement],
 	pipes: [CategoryFilterPipe]
 })
 
 export class AreaSpecificationForm {
 	@Input('selectedTab') selectedTab;
+	@Input('originalSettings') settingsDetails;
 	@Output('tabChanged') changeTab = new EventEmitter();
 	countryList:Country[];
 	categories:Category [];

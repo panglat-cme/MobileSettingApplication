@@ -12,6 +12,7 @@ import {MainSettingsForm} from './mainSettingsForm/mainSettingsForm.component';
 	providers : [HTTP_PROVIDERS, DiyServerService]
 })
 export class AppComponent {
+    settingsDetails;
     page="";
     proposalId = 2221;
     projectId = 21234;
@@ -111,5 +112,13 @@ export class AppComponent {
     updateSelectedPage(tabName){
         this.tab = tabName;
         this.changeButtonsTitles();
+    }
+    /**
+     * Function used to update the mobile settings details and
+     * pass it to other classes later on
+     * @param settingsDetails
+     */
+    mobileSettingsUpdated(settingsDetails){
+        this.settingsDetails = settingsDetails;
     }
 }

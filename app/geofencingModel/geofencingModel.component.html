@@ -6,5 +6,9 @@
             </td>
             <td class="secondTd">{{ trafficTypeOption.description }}</td>
         </tr>
+        <tr *ngIf="trafficTypesOptions.indexOf(trafficTypeOption) != trafficTypesCount-1">
+            <td colspan="2"><hr></td>
+        </tr>
+
     </div>
 </table>

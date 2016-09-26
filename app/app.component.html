@@ -6,10 +6,10 @@
 <h1 class="mainInformation">PROPOSAL <span class="biggerFont">{{proposalId}}</span>&nbsp;&nbsp;&nbsp;&nbsp;PROJECT <span class="biggerFont">{{projectId}}</span></h1>
 <br>
 <div *ngIf="page=='mainPage'">
-   <mainSettingsForm></mainSettingsForm>
+   <mainSettingsForm (originalSettings)="mobileSettingsUpdated($event)"></mainSettingsForm>
 </div>
 <div *ngIf="page=='settingsDetails'">
-   <areaSpecificationForm (tabChanged)="updateSelectedPage($event)"></areaSpecificationForm>
+   <areaSpecificationForm (tabChanged)="updateSelectedPage($event)" [originalSettings]="settingsDetails"></areaSpecificationForm>
 </div>
 <footer class="site-footer">
    <button id="secondaryButton" class="secondaryButton" (click)="secondaryButtonClicked()"><span id="secondaryButtonSpan">Cancel</span></button>

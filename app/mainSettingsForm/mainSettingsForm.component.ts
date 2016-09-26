@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, Output, EventEmitter} from 'angular2/core';
 import {Constants} from "../constants";
 import {MobileSettingsService} from '../services/mobileSettings.service';
 import {LookupItemsService} from '../services/lookupItems.service';
@@ -13,6 +13,8 @@ import {ControlGroup} from "angular2/common";
     providers: [MobileSettingsService, LookupItemsService]
 })
 export class MainSettingsForm {
+    @Output('originalSettings') mobileSettingsEmitter = new EventEmitter();
+
     mobileSettings = new MobileSettings();
     originalMobileSettings = new MobileSettings();
 
@@ -108,6 +110,8 @@ export class MainSettingsForm {
         }
 
         this.activityDescription = mobileSettings[0].activity_description;
+
+        this.mobileSettingsEmitter.emit(this.originalMobileSettings);
     }
 
     /**
