@@ -23,7 +23,7 @@ html, body{
     height: 60px;
     vertical-align: middle;
     display: inline-block;
-    position: absolute;
+    position: fixed;
     bottom: 0px;
     right: 0px;
     left: 0px;
@@ -129,4 +129,9 @@ button{
 .hoverBackWithStyle:hover span:after {
     opacity: 1;
     left: 0;
+}
+.sectionLabel{
+    font-family: Calibri;
+    font-size: 21.33px;
+    color: #7F7F7F;
 }

@@ -5,10 +5,12 @@ import {Category} from '../models/category';
 import {MobileSettings} from '../models/mobile.settings';
 import {CountryService} from '../services/country.service';
 import {CategoryService} from '../services/category.service';
-import {SelectedCategoryList} from 'app/areaSpecificationForm/selectedCategoryList/selectedCategoryList.component';
+
 import {MobileSettingsService} from '../services/mobileSettings.service';
-import {SelectedCategory} from "app/areaSpecificationForm/selectedCategoryList/selectedCategory/selectedCategory.component";
+
 import {GeofencingModel} from "app/geofencingModel/geofencingModel.component";
+import {LocationsIdentification} from "app/locationsIdentification/locationsIdentification.component";
+import {GeofenceTriggerOptions} from "app/geofenceTriggerOptions/geofenceTriggerOptions.component";
 import {QuotaManagement} from 'app/quotaManagement/quotaManagement.component';
 import {LookupItemsService} from '../services/lookupItems.service';
 import {SettingCategoriesService} from '../services/settingCategories.service';
@@ -23,8 +25,8 @@ import {Constants} from 'app/constants';
     selector: 'areaSpecificationForm',
     templateUrl: 'app/areaSpecificationForm/areaSpecificationForm.component.html',
     styleUrls: ['app/areaSpecificationForm/areaSpecificationForm.component.css'],
-    providers: [CountryService, CategoryService, SelectedCategoryList, MobileSettingsService, LookupItemsService, RefineLocationService,SettingCategoriesService],
-    directives: [SelectedCategory, SelectedCategoryList, GeofencingModel, QuotaManagement],
+    providers: [CountryService, CategoryService, MobileSettingsService, LookupItemsService, RefineLocationService,SettingCategoriesService],
+    directives: [GeofencingModel, LocationsIdentification, QuotaManagement, GeofenceTriggerOptions],
 	pipes: [CategoryFilterPipe]
 })
 
@@ -85,7 +87,7 @@ export class AreaSpecificationForm {
 
 	triggerScheduleSelectedValue ="";
 
-	constructor(private countryService:CountryService, private categoryService:CategoryService, private lookupItemsService:LookupItemsService, private selectedCategoryList:SelectedCategoryList, private mobileSettingsService:MobileSettingsService,
+	constructor(private countryService:CountryService, private categoryService:CategoryService, private lookupItemsService:LookupItemsService, private mobileSettingsService:MobileSettingsService,
 				  private refineLocationService: RefineLocationService, private settingCategoriesService: SettingCategoriesService) {
 	}
 
@@ -471,5 +473,9 @@ export class AreaSpecificationForm {
 		//Show the current tab, and add an "active" class to the link that opened the tab
 		document.getElementById(tabName).style.display = "block";
 		this.changeTab.emit(tabName);
+	}
+
+	updateSelectedCategories(selectedCategories){
+		this.selectedCategories = selectedCategories;
 	}
 }

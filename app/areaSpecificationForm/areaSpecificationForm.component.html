@@ -164,7 +164,7 @@
                     <h6 *ngIf="selectedCategories.length != 0" >YOU SELECTED</h6>
                 </td>
                 <td>
-                    <selectedCategoryList (remove)="onCategorySelect($event)" [categoryList]="selectedCategories"></selectedCategoryList>
+                    <!--<selectedCategoryList (remove)="onCategorySelect($event)" [categoryList]="selectedCategories"></selectedCategoryList>-->
                 </td>
             </tr>
             <tr>
@@ -429,14 +429,10 @@
     </form>
 </div>
 
-<geofencingModel id="tab0" class="tabcontent" [settingsDetails]="settingsDetails"></geofencingModel>
+<geofencingModel id="tab0" class="tabcontent" [originalSettings]="settingsDetails"></geofencingModel>
 
-<div id="tab1" class="tabcontent">
-    YOU ARE IN GEOFENCE TRIGGER OPTIONS TAB
-</div>
+<geofenceTriggerOptions id="tab1" class="tabcontent" [settingsDetails]="settingsDetails"></geofenceTriggerOptions>
 
-<div id="tab2" class="tabcontent">
-    YOU ARE IN LOCATIONS IDENTIFICATION TAB
-</div>
+<locationsIdentification id="tab2" class="tabcontent" [settingsDetails]="settingsDetails" (selectedListUpdated)="updateSelectedCategories($event)"></locationsIdentification>
 
-<quotaManagement id="tab3" class="tabcontent"></quotaManagement>
+<quotaManagement id="tab3" class="tabcontent" [originalSettings]="settingsDetails" [selectedCategories]="selectedCategories"></quotaManagement>

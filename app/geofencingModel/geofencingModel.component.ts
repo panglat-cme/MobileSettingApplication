@@ -11,7 +11,7 @@ import {TrafficTypes} from "../models/trafficTypes";
 })
 
 export class GeofencingModel{
-    @Input("settingsDetails") mobileSettings;
+    @Input("originalSettings") settingsDetails;
     showLoadingModalCount=0;
 
     trafficTypesOptions:TrafficTypes [];
@@ -35,7 +35,7 @@ export class GeofencingModel{
                     this.hideLoadingModal();
                 }
             );
-            this.selectedTrafficType = this.mobileSettings.traffic_type_id;
+            this.selectedTrafficType = this.settingsDetails.traffic_type_id;
     }
 
     /**

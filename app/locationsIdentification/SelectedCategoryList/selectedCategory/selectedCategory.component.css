@@ -1,0 +1,12 @@
+.categoryName{
+    display: inline;
+    font-family:Calibri;
+    color: #7F7F7F;
+    font-size: 16px;
+    position: relative;
+    bottom: 13px ;
+}
+.xbutton{
+    height:35px;
+    width: 32px;
+}

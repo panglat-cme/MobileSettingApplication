@@ -3,8 +3,8 @@ import {Component, Input, Output, EventEmitter} from 'angular2/core';
 
 @Component({
     selector: 'selectedCategory',
-    templateUrl: 'app/areaSpecificationForm/selectedCategoryList/selectedCategory/selectedCategory.component.html',
-    styleUrls: ['app/areaSpecificationForm/selectedCategoryList/selectedCategory/selectedCategory.component.css']
+    templateUrl: 'app/locationsIdentification/SelectedCategoryList/selectedCategory/selectedCategory.component.html',
+    styleUrls: ['app/locationsIdentification/SelectedCategoryList/selectedCategory/selectedCategory.component.css']
 })
 export class SelectedCategory {
 

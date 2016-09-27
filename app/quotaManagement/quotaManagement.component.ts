@@ -3,7 +3,6 @@ import {Constants} from "../constants";
 import {LookupItemsService} from "../services/lookupItems.service";
 import {QuotaType} from "../models/quotaType";
 
-
 @Component({
     selector: 'quotaManagement',
     templateUrl: 'app/quotaManagement/quotaManagement.component.html',
@@ -15,7 +14,8 @@ export class QuotaManagement{
     quotaTypes:QuotaType[];
     quotaTypeId = 0;
     quotaTypePerCategory = false;
-
+    @Input('originalSettings') settingsDetails;
+    @Input('selectedCategories') selectedCategories;
     constructor(private lookupItemsService: LookupItemsService){}
 
     ngOnInit() {
@@ -28,6 +28,20 @@ export class QuotaManagement{
                     alert(Constants.ERROR_RETRIEVING_LIST + "Quota Types.");
                 }
             );
+        this.quotaTypeId = this.settingsDetails.quota_type_id;
+
     }
 
+    /**
+     * Function used to update the quota type id
+     * based on the radio buttons selection
+     * @param quotaType
+     */
+    private quotaTypeChanged(quotaType){
+        this.quotaTypeId = quotaType.id;
+        if(quotaType.name == Constants.PER_CATEGORY_NAME)
+            this.quotaTypePerCategory = true;
+        else
+            this.quotaTypePerCategory = false;
+    }
 }

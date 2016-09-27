@@ -3,17 +3,21 @@
     vertical-align: middle;
     width:200px;
 }
-
 .secondTd{
     width:600px;
 }
-
 table{
     margin-top: 30px;
     margin-left:auto;
     margin-right:auto;
 }
-
 .spacing{
     margin-bottom: 20px;
+}
+.optionLabel{
+    width: 100%;
+    display: inline;
+    font-family: Calibri;
+    font-size: 18.66px;
+    color: #7F7F7F;
 }

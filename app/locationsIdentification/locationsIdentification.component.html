@@ -1,0 +1,92 @@
+<table class="dataSourcesDisplay allLabels allTexts">
+    <tr>
+        <td colspan="2">
+            Data Sources
+            <input type="checkbox" checked disabled> Foursquare
+            <input type="checkbox" disabled>Lightspeed
+        </td>
+    </tr>
+    <tr>
+        <hr>
+    </tr>
+    <tr>
+        <td style="vertical-align: top">
+            <!-- Table used to display the categories -->
+            <table style="width: 400px">
+                <tr>
+                    <td class="allLabels allTexts">Select one or more location categories</td>
+                </tr>
+                <tr>
+                    <td><input class="allLabels allTexts form-control" type="text" size="100" placeholder="Type to narrow your choices" [(ngModel)]="categoryFilterInput"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="categoryTable">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr *ngFor="#category of categories | categoryFilter: categoryFilterInput ">
+                                        <td><input [ngModel]="selectedCategories.indexOf(category)!=-1" [checked]="selectedCategories.indexOf(category)!=-1" (change)="onCategorySelect(category)" type="checkbox"> <div class="allLabels allTexts">{{category.name}}</div></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h6 *ngIf="selectedCategories.length != 0"  class="allLabels allTexts">YOU SELECTED</h6>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <selectedCategoryList (remove)="onCategorySelect($event)" [categoryList]="selectedCategories"></selectedCategoryList>
+                    </td>
+                </tr>
+            </table>
+
+        </td>
+        <td>
+            <!-- Table used to display the refinement criteria -->
+            <table class="refinementTable allLabels allTexts">
+                <tr>
+                    <td class="allLabels allTexts">Refine by Country <span class="required">*</span></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select class="form-control" [(ngModel)]="selectedCountryId">
+                            <option *ngFor="#c of countryList" [value]="c.id" [selected]="c.id == selectedCountryId">{{c.name}}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="allLabels allTexts">Refine by Keywords</td>
+                </tr>
+                <tr>
+                    <td class="criteriaLabel">
+                        <select id="refineByCategoryDropdown" class="form-control">
+                            <option *ngFor="#category of selectedCategories" [value]="category.name">{{category.name}}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><textarea class="form-control" cols="50" rows="4" placeholder="(example: skldf, dkl, sdldksd)"></textarea></td>
+                </tr>
+                <tr>
+                    <td class="allLabels allTexts">Refine by Zip Codes</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input name="categorySelection" type="radio" checked>Include
+                        <input name="categorySelection" type="radio">Exclude<br>
+                    </td>
+                </tr>
+                <tr>
+                    <td><textarea class="form-control" cols="50" rows="4" placeholder="(example: 90036, 90048)"></textarea></td>
+                </tr>
+            </table>
+
+        </td>
+    </tr>
+
+</table>

@@ -5,26 +5,26 @@
         <col class="thirdTd">
     </colgroup>
 <tr>
-    <td>Quotas</td>
+    <td class="sectionLabel allLabels allTexts">QUOTAS</td>
     <td>
-        <div *ngFor="#q of quotaTypes">
-            <input class="spacing" type="radio" name="quotas" (change)="quotaTypeChanged(q)"
+        <div class="spacing" *ngFor="#q of quotaTypes">
+            <input type="radio" name="quotas" (change)="quotaTypeChanged(q)"
                    [value]="q.id" [checked]="quotaTypeId == q.id">
-            {{q.name}}
+            <div class="optionLabel allLabels allTexts">{{q.name}}</div>
         </div>
     </td>
     <td>
-        <p>Restricts the number of completes allowed per location.  Once the number of completes are met, the location will no longer be displayed on users survey list</p>
+        <p class="descriptionText allTexts">Restricts the number of completes allowed per location.  Once the number of completes are met, the location will no longer be displayed on users survey list</p>
     </td>
 </tr>
 <tr id="quotasPerCategory" *ngIf="quotaTypePerCategory && selectedCategories.length != 0" >
     <td></td>
     <td>
         <table>
-            <tr *ngFor="#category of selectedCategories">
+            <tr class="categoryNameLabel categoryRow allLabels allTexts" *ngFor="#category of selectedCategories">
                 <td>{{ category.name }}</td>
-                <td><input type="text"></td>
-                <td>completes</td>
+                <td class="categoryColumn"><input style="width: 60px" type="text"></td>
+                <td class="categoryColumn">completes</td>
             </tr>
         </table>
     </td>

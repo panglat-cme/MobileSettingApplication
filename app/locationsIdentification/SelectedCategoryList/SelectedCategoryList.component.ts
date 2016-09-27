@@ -1,10 +1,10 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
-import {SelectedCategory} from 'app/areaSpecificationForm/selectedCategoryList/selectedCategory/selectedCategory.component';
+import {SelectedCategory} from 'app/locationsIdentification/selectedCategoryList/selectedCategory/selectedCategory.component';
 
 @Component({
     selector: 'selectedCategoryList',
-    templateUrl: 'app/areaSpecificationForm/selectedCategoryList/selectedCategoryList.component.html',
-    styleUrls: ['app/areaSpecificationForm/selectedCategoryList/selectedCategoryList.component.css'],
+    templateUrl: 'app/locationsIdentification/selectedCategoryList/selectedCategoryList.component.html',
+    styleUrls: ['app/locationsIdentification/selectedCategoryList/selectedCategoryList.component.css'],
     directives: [SelectedCategory]
 })
 export class SelectedCategoryList {
