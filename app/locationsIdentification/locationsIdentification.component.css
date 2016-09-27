@@ -6,7 +6,8 @@
 .refinementTable{
     margin-left: 30px;
     width: 400px;
-    vertical-align: top;
+    position: relative;
+    top:0;
 }
 
 .categoryTable{
@@ -19,9 +20,30 @@
     font-family:Calibri;
     color: #7F7F7F;
 }
-.allLabels{
-    font-size:21.33px;
+.allLabels {
+    font-size: 21.33px;
+}
+.smallText{
+    font-size:16px;
+}
+h6{
+    font-size:16px;
 }
 .required{
     color:#F5811A;
+}
+.form-control{
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+.inlineBlock{
+    display: inline-block;
+}
+.form-control:focus {
+    border-color: #F5811A;
+    box-shadow: inset 0 1px 1px rgba(245, 129, 26, 0.07), 0 0 8px rgba(245, 129, 26, 0.6);
+}
+textarea {
+    resize: none;
 }

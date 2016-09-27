@@ -2,8 +2,9 @@
     <tr>
         <td colspan="2">
             Data Sources
-            <input type="checkbox" checked disabled> Foursquare
-            <input type="checkbox" disabled>Lightspeed
+            <div *ngFor="#provider of providers">
+                <input [ngModel]="selectedProviders.indexOf(provider)!=-1" [checked]="selectedProviders.indexOf(provider)!=-1" (change)="onProviderSelect(provider)" class="inlineBlock" type="checkbox" checked disabled><h6 class="inlineBlock">{{provider.name}}</h6>
+            </div>
         </td>
     </tr>
     <tr>
@@ -17,15 +18,15 @@
                     <td class="allLabels allTexts">Select one or more location categories</td>
                 </tr>
                 <tr>
-                    <td><input class="allLabels allTexts form-control" type="text" size="100" placeholder="Type to narrow your choices" [(ngModel)]="categoryFilterInput"></td>
+                    <td><input class="allLabels allTexts form-control smallText" type="text" size="100" placeholder="Type to narrow your choices" [(ngModel)]="categoryFilterInput"></td>
                 </tr>
                 <tr>
                     <td>
                         <div class="categoryTable">
-                            <table class="table table-striped">
+                            <table class="table">
                                 <tbody>
                                     <tr *ngFor="#category of categories | categoryFilter: categoryFilterInput ">
-                                        <td><input [ngModel]="selectedCategories.indexOf(category)!=-1" [checked]="selectedCategories.indexOf(category)!=-1" (change)="onCategorySelect(category)" type="checkbox"> <div class="allLabels allTexts">{{category.name}}</div></td>
+                                        <td><input class="inlineBlock" [ngModel]="selectedCategories.indexOf(category)!=-1" [checked]="selectedCategories.indexOf(category)!=-1" (change)="onCategorySelect(category)" type="checkbox"> <div class="allLabels allTexts smallText inlineBlock">{{category.name}}</div></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -34,7 +35,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <h6 *ngIf="selectedCategories.length != 0"  class="allLabels allTexts">YOU SELECTED</h6>
+                        <h6 *ngIf="selectedCategories.length != 0"  class="allLabels allTexts smallText">YOU SELECTED</h6>
                     </td>
 
                 </tr>
@@ -54,7 +55,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <select class="form-control" [(ngModel)]="selectedCountryId">
+                        <select class="form-control smallText allTexts" [(ngModel)]="selectedCountryId">
                             <option *ngFor="#c of countryList" [value]="c.id" [selected]="c.id == selectedCountryId">{{c.name}}</option>
                         </select>
                     </td>
@@ -77,15 +78,14 @@
                 </tr>
                 <tr>
                     <td>
-                        <input name="categorySelection" type="radio" checked>Include
-                        <input name="categorySelection" type="radio">Exclude<br>
+                        <input class="inlineBlock" name="categorySelection" type="radio" checked><h6 class="inlineBlock">Include</h6>
+                        <input class="inlineBlock" name="categorySelection" type="radio"><h6 class="inlineBlock">Exclude</h6><br>
                     </td>
                 </tr>
                 <tr>
                     <td><textarea class="form-control" cols="50" rows="4" placeholder="(example: 90036, 90048)"></textarea></td>
                 </tr>
             </table>
-
         </td>
     </tr>
 

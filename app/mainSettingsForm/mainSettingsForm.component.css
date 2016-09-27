@@ -27,7 +27,9 @@ table{
     left: 25%;
     right: 25%;
 }
-
 .spacing{
     margin-bottom: 20px;
+}
+textarea {
+    resize: none;
 }

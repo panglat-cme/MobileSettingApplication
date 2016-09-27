@@ -1,7 +1,7 @@
 <div>
     <p style="float: left">Radius * ?</p>
-    <input style="float: left; width: 100px; margin-left: 20px" class="form-control" type="text" [(ngModel)]="radius">
-    <select style="width: 100px; margin-left: 204px" class="form-control" [(ngModel)]="radiusUnit">
+    <input style="float: left; width: 100px; margin-left: 20px" class="form-control" type="number" [(ngModel)]="radius" min="0">
+    <select style="width: 100px; margin-left: 204px" class="form-control" [(ngModel)]="radiusUnit" (change)="updateRadius($event)">
         <option value="f" >feet</option>
         <option value="m" >meters</option>
     </select>
@@ -13,22 +13,48 @@
             <option value="onlyTheseDaysAndTimes">Only on these days/times</option>
         </select>
     </div>
+	<div style="display: none">
+		<div *ngFor="#day of dayOfTheWeekArray; #i = index">
+			<div class="col-md-3"><input type="checkbox" [(ngModel)]="day.enabled">{{day.name}}
+				<table border="1" *ngIf="day.enabled">
+					<tr>
+						<td>From:</td>
+						<td>        
+							<div class="input-group bootstrap-timepicker timepicker">
+								<input type="text" class="form-control input-small" >
+								<i class="icon-time"></i>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>To:</td>
+						<td>        
+							<div class="input-group bootstrap-timepicker timepicker">
+								<input type="text" class="form-control input-small">
+								<i class="icon-time"></i>
+							</div>
+						</td>
+					</tr>
+				</table>	
+			</div>					
+		</div>
+	</div>
     <hr>
     <table>
         <tr>
             <td>Options</td>
             <td>
                 <input type="checkbox" [(ngModel)]="loiterTimeSelected" style="float: left"> <p style="float:left;"> Time at Location ?</p>
-                <input type="text" class="tighterInput form-control" [(ngModel)]="loiterTime" [disabled]="!loiterTimeSelected" style="float: left; width:30px">
-                <select style="width: 100px;" class="smallSelect form-control" [(ngModel)]="loiterTimeUnit" [disabled]="!loiterTimeSelected">
+                <input type="text" class="tighterInput form-control" [(ngModel)]="loiterTime" [disabled]="!loiterTimeSelected" style="float: left; width:50px">
+                <select style="width: 100px;" class="smallSelect form-control" [(ngModel)]="loiterTimeUnit" [disabled]="!loiterTimeSelected" (change)="updateLoiterTime($event)">
                     <option value="m">minutes</option>
                     <option value="h">hours</option>
                 </select>
             </td>
             <td>
                 <input style="float: left" type="checkbox" [(ngModel)]="minSpeedSelected"> <p style="float:left;">Min Speed ?</p>
-                <input type="text" class="tighterInput form-control" [(ngModel)]="minSpeed" [disabled]="!minSpeedSelected" style="float: left; width:30px">
-                <select style="width: 100px;" class="smallSelect form-control" [(ngModel)]="minSpeedUnit" [disabled]="!minSpeedSelected">
+                <input type="text" class="tighterInput form-control" [(ngModel)]="minSpeed" [disabled]="!minSpeedSelected" style="float: left; width:50px">
+                <select style="width: 100px;" class="smallSelect form-control" [(ngModel)]="minSpeedUnit" [disabled]="!minSpeedSelected" (change)="updateMinSpeed($event)">
                     <option value="m">mph</option>
                     <option value="k">kmh</option>
                 </select>
@@ -37,17 +63,17 @@
         <tr>
             <td></td>
             <td>
-                <input type="checkbox" [(ngModel)]="triggerExpiration" style="float: left"> <p style="float:left;"> Trigger Expiration?</p>
-                <input type="text" class="tighterInput form-control" [disabled]="!triggerExpiration" style="float: left; width:30px">
-                <select style="width: 100px;" class="smallSelect form-control" [(ngModel)]="triggerExpirationUnit" [disabled]="!triggerExpiration">
+                <input type="checkbox" [(ngModel)]="triggerExpirationSelected" style="float: left"> <p style="float:left;"> Trigger Expiration?</p>
+                <input type="text" [(ngModel)]="triggerExpiration" class="tighterInput form-control" [disabled]="!triggerExpirationSelected" style="float: left; width:50px">
+                <select style="width: 100px;" class="smallSelect form-control" [(ngModel)]="triggerExpirationUnit" [disabled]="!triggerExpirationSelected" (change)="updateExpirationTime($event)">
                     <option value="m">minutes</option>
                     <option value="h">hours</option>
                 </select>
             </td>
             <td>
                 <input style="float: left" type="checkbox" [(ngModel)]="maxSpeedSelected"> <p style="float:left;">Max Speed ?</p>
-                <input type="text" class="tighterInput form-control" [(ngModel)]="minSpeed" [disabled]="!maxSpeedSelected" style="float: left; width:30px">
-                <select style="width: 100px;" class="smallSelect form-control" [(ngModel)]="maxSpeedUnit" [disabled]="!maxSpeedSelected">
+                <input type="text" class="tighterInput form-control" [(ngModel)]="maxSpeed" [disabled]="!maxSpeedSelected" style="float: left; width:50px">
+                <select style="width: 100px;" class="smallSelect form-control" [(ngModel)]="maxSpeedUnit" [disabled]="!maxSpeedSelected" (change)="updateMaxSpeed($event)">
                     <option value="m">mph</option>
                     <option value="k">kmh</option>
                 </select>
@@ -55,7 +81,7 @@
         </tr>
         <tr>
             <td></td>
-            <td><input style="float: left" type="checkbox" [(ngModel)]="startAtLocation"> <p style="float:left;">Max Speed ?</p></td>
+            <td><input style="float: left" type="checkbox" [(ngModel)]="startAtLocation"> <p style="float:left;">Start at Location ?</p></td>
         </tr>
     </table>
 </div>
