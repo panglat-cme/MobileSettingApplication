@@ -1,4 +1,4 @@
-import {Component, Input, EventEmitter, Output} from 'angular2/core';
+import {Component, Input, EventEmitter, Output, ViewChild} from 'angular2/core';
 import {ControlGroup, Control} from 'angular2/common';
 import {Country} from '../models/country';
 import {Category} from '../models/category';
@@ -34,6 +34,7 @@ export class AreaSpecificationForm {
 	@Input('selectedTab') selectedTab;
 	@Input('originalSettings') settingsDetails;
 	@Output('tabChanged') changeTab = new EventEmitter();
+	@ViewChild(GeofenceTriggerOptions) geofenceTriggerOptions: GeofenceTriggerOptions;
 	countryList:Country[];
 	categories:Category [];
 
@@ -194,6 +195,14 @@ export class AreaSpecificationForm {
 				}
 			);*/
 		}
+
+	/**
+	 * Function used to call the updateMobileSettings()
+	 * from the geofenceTriggeroptions class
+	 */
+	public callMobileSettingsUpdate(){
+		this.geofenceTriggerOptions.updateMobileSettings();
+	}
 
 	private showLoadingModal() {
 		this.showLoadingModalCount++;

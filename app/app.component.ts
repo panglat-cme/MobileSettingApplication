@@ -3,19 +3,24 @@ import { HTTP_PROVIDERS } from 'angular2/http';
 import { DiyServerService } from './services/diyServer.service';
 import {AreaSpecificationForm} from './areaSpecificationForm/areaSpecificationForm.component';
 import {MainSettingsForm} from './mainSettingsForm/mainSettingsForm.component';
+import {MobileSettingsService} from './services/mobileSettings.service';
 
 @Component({
     selector : 'app',
     directives: [AreaSpecificationForm,MainSettingsForm],
     templateUrl : 'app/app.component.html',
     styleUrls : ['app/app.component.css'],
-	providers : [HTTP_PROVIDERS, DiyServerService]
+	providers : [HTTP_PROVIDERS, DiyServerService, MobileSettingsService]
 })
 export class AppComponent {
     settingsDetails;
     page="";
     proposalId = 2221;
     projectId = 21234;
+
+    showLoadingModalCount = 0;
+
+    constructor(private mobileSettingsService: MobileSettingsService){}
 
     @Input('selectedTab') tab;
     @ViewChild(AreaSpecificationForm) areaSpecificationForm: AreaSpecificationForm;
@@ -35,7 +40,8 @@ export class AppComponent {
         if(this.page == "mainPage") {
             this.page = "settingsDetails";
             this.tab = "tab0";
-            this.mainSettingsForm.onSubmit();
+            this.mainSettingsForm.constructMobileSettingsObject();
+            this.save();
         }
         //If the user is not on the main page, clicking the default button will move the user to another tab
         else {
@@ -46,6 +52,10 @@ export class AppComponent {
                 this.tab = "tab" + tabIndex;
                 //Open the tab with index resulting from the incrementation
                 this.areaSpecificationForm.openTab(this.tab);
+            }
+            else {
+                this.areaSpecificationForm.callMobileSettingsUpdate();
+                this.save();   
             }
         }
         //Call the changeButtonsTitle function to set the button's title based on the selected page or tab after navigation
@@ -120,5 +130,44 @@ export class AppComponent {
      */
     mobileSettingsUpdated(settingsDetails){
         this.settingsDetails = settingsDetails;
+    }
+
+    /**
+     * Function used to save the mobile settings details
+     */
+    save(){
+        this.showLoadingModal();
+        this.mobileSettingsService.createNewMobileSettings(this.settingsDetails)
+            .subscribe(
+                ms => {
+                    this.settingsDetails.id = ms;
+                    this.hideLoadingModal();
+                },
+                error => {
+                    alert("mobileSettingsService error: " + error);
+                    this.hideLoadingModal();
+                }
+            );
+    }
+
+    /**
+     * Function used to show the loader
+     */
+    private showLoadingModal() {
+        this.showLoadingModalCount++;
+
+        if(this.showLoadingModalCount == 1) {
+            $('#loadingModal').modal('show');
+        }
+    }
+
+    /**
+     * Function used to hide the loader
+     */
+    private hideLoadingModal() {
+        this.showLoadingModalCount--;
+        if(this.showLoadingModalCount == 0) {
+            $('#loadingModal').modal('hide');
+        }
     }
 }

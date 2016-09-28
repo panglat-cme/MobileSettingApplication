@@ -77,15 +77,16 @@ export class GeofenceTriggerOptions{
 	 * @param selectedOption
 	 */
 	updateRadius(selectedOption) {
-		if(selectedOption.currentTarget.value == "f") {
+		if(selectedOption == "f") {
 		 	this.radius = this.radius * 3.2808;
 		 	// Fix for IE and Edge browsers
 			this.radiusUnit = "f";
-		} else if (selectedOption.currentTarget.value == "m") {
+		} else if (selectedOption == "m") {
 			this.radius = this.radius / 3.2808;
 			// Fix for IE and Edge browsers
 			this.radiusUnit = "m";
 		}
+		return this.radius;
 	}
 
 	/**
@@ -94,15 +95,16 @@ export class GeofenceTriggerOptions{
 	 * @param selectedOption
 	 */
 	updateLoiterTime(selectedOption) {
-		if(selectedOption.currentTarget.value == "h") {
+		if(selectedOption == "h") {
 		 	this.loiterTime = this.loiterTime / 60;
 		 	// Fix for IE and Edge browsers
 			this.loiterTimeUnit = "h";
-		} else if (selectedOption.currentTarget.value == "m") {
+		} else if (selectedOption == "m") {
 			this.loiterTime = this.loiterTime * 60;
 			// Fix for IE and Edge browsers
 			this.loiterTimeUnit = "m";
 		}
+		return this.loiterTime;
 	}
 
 	/**
@@ -111,15 +113,16 @@ export class GeofenceTriggerOptions{
 	 * @param selectedOption
 	 */
 	updateMinSpeed(selectedOption) {
-		if(selectedOption.currentTarget.value == "m") {
+		if(selectedOption == "m") {
 			this.minSpeed = this.minSpeed / 1.60934;
 			// Fix for IE and Edge browsers
 			this.minSpeedUnit = "m";
-		} else if(selectedOption.currentTarget.value == "k") {
+		} else if(selectedOption == "k") {
 			this.minSpeed = this.minSpeed * 1.60934;
 			// Fix for IE and Edge browsers
 			this.minSpeedUnit = "k";
 		}
+		return this.minSpeed;
 	}
 
 	/**
@@ -128,15 +131,16 @@ export class GeofenceTriggerOptions{
 	 * @param selectedOption
 	 */
 	updateMaxSpeed(selectedOption) {
-		if(selectedOption.currentTarget.value == "m") {
+		if(selectedOption == "m") {
 			this.maxSpeed = this.maxSpeed / 1.60934;
 			// Fix for IE and Edge browsers
 			this.maxSpeedUnit = "m";
-		} else if(selectedOption.currentTarget.value == "k") {
+		} else if(selectedOption == "k") {
 			this.maxSpeed = this.maxSpeed * 1.60934;
 			// Fix for IE and Edge browsers
 			this.maxSpeedUnit = "k";
 		}
+		return this.maxSpeed;
 	}
 
 	/**
@@ -145,15 +149,16 @@ export class GeofenceTriggerOptions{
 	 * @param selectedOption
 	 */
 	updateExpirationTime(selectedOption) {
-		if(selectedOption.currentTarget.value == "h") {			
+		if(selectedOption == "h") {
 		 	this.triggerExpiration = this.triggerExpiration / 60;
 		 	// Fix for IE and Edge browsers
 			this.triggerExpirationUnit = "h";
-		} else if (selectedOption.currentTarget.value == "m") {
+		} else if (selectedOption == "m") {
 			this.triggerExpiration = this.triggerExpiration * 60;
 			// Fix for IE and Edge browsers
 			this.triggerExpirationUnit = "m";
 		}
+		return this.triggerExpiration;
 	}
 	
 	/**
@@ -169,4 +174,47 @@ export class GeofenceTriggerOptions{
 		this.triggerExpirationUnit = "m";
 	}
 
+	/**
+	 * Function used to set the values of the option in the
+	 * mobile settings object
+	 */
+	updateMobileSettings() {
+		if (this.radiusUnit == "f")
+			this.mobileSettings.radius = this.radius;
+		else
+			this.mobileSettings.radius = this.updateRadius("f");
+
+		if (this.loiterTimeSelected){
+			if (this.loiterTimeUnit == "m")
+				this.mobileSettings.loiter_time = this.loiterTime;
+			else
+				this.mobileSettings.loiter_time = this.updateLoiterTime("m");
+		}
+
+		if (this.minSpeedSelected){
+			if (this.minSpeedUnit == "m")
+				this.mobileSettings.min_speed = this.minSpeed;
+			else
+				this.mobileSettings.min_speed = this.updateMinSpeed("m");
+		}
+
+		if (this.maxSpeedSelected){
+			if (this.maxSpeedUnit == "m")
+				this.mobileSettings.max_speed = this.maxSpeed;
+			else
+				this.mobileSettings.max_speed = this.updateMaxSpeed("m");
+		}
+
+		if (this.triggerExpirationSelected){
+			if (this.triggerExpirationUnit == "m")
+				this.mobileSettings.expiration_time = this.triggerExpiration;
+			else
+				this.mobileSettings.expiration_time = this.updateExpirationTime("m");
+		}
+		
+		if (this.startAtLocationSelected)
+			this.mobileSettings.currently_at_location = 1;
+		else
+			this.mobileSettings.currently_at_location = 0;
+	}
 }

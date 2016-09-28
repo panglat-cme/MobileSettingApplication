@@ -1,24 +1,25 @@
 <table class="dataSourcesDisplay allLabels allTexts">
     <tr>
         <td colspan="2">
-            Data Sources
-            <div *ngFor="#provider of providers">
-                <input [ngModel]="selectedProviders.indexOf(provider)!=-1" [checked]="selectedProviders.indexOf(provider)!=-1" (change)="onProviderSelect(provider)" class="inlineBlock" type="checkbox" checked disabled><h6 class="inlineBlock">{{provider.name}}</h6>
+           <div class="inlineBlock">Data Sources</div>
+            <div class="inlineBlock" *ngFor="#provider of providers">
+                <input [ngModel]="selectedProviders.indexOf(provider)!=-1" [checked]="selectedProviders.indexOf(provider)!=-1" (change)="onProviderSelect(provider)" class="inlineBlock smallHorizontalspacing" type="checkbox" checked disabled>
+                <h6 class="inlineBlock">{{provider.name}}</h6>
             </div>
         </td>
     </tr>
     <tr>
-        <hr>
+        <hr colspan="2">
     </tr>
     <tr>
-        <td style="vertical-align: top">
+        <td>
             <!-- Table used to display the categories -->
-            <table style="width: 400px">
+            <table style="width: 400px;vertical-align: top">
                 <tr>
                     <td class="allLabels allTexts">Select one or more location categories</td>
                 </tr>
                 <tr>
-                    <td><input class="allLabels allTexts form-control smallText" type="text" size="100" placeholder="Type to narrow your choices" [(ngModel)]="categoryFilterInput"></td>
+                    <td><input class="allLabels allTexts form-control smallText smallVerticalSpacing" type="text" size="100" placeholder="Type to narrow your choices" [(ngModel)]="categoryFilterInput"></td>
                 </tr>
                 <tr>
                     <td>
@@ -26,7 +27,7 @@
                             <table class="table">
                                 <tbody>
                                     <tr *ngFor="#category of categories | categoryFilter: categoryFilterInput ">
-                                        <td><input class="inlineBlock" [ngModel]="selectedCategories.indexOf(category)!=-1" [checked]="selectedCategories.indexOf(category)!=-1" (change)="onCategorySelect(category)" type="checkbox"> <div class="allLabels allTexts smallText inlineBlock">{{category.name}}</div></td>
+                                        <td><input class="inlineBlock" [ngModel]="selectedCategoryIds.indexOf(category.id)!=-1" [checked]="selectedCategoryIds.indexOf(category.id)!=-1" (change)="onCategorySelect(category)" type="checkbox"> <div class="allLabels allTexts smallText inlineBlock">{{category.name}}</div></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -49,13 +50,13 @@
         </td>
         <td>
             <!-- Table used to display the refinement criteria -->
-            <table class="refinementTable allLabels allTexts">
+            <table style="position: relative;top: 0" class="refinementTable allLabels allTexts">
                 <tr>
                     <td class="allLabels allTexts">Refine by Country <span class="required">*</span></td>
                 </tr>
                 <tr>
                     <td>
-                        <select class="form-control smallText allTexts" [(ngModel)]="selectedCountryId">
+                        <select class="form-control smallText allTexts" [(ngModel)]="selectedCountryId" (change)="onCountryChange($event)">
                             <option *ngFor="#c of countryList" [value]="c.id" [selected]="c.id == selectedCountryId">{{c.name}}</option>
                         </select>
                     </td>
@@ -65,13 +66,13 @@
                 </tr>
                 <tr>
                     <td class="criteriaLabel">
-                        <select id="refineByCategoryDropdown" class="form-control">
-                            <option *ngFor="#category of selectedCategories" [value]="category.name">{{category.name}}</option>
+                        <select id="refineByCategoryDropdown" class="form-control smallText allTexts" (change)="selectedCategoryInDropdownChanged($event)">
+                            <option *ngFor="#category of selectedCategories" [value]="category.id">{{category.name}}</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
-                    <td><textarea class="form-control" cols="50" rows="4" placeholder="(example: skldf, dkl, sdldksd)"></textarea></td>
+                    <td><textarea id="keywordTextArea" class="form-control smallText allTexts" cols="50" rows="4" placeholder="(example: skldf, dkl, sdldksd)" (keyup)="updateRefineDetailsEntry()" [(ngModel)]="keywordText"></textarea></td>
                 </tr>
                 <tr>
                     <td class="allLabels allTexts">Refine by Zip Codes</td>
@@ -83,7 +84,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><textarea class="form-control" cols="50" rows="4" placeholder="(example: 90036, 90048)"></textarea></td>
+                    <td><textarea id="zipcodeTextArea" class="form-control smallText allTexts" cols="50" rows="4" placeholder="(example: 90036, 90048)" (keyup)="updateRefineDetailsEntry()" [(ngModel)]="zipcodeText"></textarea></td>
                 </tr>
             </table>
         </td>

@@ -14,7 +14,7 @@ export class QuotaManagement{
     quotaTypes:QuotaType[];
     quotaTypeId = 0;
     quotaTypePerCategory = false;
-    @Input('originalSettings') settingsDetails;
+    @Input('originalSettings') mobileSettings;
     @Input('selectedCategories') selectedCategories;
     constructor(private lookupItemsService: LookupItemsService){}
 
@@ -28,8 +28,7 @@ export class QuotaManagement{
                     alert(Constants.ERROR_RETRIEVING_LIST + "Quota Types.");
                 }
             );
-        this.quotaTypeId = this.settingsDetails.quota_type_id;
-
+        this.quotaTypeId = this.mobileSettings.quota_type_id;
     }
 
     /**
@@ -39,6 +38,7 @@ export class QuotaManagement{
      */
     private quotaTypeChanged(quotaType){
         this.quotaTypeId = quotaType.id;
+        this.mobileSettings.quota_type_id = quotaType.id;
         if(quotaType.name == Constants.PER_CATEGORY_NAME)
             this.quotaTypePerCategory = true;
         else

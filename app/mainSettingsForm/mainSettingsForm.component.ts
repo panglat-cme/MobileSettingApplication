@@ -15,7 +15,6 @@ import {ControlGroup} from "angular2/common";
 export class MainSettingsForm {
     @Output('originalSettings') mobileSettingsEmitter = new EventEmitter();
 
-    mobileSettings = new MobileSettings();
     originalMobileSettings = new MobileSettings();
 
     activityTypes:ActivityType[];
@@ -64,38 +63,18 @@ export class MainSettingsForm {
     }
 
     /**
-     * Function used to save the mobile settings data.
-     */
-    onSubmit(){
-        this.constructMobileSettingsObject();
-
-        this.showLoadingModal();
-        this.mobileSettingsService.createNewMobileSettings(this.mobileSettings)
-            .subscribe(
-                ms => {
-                    this.mobileSettingsId = ms.id;
-                    this.hideLoadingModal();
-                },
-                error => {
-                    alert("mobileSettingsService error: " + error);
-                    this.hideLoadingModal();
-                }
-            );
-    }
-
-    /**
      * Function used to build the mobile settings object with the correct data
      * in order to save it.
      */
-    private constructMobileSettingsObject(){
-        this.mobileSettings.id = 11;
-        this.mobileSettings.activityDescription = this.activityDescription;
+    public constructMobileSettingsObject(){
+        this.originalMobileSettings.id = 11;
+        this.originalMobileSettings.activity_description = this.activityDescription;
 
-        this.mobileSettings.activityTypes = "";
+        this.originalMobileSettings.activity_types = "";
         for (var i = 0; i < this.selectedActivityTypes.length; i++) {
-            this.mobileSettings.activityTypes += this.selectedActivityTypes[i] + ",";
+            this.originalMobileSettings.activity_types += this.selectedActivityTypes[i] + ",";
         }
-        this.mobileSettings.activityTypes = this.mobileSettings.activityTypes.substring(0, this.mobileSettings.activityTypes.length - 1);
+        this.originalMobileSettings.activity_types = this.originalMobileSettings.activity_types.substring(0, this.originalMobileSettings.activity_types.length - 1);
     }
 
     /**
@@ -110,6 +89,11 @@ export class MainSettingsForm {
         }
 
         this.activityDescription = mobileSettings[0].activity_description;
+
+        if(this.originalMobileSettings.currently_at_location)
+            this.originalMobileSettings.currently_at_location = 1;
+        else
+            this.originalMobileSettings.currently_at_location = 0;
 
         this.mobileSettingsEmitter.emit(this.originalMobileSettings);
     }

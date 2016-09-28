@@ -5,6 +5,7 @@ import {CategoryFilterPipe} from "../pipes/categoryFilter.pipe";
 import {SelectedCategoryList} from "app/locationsIdentification/SelectedCategoryList/SelectedCategoryList.component";
 import {CategoryService} from '../services/category.service';
 import {CountryService} from '../services/country.service';
+import {RefineLocationService} from "../services/refineLocation.service";
 import {Country} from "../models/country";
 import {ProviderService} from '../services/provider.service';
 import {Provider} from "../models/providers";
@@ -13,7 +14,7 @@ import {Provider} from "../models/providers";
     selector: 'locationsIdentification',
     templateUrl: 'app/locationsIdentification/locationsIdentification.component.html',
     styleUrls: ['app/locationsIdentification/locationsIdentification.component.css'],
-    providers: [CategoryService,CountryService,ProviderService],
+    providers: [CategoryService,CountryService,ProviderService,RefineLocationService],
     directives: [SelectedCategoryList],
     pipes: [CategoryFilterPipe]
 })
@@ -25,6 +26,11 @@ export class LocationsIdentification {
 
     categories:Category [];
     selectedCategories = new Array<Category>();
+    selectedCategoryIds = [];
+    pickedCategoryId;
+    zipcodeText;
+    keywordText;
+    refineDetails = [];
 
     selectedCountryId;
     countryList:Country[];
@@ -34,7 +40,7 @@ export class LocationsIdentification {
     providers = [];
     selectedProviders = new Array<Provider>();
 
-    constructor(private categoryService: CategoryService, private countryService: CountryService, private  providerService: ProviderService){}
+    constructor(private categoryService: CategoryService, private countryService: CountryService, private  providerService: ProviderService, private refineLocationService: RefineLocationService){}
     
     ngOnInit (){
         //Get all the categories
@@ -43,6 +49,18 @@ export class LocationsIdentification {
             .subscribe(
                 categoryList => {
                     this.categories = categoryList
+                    this.refineLocationService.getRefineLocations()
+                        .subscribe(
+                            refineDetails => {
+                                this.refineDetails = refineDetails;
+                                this.retrieveSelectedCategories();
+                                this.hideLoadingModal();
+                            },
+                            error => {
+                                alert(Constants.ERROR_RETRIEVING_LIST + "Selected categories.");
+                                this.hideLoadingModal();
+                            }
+                        );
                     this.hideLoadingModal();
                 },
                 error => {
@@ -65,6 +83,8 @@ export class LocationsIdentification {
             }
          );
 
+        //Fetching the providers 
+        this.showLoadingModal();
         this.providerService.getProviders()
             .subscribe(
                 providers => {
@@ -78,8 +98,6 @@ export class LocationsIdentification {
                             this.onProviderSelect(foursquareProvider[0]);
                         }
                     }
-                    //
-
                     this.hideLoadingModal();
                 },
                 error => {
@@ -87,7 +105,6 @@ export class LocationsIdentification {
                     this.hideLoadingModal();
                 }
             );
-
         this.selectedCountryId = this.mobileSettings.country_id;
     }
 
@@ -96,11 +113,22 @@ export class LocationsIdentification {
      * @param category
      */
     private onCategorySelect(category) {
-        var index = this.selectedCategories.indexOf(category);
-        if (index != -1)
-            this.selectedCategories.splice(index, 1);
+        var idIndex = this.selectedCategoryIds.indexOf(category.id);
+
+        if (idIndex != -1){
+            this.selectedCategoryIds.splice(idIndex, 1);
+            for(var i=0;i<this.selectedCategories.length;i++){
+                if(this.selectedCategories[i].id == category.id) {
+                    this.selectedCategories.splice(i, 1);
+                    break;
+                }
+            }
+            this.deleteRefineDetailsEntry(category.id);
+         }
         else{
             this.selectedCategories.push(category);
+            this.selectedCategoryIds.push(category.id);
+            this.addNewRefineDetailsEntry(category.id);
         }
 
         this.updatedSelectedList.emit(this.selectedCategories);
@@ -161,4 +189,57 @@ export class LocationsIdentification {
         this.selectedCategories = this.selectedCategories.filter(category => this.selectedProviders.find(provider => provider.id === category.providerId) !== undefined);
     }
 
+    /**
+     * Function used to fill the selectedCategories array based on the refineDetails array
+     */
+    private retrieveSelectedCategories(){
+        for(var i=0;i<this.refineDetails.length;i++){
+            var id = this.refineDetails[i].categoryId;
+            var category = this.categories.filter(function(cat){
+                  return cat.id == id;
+            })[0];
+            this.selectedCategories.push(category);
+            this.selectedCategoryIds.push(id);
+        }
+    }
+    /**
+     * Function used to detect when selected category in drop down is changed
+     */
+    selectedCategoryInDropdownChanged(category){
+       var details = this.refineDetails.filter(function(rd){
+                return rd.categoryId == category.currentTarget.value;
+            })[0];
+        this.keywordText = details.keywords;
+        this.zipcodeText= details.zipCodes;
+        this.pickedCategoryId = category.currentTarget.value;
+    }
+
+    addNewRefineDetailsEntry(categoryId){
+        var refineDetails = {
+            categoryId: categoryId,
+            quota: undefined,
+            zipCodes: "",
+            keywords: ""};
+        this.refineDetails.push(refineDetails);
+    }
+    deleteRefineDetailsEntry(categoryId){
+        for(var i=0;i<this.refineDetails.length;i++){
+            if(this.refineDetails[i].categoryId == categoryId) {
+                this.refineDetails.splice(i, 1);
+                return;
+            }
+        }
+    }
+    updateRefineDetailsEntry(){
+        for(var i=0;i<this.refineDetails.length;i++){
+            if(this.refineDetails[i].categoryId == this.pickedCategoryId) {
+                this.refineDetails[i].zipCodes = this.zipcodeText;
+                this.refineDetails[i].keywords = this.keywordText;
+                return;
+            }
+        }
+    }
+    private onCountryChange(country){
+        this.mobileSettings.country_id = country.currentTarget.value;
+    }
 }

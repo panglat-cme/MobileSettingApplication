@@ -66,6 +66,7 @@ export class GeofencingModel{
      */
     updateSelectedTrafficType(event){
         this.selectedTrafficType = event.currentTarget.value;
+        this.settingsDetails.traffic_type_id = this.selectedTrafficType;
     }
 }
 
