@@ -49,3 +49,6 @@ textarea {
 .smallVerticalSpacing{
     margin-top: 20px;
 }
+.allignTop{
+    vertical-align: top;
+}

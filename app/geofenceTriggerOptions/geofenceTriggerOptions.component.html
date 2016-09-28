@@ -13,9 +13,9 @@
             <option value="onlyTheseDaysAndTimes">Only on these days/times</option>
         </select>
     </div>
-	<div style="display: none">
-		<div *ngFor="#day of dayOfTheWeekArray; #i = index">
-			<div class="col-md-3"><input type="checkbox" [(ngModel)]="day.enabled">{{day.name}}
+	<div class="row" *ngIf="triggerScheduleSelectedValue != 'anyDayTime'">
+		<div class="col-md-3" *ngFor="#day of dayOfTheWeekArray; #i = index">
+			<input type="checkbox" [(ngModel)]="day.enabled">{{day.name}}
 				<table border="1" *ngIf="day.enabled">
 					<tr>
 						<td>From:</td>
@@ -38,14 +38,13 @@
 				</table>	
 			</div>					
 		</div>
-	</div>
     <hr>
     <table>
         <tr>
             <td>Options</td>
             <td>
                 <input type="checkbox" [(ngModel)]="loiterTimeSelected" style="float: left"> <p style="float:left;"> Time at Location ?</p>
-                <input type="text" class="tighterInput form-control" [(ngModel)]="loiterTime" [disabled]="!loiterTimeSelected" style="float: left; width:50px">
+                <input type="number" class="tighterInput form-control" [(ngModel)]="loiterTime" [disabled]="!loiterTimeSelected" style="float: left; width:50px">
                 <select style="width: 100px;" class="smallSelect form-control" [(ngModel)]="loiterTimeUnit" [disabled]="!loiterTimeSelected" (change)="updateLoiterTime($event.currentTarget.value)">
                     <option value="m">minutes</option>
                     <option value="h">hours</option>
@@ -53,7 +52,7 @@
             </td>
             <td>
                 <input style="float: left" type="checkbox" [(ngModel)]="minSpeedSelected"> <p style="float:left;">Min Speed ?</p>
-                <input type="text" class="tighterInput form-control" [(ngModel)]="minSpeed" [disabled]="!minSpeedSelected" style="float: left; width:50px">
+                <input type="number" class="tighterInput form-control" [(ngModel)]="minSpeed" [disabled]="!minSpeedSelected" style="float: left; width:50px">
                 <select style="width: 100px;" class="smallSelect form-control" [(ngModel)]="minSpeedUnit" [disabled]="!minSpeedSelected" (change)="updateMinSpeed($event.currentTarget.value)">
                     <option value="m">mph</option>
                     <option value="k">kmh</option>
@@ -64,7 +63,7 @@
             <td></td>
             <td>
                 <input type="checkbox" [(ngModel)]="triggerExpirationSelected" style="float: left"> <p style="float:left;"> Trigger Expiration?</p>
-                <input type="text" [(ngModel)]="triggerExpiration" class="tighterInput form-control" [disabled]="!triggerExpirationSelected" style="float: left; width:50px">
+                <input type="number" [(ngModel)]="triggerExpiration" class="tighterInput form-control" [disabled]="!triggerExpirationSelected" style="float: left; width:50px">
                 <select style="width: 100px;" class="smallSelect form-control" [(ngModel)]="triggerExpirationUnit" [disabled]="!triggerExpirationSelected" (change)="updateExpirationTime($event.currentTarget.value)">
                     <option value="m">minutes</option>
                     <option value="h">hours</option>
@@ -72,7 +71,7 @@
             </td>
             <td>
                 <input style="float: left" type="checkbox" [(ngModel)]="maxSpeedSelected"> <p style="float:left;">Max Speed ?</p>
-                <input type="text" class="tighterInput form-control" [(ngModel)]="maxSpeed" [disabled]="!maxSpeedSelected" style="float: left; width:50px">
+                <input type="number" class="tighterInput form-control" [(ngModel)]="maxSpeed" [disabled]="!maxSpeedSelected" style="float: left; width:50px">
                 <select style="width: 100px;" class="smallSelect form-control" [(ngModel)]="maxSpeedUnit" [disabled]="!maxSpeedSelected" (change)="updateMaxSpeed($event.currentTarget.value)">
                     <option value="m">mph</option>
                     <option value="k">kmh</option>
