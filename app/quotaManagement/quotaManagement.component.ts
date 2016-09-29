@@ -16,6 +16,8 @@ export class QuotaManagement{
     quotaTypePerCategory = false;
     @Input('originalSettings') mobileSettings;
     @Input('selectedCategories') selectedCategories;
+    @Input('refineDetails') refineDetails;
+
     constructor(private lookupItemsService: LookupItemsService){}
 
     ngOnInit() {
@@ -23,12 +25,14 @@ export class QuotaManagement{
             .subscribe(
                 quotaTypes => {
                     this.quotaTypes = quotaTypes;
+                    this.quotaTypeChanged(null);
                 },
                 error => {
                     alert(Constants.ERROR_RETRIEVING_LIST + "Quota Types.");
                 }
             );
         this.quotaTypeId = this.mobileSettings.quota_type_id;
+
     }
 
     /**
@@ -37,6 +41,32 @@ export class QuotaManagement{
      * @param quotaType
      */
     private quotaTypeChanged(quotaType){
+        if(quotaType!=null){
+            this.quotaTypeId = quotaType.id;
+            this.mobileSettings.quota_type_id = quotaType.id;
+            if(quotaType.name == Constants.PER_CATEGORY_NAME)
+                this.quotaTypePerCategory = true;
+            else
+                this.quotaTypePerCategory = false;
+        }
+    }
+
+    updateRefineDetails(completes,categoryId){
+        for(var i=0;i<this.refineDetails.length;i++){
+            if(this.refineDetails[i].categoryId ==  categoryId){
+                this.refineDetails[i].quota = completes.target.value;
+                return;
+            }
+        }
+    }
+    getQuotaValue(categoryId){
+        for(var i=0;i<this.refineDetails.length;i++){
+            if(this.refineDetails[i].categoryId ==  categoryId){
+                return this.refineDetails[i].quota;
+            }
+        }
+    }
+    updateQuotaTypePerCategoryValue(quotaType){
         this.quotaTypeId = quotaType.id;
         this.mobileSettings.quota_type_id = quotaType.id;
         if(quotaType.name == Constants.PER_CATEGORY_NAME)

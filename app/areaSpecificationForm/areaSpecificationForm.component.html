@@ -433,6 +433,6 @@
 
 <geofenceTriggerOptions id="tab1" class="tabcontent" [settingsDetails]="settingsDetails"></geofenceTriggerOptions>
 
-<locationsIdentification id="tab2" class="tabcontent" [settingsDetails]="settingsDetails" (selectedListUpdated)="updateSelectedCategories($event)"></locationsIdentification>
+<locationsIdentification id="tab2" class="tabcontent" [settingsDetails]="settingsDetails" (selectedListUpdated)="updateSelectedCategories($event)" (refineDetailsUpdated)="updateRefineDetails($event)"></locationsIdentification>
 
-<quotaManagement id="tab3" class="tabcontent" [originalSettings]="settingsDetails" [selectedCategories]="selectedCategories"></quotaManagement>
+<quotaManagement id="tab3" class="tabcontent" [originalSettings]="settingsDetails" [selectedCategories]="selectedCategories" [refineDetails]="refineDetails"></quotaManagement>

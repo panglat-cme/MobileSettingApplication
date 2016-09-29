@@ -14,10 +14,25 @@ export class CategoryService extends DiyServerService {
 	 * categories
 	 * @returns {Observable<R>}
      */
-	getCategories() {
-		return this._http.get(Constants.BASE_SERVER_URL + Constants.CATEGORIES +'?providerId=1')
-		.map((response: Response) => <Category[]>response.json().data)
-		//.do(data => console.log(data))
-		.catch(this.handleResponseError);
+	getCategories(providers) {
+		if(providers !== null && typeof providers === 'object') {
+			let query = "";
+			for(let i = 0; i < providers.length; i++) {
+				let provider = providers[i];
+				if(i == 0) {
+					query = "" + provider.id
+				} else {
+					query = query + "," + provider.id;
+				}
+			}
+			
+			if(query.length > 0) {
+				return this._http.get(Constants.BASE_SERVER_URL + Constants.CATEGORIES +'?providerId=' + query)
+				.map((response: Response) => <Category[]>response.json().data)
+				//.do(data => console.log(data))
+				.catch(this.handleResponseError);
+			}
+		}
+		return new Observable.throw("Invalid data provider");
 	}
 }

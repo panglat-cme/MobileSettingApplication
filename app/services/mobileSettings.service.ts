@@ -30,44 +30,44 @@ export class MobileSettingsService extends DiyServerService {
 		if(mobileSettings.id !== undefined)
 			searchParams.set("id",  mobileSettings['id']);
 
-		if(mobileSettings['projectId'] !== undefined)
-			searchParams.set("projectId",  mobileSettings['projectId']);
+		if(mobileSettings['project_id'] !== undefined)
+			searchParams.set("projectId",  mobileSettings['project_id']);
 
-		if(mobileSettings['proposalId'] !== undefined)
-			searchParams.set("proposalId",  mobileSettings['proposalId']);
+		if(mobileSettings['proposal_id'] !== undefined)
+			searchParams.set("proposalId",  mobileSettings['proposal_id']);
 
 		if(mobileSettings['radius'] !== undefined)
 			searchParams.set("radius",  mobileSettings['radius']);
 
-		if(mobileSettings['loiterTime'] !== undefined)
-			searchParams.set("loiterTime",  mobileSettings['loiterTime']);
+		if(mobileSettings['loiter_time'] !== undefined)
+			searchParams.set("loiterTime",  mobileSettings['loiter_time']);
 
-		if(mobileSettings['minSpeed'] !== undefined)
-			searchParams.set("minSpeed",  mobileSettings['minSpeed']);
+		if(mobileSettings['min_speed'] !== undefined)
+			searchParams.set("minSpeed",  mobileSettings['min_speed']);
 
-		if(mobileSettings['maxSpeed'] !== undefined)
-			searchParams.set("maxSpeed",  mobileSettings['maxSpeed']);
+		if(mobileSettings['max_speed'] !== undefined)
+			searchParams.set("maxSpeed",  mobileSettings['max_speed']);
 
-		if(mobileSettings['expirationTime'] !== undefined)
-			searchParams.set("expirationTime",  mobileSettings['expirationTime']);
+		if(mobileSettings['expiration_time'] !== undefined)
+			searchParams.set("expirationTime",  mobileSettings['expiration_time']);
 
-		if(mobileSettings['currentlyAtLocation'] !== undefined)
-			searchParams.set("currentlyAtLocation",  mobileSettings['currentlyAtLocation']);
+		if(mobileSettings['currently_at_location'] !== undefined)
+			searchParams.set("currentlyAtLocation",  mobileSettings['currently_at_location']);
 
-		if(mobileSettings['countryId'] !== undefined)
-			searchParams.set("countryId",  mobileSettings['countryId']);
+		if(mobileSettings['country_id'] !== undefined)
+			searchParams.set("countryId",  mobileSettings['country_id']);
 
 		if(mobileSettings['traffic_type_id'] !== undefined)
 			searchParams.set("trafficTypeId",  mobileSettings['traffic_type_id']);
 
-		if(mobileSettings['activityTypes'] !== undefined)
-			searchParams.set("activityTypes",  mobileSettings['activityTypes']);
+		if(mobileSettings['activity_types'] !== undefined)
+			searchParams.set("activityTypes",  mobileSettings['activity_types']);
 
-		if(mobileSettings['quotaTypeId'] !== undefined)
-			searchParams.set("quotaTypeId",  mobileSettings['quotaTypeId']);
+		if(mobileSettings['quota_type_id'] !== undefined)
+			searchParams.set("quotaTypeId",  mobileSettings['quota_type_id']);
 
-		if(mobileSettings['activityDescription'] !== undefined)
-			searchParams.set("activityDescription",  mobileSettings['activityDescription']);
+		if(mobileSettings['activity_description'] !== undefined)
+			searchParams.set("activityDescription",  mobileSettings['activity_description']);
 		
 		return searchParams.toString();
 	}

@@ -23,7 +23,7 @@
         <table>
             <tr class="categoryNameLabel categoryRow allLabels allTexts" *ngFor="#category of selectedCategories">
                 <td>{{ category.name }}</td>
-                <td class="categoryColumn"><input style="width: 60px" type="text"></td>
+                <td class="categoryColumn"><input class="form-control" style="width: 60px" type="number" (keyup)="updateRefineDetails($event,category.id)" [value]="getQuotaValue(category.id)"></td>
                 <td class="categoryColumn">completes</td>
             </tr>
         </table>

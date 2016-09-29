@@ -6,7 +6,7 @@ import {TrafficTypes} from "../models/trafficTypes";
 @Component({
     selector: 'geofencingModel',
     templateUrl: 'app/geofencingModel/geofencingModel.component.html',
-    styleUrls: ['app/geofencingModel/geofencingModel.component.css'],
+    styleUrls: ['app/geofencingModel/geofencingModel.component.css', 'app/locationsIdentification/locationsIdentification.component.css'],
     providers: [LookupItemsService]
 })
 

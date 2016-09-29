@@ -22,6 +22,7 @@ import {Provider} from "../models/providers";
 export class LocationsIdentification {
     @Input("settingsDetails") mobileSettings;
     @Output('selectedListUpdated') updatedSelectedList = new EventEmitter();
+    @Output('refineDetailsUpdated') updateRefineDetails = new EventEmitter();
     categoryFilterInput = "";
 
     categories:Category [];
@@ -43,31 +44,6 @@ export class LocationsIdentification {
     constructor(private categoryService: CategoryService, private countryService: CountryService, private  providerService: ProviderService, private refineLocationService: RefineLocationService){}
     
     ngOnInit (){
-        //Get all the categories
-        this.showLoadingModal();
-        this.categoryService.getCategories()
-            .subscribe(
-                categoryList => {
-                    this.categories = categoryList
-                    this.refineLocationService.getRefineLocations()
-                        .subscribe(
-                            refineDetails => {
-                                this.refineDetails = refineDetails;
-                                this.retrieveSelectedCategories();
-                                this.hideLoadingModal();
-                            },
-                            error => {
-                                alert(Constants.ERROR_RETRIEVING_LIST + "Selected categories.");
-                                this.hideLoadingModal();
-                            }
-                        );
-                    this.hideLoadingModal();
-                },
-                error => {
-                    alert(Constants.ERROR_RETRIEVING_LIST + "Categories.")
-                    this.hideLoadingModal();
-                }
-            );
 
         //Get the countries LOV
         this.showLoadingModal();
@@ -107,6 +83,36 @@ export class LocationsIdentification {
             );
         this.selectedCountryId = this.mobileSettings.country_id;
     }
+	
+	private getCategories(providers)
+	{
+		//Get all the categories
+        this.showLoadingModal();
+        this.categoryService.getCategories(providers)
+            .subscribe(
+                categoryList => {
+                    this.categories = categoryList
+                    this.refineLocationService.getRefineLocations()
+                        .subscribe(
+                            refineDetails => {
+                                this.refineDetails = refineDetails;
+                                this.retrieveSelectedCategories();
+                                this.hideLoadingModal();
+                            },
+                            error => {
+                                alert(Constants.ERROR_RETRIEVING_LIST + "Selected categories.");
+                                this.hideLoadingModal();
+                            }
+                        );
+                    this.hideLoadingModal();
+                },
+                error => {
+                    alert(Constants.ERROR_RETRIEVING_LIST + "Categories.")
+                    this.hideLoadingModal();
+                }
+            );
+
+	}
 
     /**
      * Function used to handle the category checkbox selection event.
@@ -132,6 +138,7 @@ export class LocationsIdentification {
         }
 
         this.updatedSelectedList.emit(this.selectedCategories);
+        this.updateRefineDetails.emit(this.refineDetails);
     }
 
     /**
@@ -171,17 +178,7 @@ export class LocationsIdentification {
         if(this.selectedProviders.length > 0) {
             //Get all the categories
             this.showLoadingModal();
-            this.categoryService.getCategories(this.selectedProviders)
-                .subscribe(
-                    categoryList => {
-                        this.categories = categoryList
-                        this.hideLoadingModal();
-                    },
-                    error => {
-                        alert(Constants.ERROR_RETRIEVING_LIST + "Categories.")
-                        this.hideLoadingModal();
-                    }
-                );
+			this.getCategories(this.selectedProviders);
         } else {
             this.categories = new Array<Category>();
         }
@@ -201,17 +198,32 @@ export class LocationsIdentification {
             this.selectedCategories.push(category);
             this.selectedCategoryIds.push(id);
         }
+        if(this.selectedCategoryIds.length!=0)
+            this.pickedCategoryId = this.selectedCategoryIds[0];
+
+        this.changeTextFields(this.pickedCategoryId);
+        this.updatedSelectedList.emit(this.selectedCategories);
+        this.updateRefineDetails.emit(this.refineDetails);
     }
     /**
      * Function used to detect when selected category in drop down is changed
      */
     selectedCategoryInDropdownChanged(category){
+      this.changeTextFields(category.currentTarget.value);
+    }
+
+    changeTextFields(categoryId){
+        if(categoryId !=null) {
        var details = this.refineDetails.filter(function(rd){
-                return rd.categoryId == category.currentTarget.value;
+                return rd.categoryId == categoryId;
             })[0];
         this.keywordText = details.keywords;
         this.zipcodeText= details.zipCodes;
-        this.pickedCategoryId = category.currentTarget.value;
+        }
+        else{
+            this.keywordText = "";
+            this.zipcodeText = "";
+        }
     }
 
     addNewRefineDetailsEntry(categoryId){
@@ -225,6 +237,14 @@ export class LocationsIdentification {
     deleteRefineDetailsEntry(categoryId){
         for(var i=0;i<this.refineDetails.length;i++){
             if(this.refineDetails[i].categoryId == categoryId) {
+                if(this.pickedCategoryId == categoryId) {
+                    if(this.selectedCategoryIds.length!=0)
+                        this.pickedCategoryId = this.selectedCategoryIds[0];
+                    else
+                        this.pickedCategoryId = null;
+                    this.changeTextFields(this.pickedCategoryId);
+                }
+
                 this.refineDetails.splice(i, 1);
                 return;
             }
@@ -235,6 +255,7 @@ export class LocationsIdentification {
             if(this.refineDetails[i].categoryId == this.pickedCategoryId) {
                 this.refineDetails[i].zipCodes = this.zipcodeText;
                 this.refineDetails[i].keywords = this.keywordText;
+                this.updateRefineDetails.emit(this.refineDetails);
                 return;
             }
         }

@@ -1,7 +1,6 @@
 .firstTd{
-    text-align: center;
     vertical-align: middle;
-    width:200px;
+    width:120px;
 }
 .secondTd{
     width:600px;
@@ -17,7 +16,5 @@ table{
 .optionLabel{
     width: 100%;
     display: inline;
-    font-family: Calibri;
     font-size: 18.66px;
-    color: #7F7F7F;
 }

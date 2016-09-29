@@ -47,6 +47,7 @@ export class AreaSpecificationForm {
 	formControlGroup;
 
 	selectedCategories = new Array<Category>();
+	refineDetails = [];
 	mobileSettings = new MobileSettings();
 
 	mobileSettingsId = 0;
@@ -486,5 +487,8 @@ export class AreaSpecificationForm {
 
 	updateSelectedCategories(selectedCategories){
 		this.selectedCategories = selectedCategories;
+	}
+	updateRefineDetails(refineDetails){
+		this.refineDetails = refineDetails;
 	}
 }
