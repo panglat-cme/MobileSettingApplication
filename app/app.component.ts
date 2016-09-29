@@ -55,7 +55,7 @@ export class AppComponent {
             }
             else {
                 this.areaSpecificationForm.callMobileSettingsUpdate();
-                this.save();   
+                this.save();
             }
         }
         //Call the changeButtonsTitle function to set the button's title based on the selected page or tab after navigation
@@ -141,6 +141,8 @@ export class AppComponent {
             .subscribe(
                 ms => {
                     this.settingsDetails.id = ms;
+                    if(this.tab=="tab3")
+                        this.areaSpecificationForm.saveRefineDetails();
                     this.hideLoadingModal();
                 },
                 error => {

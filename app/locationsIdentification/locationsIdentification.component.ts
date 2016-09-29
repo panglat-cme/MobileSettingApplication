@@ -229,7 +229,7 @@ export class LocationsIdentification {
     addNewRefineDetailsEntry(categoryId){
         var refineDetails = {
             categoryId: categoryId,
-            quota: undefined,
+            quota: 0,
             zipCodes: "",
             keywords: ""};
         this.refineDetails.push(refineDetails);

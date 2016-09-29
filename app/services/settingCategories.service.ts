@@ -13,16 +13,23 @@ export class SettingCategoriesService extends DiyServerService {
      * @param objCount, projectSettingId, categoryIds, quotas, keywords, nears
      * @returns {string}
      */
-    private categorySettingsToURLParam(objCount : number, projectSettingId: String, categoryIds: String[], quotas: String[], keywords: String[], nears: String[]){
+    private categorySettingsToURLParam(projectSettingId, refineDetails){
         let searchParams = new URLSearchParams();
-        searchParams.set("objCount", objCount.toString());
-        for(var i=0;i<objCount;i++){
+        searchParams.set("objCount", refineDetails.length.toString());
+        for(var i=0;i<refineDetails.length;i++){
             var index = i + 1;
             searchParams.set("projectSettingId"+ index, projectSettingId);
-            searchParams.set("categoryId"+ index, categoryIds[i]);
-            searchParams.set("quota"+ index, quotas[i]);
-            searchParams.set("keyWord"+ index, keywords[i]);
-            searchParams.set("near"+ index, nears[i]);
+            searchParams.set("categoryId"+ index, refineDetails[i].categoryId);
+            if(refineDetails[i].quota != null && refineDetails[i].quota!="")
+                searchParams.set("quota"+ index, refineDetails[i].quota);
+            else
+                searchParams.set("quota"+ index, 0);
+            if(refineDetails[i].keywords != null && refineDetails[i].keywords!="")
+                searchParams.set("keyWord"+ index, refineDetails[i].keywords);
+            if(refineDetails[i].zipCodes != null && refineDetails[i].zipCodes !="")
+                searchParams.set("near"+ index,  refineDetails[i].zipCodes);
+            else
+                searchParams.set("near"+ index, "");
         }
         return searchParams.toString();
     }
@@ -31,8 +38,8 @@ export class SettingCategoriesService extends DiyServerService {
      * @param objCount, projectSettingId, categoryIds, quotas, keywords, nears
      * @returns {Observable<R>}
      */
-    saveSettingCategories(objCount : number, projectSettingId: String, categoryIds: String[], quotas: String[], keywords: String[], nears: String[]) {
-        let body = this.categorySettingsToURLParam(objCount,projectSettingId,categoryIds,quotas,keywords,nears);
+    saveSettingCategories(projectSettingId, refineDetails) {
+        let body = this.categorySettingsToURLParam(projectSettingId,refineDetails);
         let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
         let options = new RequestOptions({ headers: headers });
 

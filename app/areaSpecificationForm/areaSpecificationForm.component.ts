@@ -50,7 +50,7 @@ export class AreaSpecificationForm {
 	refineDetails = [];
 	mobileSettings = new MobileSettings();
 
-	mobileSettingsId = 0;
+	mobileSettingsId = 19;
 
 	activityDescription = "";
 
@@ -490,5 +490,18 @@ export class AreaSpecificationForm {
 	}
 	updateRefineDetails(refineDetails){
 		this.refineDetails = refineDetails;
+	}
+	saveRefineDetails(){
+		this.showLoadingModal();
+		this.settingCategoriesService.saveSettingCategories(this.mobileSettingsId,this.refineDetails)
+			.subscribe(
+				activityTypes => {
+					this.hideLoadingModal();
+				},
+				error => {
+					alert("Error Saving List");
+					this.hideLoadingModal();
+				}
+			);
 	}
 }
